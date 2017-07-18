@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0816A2BE1F1AFE5D000FA96F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */; };
-		0816A2C01F1AFE5D000FA96F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2BF1F1AFE5D000FA96F /* ViewController.swift */; };
 		0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C11F1AFE5D000FA96F /* Main.storyboard */; };
 		0816A2C61F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */; };
 		0816A2C81F1AFE5D000FA96F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C71F1AFE5D000FA96F /* Assets.xcassets */; };
 		0816A2CB1F1AFE5D000FA96F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C91F1AFE5D000FA96F /* LaunchScreen.storyboard */; };
 		0816A2D61F1AFE5D000FA96F /* KotonohaDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2D51F1AFE5D000FA96F /* KotonohaDiaryTests.swift */; };
+		0816A2E11F1B1996000FA96F /* KotonohaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E01F1B1996000FA96F /* KotonohaViewController.swift */; };
+		0816A2E31F1B61A4000FA96F /* KotonohaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E21F1B61A4000FA96F /* KotonohaTableViewCell.swift */; };
+		0816A2E51F1C30D0000FA96F /* Kotonoha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E41F1C30D0000FA96F /* Kotonoha.swift */; };
+		0816A2E71F1E44D9000FA96F /* KotonohaInputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E61F1E44D8000FA96F /* KotonohaInputToolbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +32,6 @@
 /* Begin PBXFileReference section */
 		0816A2BA1F1AFE5D000FA96F /* KotonohaDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotonohaDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0816A2BF1F1AFE5D000FA96F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0816A2C21F1AFE5D000FA96F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0816A2C51F1AFE5D000FA96F /* KotonohaDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KotonohaDiary.xcdatamodel; sourceTree = "<group>"; };
 		0816A2C71F1AFE5D000FA96F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +40,10 @@
 		0816A2D11F1AFE5D000FA96F /* KotonohaDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KotonohaDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0816A2D51F1AFE5D000FA96F /* KotonohaDiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDiaryTests.swift; sourceTree = "<group>"; };
 		0816A2D71F1AFE5D000FA96F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0816A2E01F1B1996000FA96F /* KotonohaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KotonohaViewController.swift; sourceTree = "<group>"; };
+		0816A2E21F1B61A4000FA96F /* KotonohaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KotonohaTableViewCell.swift; sourceTree = "<group>"; };
+		0816A2E41F1C30D0000FA96F /* Kotonoha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kotonoha.swift; sourceTree = "<group>"; };
+		0816A2E61F1E44D8000FA96F /* KotonohaInputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KotonohaInputToolbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +85,16 @@
 		0816A2BC1F1AFE5D000FA96F /* KotonohaDiary */ = {
 			isa = PBXGroup;
 			children = (
+				0816A2E01F1B1996000FA96F /* KotonohaViewController.swift */,
+				0816A2E61F1E44D8000FA96F /* KotonohaInputToolbar.swift */,
+				0816A2E21F1B61A4000FA96F /* KotonohaTableViewCell.swift */,
 				0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */,
-				0816A2BF1F1AFE5D000FA96F /* ViewController.swift */,
 				0816A2C11F1AFE5D000FA96F /* Main.storyboard */,
 				0816A2C71F1AFE5D000FA96F /* Assets.xcassets */,
 				0816A2C91F1AFE5D000FA96F /* LaunchScreen.storyboard */,
 				0816A2CC1F1AFE5D000FA96F /* Info.plist */,
 				0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */,
+				0816A2E41F1C30D0000FA96F /* Kotonoha.swift */,
 			);
 			path = KotonohaDiary;
 			sourceTree = "<group>";
@@ -204,9 +213,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0816A2C01F1AFE5D000FA96F /* ViewController.swift in Sources */,
+				0816A2E31F1B61A4000FA96F /* KotonohaTableViewCell.swift in Sources */,
+				0816A2E11F1B1996000FA96F /* KotonohaViewController.swift in Sources */,
 				0816A2C61F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld in Sources */,
+				0816A2E71F1E44D9000FA96F /* KotonohaInputToolbar.swift in Sources */,
 				0816A2BE1F1AFE5D000FA96F /* AppDelegate.swift in Sources */,
+				0816A2E51F1C30D0000FA96F /* Kotonoha.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
