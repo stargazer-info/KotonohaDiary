@@ -30,15 +30,27 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     }
     
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        switch segue.identifier ?? "" {
+        case "AddDiary":
+            if let destinationNavigationController = segue.destination as? UINavigationController,
+                let dest = destinationNavigationController.topViewController as? KotonohaDiaryViewController,
+                let rows = self.tableView.indexPathsForSelectedRows {
+                print("dest: \(dest)");
+                print("indexPathsForSelectedRows: \(rows)");
+                dest.text = rows.map {
+                        indexPath -> String in
+                        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as? Kotonoha
+                        return kotonoha?.text ?? ""
+                    }.joined(separator: "\n")
+            }
+        default:
+            fatalError("Something's wrong.")
+        }
     }
-    */
 
     // MARK: - CoreData
     
