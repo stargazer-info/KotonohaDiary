@@ -1,22 +1,31 @@
 //
-//  KotonohaDiaryViewController.swift
+//  DiaryViewController.swift
 //  KotonohaDiary
 //
-//  Created by 山口 伸行 on 2017/07/19.
+//  Created by 山口 伸行 on 2017/07/24.
 //  Copyright © 2017年 Stargazer Information. All rights reserved.
 //
 
 import UIKit
 
-class KotonohaDiaryViewController: UIViewController {
+class DiaryViewController: UIViewController {
 
-    @IBOutlet weak var textView: UITextView!
-    var text = ""
+    var diary: Diary?
+
+    @IBOutlet weak var dateTitle: UILabel!
+    @IBOutlet weak var dairyText: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.text = text
-        // Do any additional setup after loading the view.
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日"
+        if let diary = diary {
+            dateTitle.text = formatter.string(from: diary.createdAt! as Date)
+            dairyText.text = diary.text
+        } else {
+            dateTitle.text = formatter.string(from: Date())
+            dairyText.text = "日記はありません"
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +44,4 @@ class KotonohaDiaryViewController: UIViewController {
     }
     */
 
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
 }

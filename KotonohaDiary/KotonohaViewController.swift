@@ -37,7 +37,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         switch segue.identifier ?? "" {
         case "AddDiary":
             if let destinationNavigationController = segue.destination as? UINavigationController,
-                let dest = destinationNavigationController.topViewController as? KotonohaDiaryViewController,
+                let dest = destinationNavigationController.topViewController as? DiaryEditViewController,
                 let rows = self.tableView.indexPathsForSelectedRows {
                 print("dest: \(dest)");
                 print("indexPathsForSelectedRows: \(rows)");
