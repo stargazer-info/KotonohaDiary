@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
     var pageViewController: UIPageViewController?
 
@@ -72,39 +72,39 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     let dataContainer = AppDelegate.persistentContainer
     let dataContext = AppDelegate.viewContext
-//    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
     func initializeFetchedResults() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Diary")
         let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
         request.sortDescriptors = [createtimeSort]
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: dataContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
+        
         do {
-            pageData = try dataContext.fetch(request) as! [Diary]
+            try fetchedResultsController?.performFetch()
         } catch {
-            fatalError("Failed to fetch Diary: \(error)")
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
-
-//        fetchedResultsController = NSFetchedResultsController(
-//            fetchRequest: request,
-//            managedObjectContext: dataContext,
-//            sectionNameKeyPath: nil,
-//            cacheName: nil
-//        )
-//        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
-//        
-//        do {
-//            try fetchedResultsController?.performFetch()
-//        } catch {
-//            fatalError("Failed to initialize FetchedResultsController: \(error)")
-//        }
+        updatePageData()
+//        pageData = fetchedResultsController?.fetchedObjects as? [Diary] ?? []
+    }
+    
+    func updatePageData() {
+        pageData = fetchedResultsController?.fetchedObjects as? [Diary] ?? []
     }
     
     // MARK: NSFetchedResultsControllerDelegate
     
-//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-////        tableView.beginUpdates()
-//    }
-//    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        tableView.beginUpdates()
+    }
+    
 //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
 ////        switch type {
 ////        case .insert:
@@ -130,10 +130,11 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 ////            tableView.moveRow(at: indexPath!, to: newIndexPath!)
 ////        }
 //    }
-//    
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-////        tableView.endUpdates()
-//    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        tableView.endUpdates()
+        updatePageData()
+    }
     
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DiaryViewController? {
         // Return the data view controller for the given index.
