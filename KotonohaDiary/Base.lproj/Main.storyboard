@@ -124,7 +124,7 @@
                     <navigationItem key="navigationItem" title="ことのは" id="P1Y-ke-9VJ">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="jss-5z-Qvm">
                             <connections>
-                                <segue destination="Ghn-Qm-k2i" kind="show" identifier="AddDiary" id="TF6-Pg-znJ"/>
+                                <segue destination="Ghn-Qm-k2i" kind="presentation" identifier="AddDiary" id="TF6-Pg-znJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -161,7 +161,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="x6w-Ig-f6X">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x6w-Ig-f6X">
                                         <rect key="frame" x="0.0" y="28.5" width="343" height="602.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -193,7 +193,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTG-dK-w3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2013.5999999999999" y="883.80809595202402"/>
+            <point key="canvasLocation" x="2015" y="1558"/>
         </scene>
         <!--日記入力-->
         <scene sceneID="AdS-a7-VoQ">
@@ -208,7 +208,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZXa-U4-Uzx">
-                                <rect key="frame" x="16" y="72" width="343" height="538"/>
+                                <rect key="frame" x="16" y="72" width="343" height="543"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -291,14 +291,14 @@
                     </tabBar>
                     <connections>
                         <segue destination="Eyj-Zy-9g1" kind="relationship" relationship="viewControllers" id="je7-CU-Nyj"/>
-                        <segue destination="5ug-gO-guE" kind="relationship" relationship="viewControllers" id="MSU-vJ-agp"/>
+                        <segue destination="PRC-gS-pgS" kind="relationship" relationship="viewControllers" id="MSU-vJ-agp"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qAd-lV-sTk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137" y="542"/>
         </scene>
-        <!--Diary Page View Controller-->
+        <!--日記-->
         <scene sceneID="MYg-hT-x6s">
             <objects>
                 <viewController id="5ug-gO-guE" customClass="DiaryPageViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
@@ -311,11 +311,53 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="featured" id="a8g-lJ-eSv"/>
+                    <toolbarItems>
+                        <barButtonItem systemItem="trash" id="eNP-4m-2Hj"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="yZU-3y-6SJ"/>
+                        <barButtonItem systemItem="add" id="I4C-p9-SyE">
+                            <connections>
+                                <segue destination="Ghn-Qm-k2i" kind="presentation" identifier="AddDiaryFromDiaryView" id="oNa-bb-ItZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="日記" id="PUg-2O-et0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="VmY-VF-voV">
+                            <connections>
+                                <segue destination="sgC-dS-38J" kind="show" identifier="EditDiaryFromDiaryView" id="dKa-bK-w9t"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjS-WB-paY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="884"/>
+            <point key="canvasLocation" x="2015.2" y="883.80809595202402"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="R1g-L8-vcO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="PRC-gS-pgS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="featured" id="a8g-lJ-eSv"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Go9-D8-7NX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Opw-kM-6ea">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="5ug-gO-guE" kind="relationship" relationship="rootViewController" id="e3Q-VL-ngq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="byZ-AR-fVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1076" y="883.80809595202402"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="dKa-bK-w9t"/>
+        <segue reference="TF6-Pg-znJ"/>
+    </inferredMetricsTieBreakers>
 </document>

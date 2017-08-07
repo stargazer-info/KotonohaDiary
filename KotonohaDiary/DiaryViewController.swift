@@ -17,15 +17,6 @@ class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年MM月dd日"
-        if let diary = diary {
-            dateTitle.text = formatter.string(from: diary.createdAt! as Date)
-            dairyText.text = diary.text
-        } else {
-            dateTitle.text = formatter.string(from: Date())
-            dairyText.text = "日記はありません"
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +24,22 @@ class DiaryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("DiaryViewController viewDidLoad")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日"
+        if let diary = diary {
+            print("diary \(diary)")
+            dateTitle.text = formatter.string(from: diary.createdAt! as Date)
+            dairyText.text = diary.text
+            print("dateTitle \(String(describing: dateTitle.text))")
+            print("dairyText \(dairyText.text)")
+        } else {
+            dateTitle.text = formatter.string(from: Date())
+            dairyText.text = "日記はありません"
+        }
+    }
 
     /*
     // MARK: - Navigation

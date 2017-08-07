@@ -99,6 +99,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         cell.delegate = self
         cell.editButton.indexPath = indexPath
         let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+        print("kotonoha: \(kotonoha)");
         cell.kotonohaLabel.text = kotonoha.text
         return cell
     }

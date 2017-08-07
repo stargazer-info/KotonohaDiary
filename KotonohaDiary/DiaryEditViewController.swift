@@ -17,8 +17,11 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.text = text
-        // Do any additional setup after loading the view.
+        if let diary = editingDiary {
+            textView.text = diary.text
+        } else {
+            textView.text = text
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,39 +41,30 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     */
 
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        close()
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         saveDiary()
-        dismiss(animated: true, completion: nil)
+        close()
+    }
+    
+    func close() {
+        if presentingViewController != nil {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController {
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("This ViewController is not inside a navigation controller.")
+        }
     }
     
     // MARK: - CoreData
     
     let dataContainer = AppDelegate.persistentContainer
     let dataContext = AppDelegate.viewContext
-//    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-//    
-//    func initializeFetchedResultsController() {
-//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Diary")
-//        let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
-//        request.sortDescriptors = [createtimeSort]
-//        
-//        fetchedResultsController = NSFetchedResultsController(
-//            fetchRequest: request,
-//            managedObjectContext: dataContext,
-//            sectionNameKeyPath: nil,
-//            cacheName: nil
-//        )
-//        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
-//        
-//        do {
-//            try fetchedResultsController?.performFetch()
-//        } catch {
-//            fatalError("Failed to initialize FetchedResultsController: \(error)")
-//        }
-//    }
 
     // MARK: - Private
     

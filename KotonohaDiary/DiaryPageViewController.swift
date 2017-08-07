@@ -55,16 +55,27 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        switch segue.identifier! {
+        case "AddDiaryFromDiaryView":
+            if let destVc = segue.destination as? DiaryEditViewController {
+                destVc.editingDiary = nil
+                destVc.text = "";
+            }
+        case "EditDiaryFromDiaryView":
+            if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController, let destVc = segue.destination as? DiaryEditViewController {
+                destVc.editingDiary = currentVc.diary
+            }
+        default:
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+        }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
     
     var pageData: [Diary] = []
     
@@ -144,11 +155,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         
         // Create a new view controller and pass suitable data.
         let diaryViewController = storyboard.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
-//        if (self.pageData.count == 0) || (index >= self.pageData.count) {
-//            diaryViewController.diary = nil
-//        } else {
             diaryViewController.diary = self.pageData[index]
-//        }
         return diaryViewController
     }
     
@@ -161,6 +168,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     // MARK: - Page View Controller Data Source
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        print("viewControllerBefore")
         var index = self.indexOfViewController(viewController as! DiaryViewController)
         if (index == 0) || (index == NSNotFound) {
             return nil
@@ -171,6 +179,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        print("viewControllerAfter")
         var index = self.indexOfViewController(viewController as! DiaryViewController)
         if index == NSNotFound {
             return nil
@@ -185,32 +194,32 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     // MARK: - UIPageViewController delegate methods
     
-    func pageViewController(_ pageViewController: UIPageViewController, spineLocationFor orientation: UIInterfaceOrientation) -> UIPageViewControllerSpineLocation {
-        if (orientation == .portrait) || (orientation == .portraitUpsideDown) || (UIDevice.current.userInterfaceIdiom == .phone) {
-            // In portrait orientation or on iPhone: Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to true, so set it to false here.
-            let currentViewController = self.pageViewController!.viewControllers![0]
-            let viewControllers = [currentViewController]
-            self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: true, completion: {done in })
-            
-            self.pageViewController!.isDoubleSided = false
-            return .min
-        }
-        
-        // In landscape orientation: Set set the spine location to "mid" and the page view controller's view controllers array to contain two view controllers. If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
-        let currentViewController = self.pageViewController!.viewControllers![0] as! DiaryViewController
-        var viewControllers: [UIViewController]
-        
-        let indexOfCurrentViewController = self.indexOfViewController(currentViewController)
-        if (indexOfCurrentViewController == 0) || (indexOfCurrentViewController % 2 == 0) {
-            let nextViewController = self.pageViewController(self.pageViewController!, viewControllerAfter: currentViewController)
-            viewControllers = [currentViewController, nextViewController!]
-        } else {
-            let previousViewController = self.pageViewController(self.pageViewController!, viewControllerBefore: currentViewController)
-            viewControllers = [previousViewController!, currentViewController]
-        }
-        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: true, completion: {done in })
-        
-        return .mid
-    }
+//    func pageViewController(_ pageViewController: UIPageViewController, spineLocationFor orientation: UIInterfaceOrientation) -> UIPageViewControllerSpineLocation {
+//        if (orientation == .portrait) || (orientation == .portraitUpsideDown) || (UIDevice.current.userInterfaceIdiom == .phone) {
+//            // In portrait orientation or on iPhone: Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to true, so set it to false here.
+//            let currentViewController = self.pageViewController!.viewControllers![0]
+//            let viewControllers = [currentViewController]
+//            self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: true, completion: {done in })
+//            
+//            self.pageViewController!.isDoubleSided = false
+//            return .min
+//        }
+//        
+//        // In landscape orientation: Set set the spine location to "mid" and the page view controller's view controllers array to contain two view controllers. If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
+//        let currentViewController = self.pageViewController!.viewControllers![0] as! DiaryViewController
+//        var viewControllers: [UIViewController]
+//        
+//        let indexOfCurrentViewController = self.indexOfViewController(currentViewController)
+//        if (indexOfCurrentViewController == 0) || (indexOfCurrentViewController % 2 == 0) {
+//            let nextViewController = self.pageViewController(self.pageViewController!, viewControllerAfter: currentViewController)
+//            viewControllers = [currentViewController, nextViewController!]
+//        } else {
+//            let previousViewController = self.pageViewController(self.pageViewController!, viewControllerBefore: currentViewController)
+//            viewControllers = [previousViewController!, currentViewController]
+//        }
+//        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: true, completion: {done in })
+//        
+//        return .mid
+//    }
     
 }
