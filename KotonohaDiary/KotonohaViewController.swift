@@ -189,6 +189,11 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
 
     // MARK: - Action
     
+    @IBAction func unselectAll(_ sender: UIButton) {
+        self.tableView.indexPathsForSelectedRows?
+            .forEach { self.tableView.deselectRow(at: $0, animated: true) }
+    }
+    
     @IBAction func saveText(_ sender: UIButton) {
         saveKotonoha()
         kotonohaInputText.resignFirstResponder()

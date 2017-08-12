@@ -29,8 +29,19 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7zR-Bq-JDH">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="32"/>
                                         <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5B5-AW-zGv">
+                                                <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="5B5-AW-zGv" secondAttribute="height" multiplier="1:1" id="kUY-wk-i4D"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
+                                                <state key="normal" backgroundImage="unselected"/>
+                                                <connections>
+                                                    <action selector="unselectAll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ygi-Pe-RA3"/>
+                                                </connections>
+                                            </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ひとりごと" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-q2-kMZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="289" height="32"/>
+                                                <rect key="frame" x="40" y="0.0" width="249" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="32" id="vk6-dm-6zT"/>
                                                 </constraints>
