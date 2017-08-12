@@ -32,7 +32,11 @@ class KotonohaTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+        if (selected) {
+            checkMark.image = #imageLiteral(resourceName: "selected")
+        } else {
+            checkMark.image = #imageLiteral(resourceName: "unselected")
+        }
     }
 
     @IBAction func edit(_ sender: KotonohaTableViewCellButton) {

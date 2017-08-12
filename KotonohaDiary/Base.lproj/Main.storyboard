@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mdJ-sH-lSM">
-                                <rect key="frame" x="16" y="72" width="343" height="587"/>
+                                <rect key="frame" x="16" y="72" width="343" height="538"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7zR-Bq-JDH">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="32"/>
@@ -51,10 +51,10 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VzS-5h-JMX">
-                                        <rect key="frame" x="0.0" y="40" width="343" height="547"/>
+                                        <rect key="frame" x="0.0" y="40" width="343" height="498"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="kotonoha" rowHeight="28" id="RCa-BT-01K" customClass="KotonohaTableViewCell" customModule="KotonohaDiary" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kotonoha" rowHeight="28" id="RCa-BT-01K" customClass="KotonohaTableViewCell" customModule="KotonohaDiary" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="343" height="28"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RCa-BT-01K" id="MKS-vu-PPL">
@@ -64,14 +64,14 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Z3d-Ya-go9">
                                                             <rect key="frame" x="0.0" y="4" width="343" height="19.5"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dwq-r6-q0e">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="19" height="19.5"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unselected" translatesAutoresizingMaskIntoConstraints="NO" id="dwq-r6-q0e">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="19.5" height="19.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="dwq-r6-q0e" secondAttribute="height" multiplier="1:1" id="Ln2-BJ-3M9"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIX-tV-DcY">
-                                                                    <rect key="frame" x="27" y="0.0" width="262" height="19.5"/>
+                                                                    <rect key="frame" x="27.5" y="0.0" width="261.5" height="19.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -286,6 +286,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="73T-hD-gxH" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="891-Ke-dzH">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -356,6 +357,9 @@
             <point key="canvasLocation" x="1076" y="883.80809595202402"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="unselected" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dKa-bK-w9t"/>
         <segue reference="TF6-Pg-znJ"/>
