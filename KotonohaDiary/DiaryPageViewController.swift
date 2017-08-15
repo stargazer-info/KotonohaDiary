@@ -14,6 +14,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     var pageViewController: UIPageViewController?
 
     override func viewDidLoad() {
+        print("DiaryPageViewController viewDidLoad")
         super.viewDidLoad()
 
         initializeFetchedResults()
@@ -21,21 +22,9 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         self.pageViewController!.delegate = self
         self.pageViewController!.dataSource = self
 
-        func getStartViewController() -> DiaryViewController {
-            if let startingViewController: DiaryViewController = self.viewControllerAtIndex(0, storyboard: self.storyboard!) {
-                return startingViewController
-            } else {
-                return self.storyboard!.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
-            }
-        }
-        
-        let viewControllers = [getStartViewController()]
-        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
-        
         self.addChildViewController(self.pageViewController!)
         self.view.addSubview(self.pageViewController!.view)
         
-        // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
         var pageViewRect = self.view.bounds
         if UIDevice.current.userInterfaceIdiom == .pad {
             pageViewRect = pageViewRect.insetBy(dx: 40.0, dy: 40.0)
@@ -43,11 +32,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         self.pageViewController!.view.frame = pageViewRect
         
         self.pageViewController!.didMove(toParentViewController: self)
-//        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
-//
-//        let pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
-        // Do any additional setup after loading the view.
         
+        initViewControllers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,11 +87,11 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
         updatePageData()
-//        pageData = fetchedResultsController?.fetchedObjects as? [Diary] ?? []
     }
     
     func updatePageData() {
         pageData = fetchedResultsController?.fetchedObjects as? [Diary] ?? []
+        print("updatePageData \(pageData)")
     }
     
     // MARK: NSFetchedResultsControllerDelegate
@@ -141,8 +127,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 //    }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        tableView.endUpdates()
         updatePageData()
+        initViewControllers()
     }
     
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DiaryViewController? {
@@ -220,4 +206,55 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 //        return .mid
 //    }
     
+    // MARK: - Action
+    
+    @IBAction func onClickDeleteBtn(_ sender: UIBarButtonItem) {
+        if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController {
+            print("delete: \(String(describing: currentVc.diary))")
+            
+            showAlert(okHandler: { [unowned self]
+                (action: UIAlertAction!) -> Void in
+                print("OK")
+                self.dataContext.delete(currentVc.diary!)
+                try? self.dataContext.save()
+                },
+                      cancelHandler: nil
+            )
+        }
+    }
+    
+    // MARK: - private
+    
+    private func initViewControllers() {
+        func getStartViewController() -> DiaryViewController {
+            if let startingViewController: DiaryViewController = self.viewControllerAtIndex(0, storyboard: self.storyboard!) {
+                return startingViewController
+            } else {
+                return self.storyboard!.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
+            }
+        }
+        
+        let viewControllers = [getStartViewController()]
+        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
+    }
+    
+    private func showAlert(okHandler: ((_ action: UIAlertAction?) -> Void)?, cancelHandler: ((_ action: UIAlertAction?) -> Void)? ) {
+        let alert: UIAlertController = UIAlertController(
+            title: "削除",
+            message: "この日記を削除しますか？",
+            preferredStyle:  .alert)
+        let defaultAction: UIAlertAction = UIAlertAction(
+            title: "OK",
+            style: .default,
+            handler: okHandler
+        )
+        let cancelAction: UIAlertAction = UIAlertAction(
+            title: "キャンセル",
+            style: .cancel,
+            handler:cancelHandler
+        )
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
+    }
 }
