@@ -73,8 +73,6 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
     
     var pageData: [Diary] = []
