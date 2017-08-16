@@ -207,7 +207,7 @@
         <!--日記入力-->
         <scene sceneID="AdS-a7-VoQ">
             <objects>
-                <viewController id="sgC-dS-38J" customClass="DiaryEditViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="sgC-dS-38J" customClass="DiaryEditViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0O1-j5-n2Q"/>
                         <viewControllerLayoutGuide type="bottom" id="1B5-Uy-Nss"/>
@@ -217,7 +217,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZXa-U4-Uzx">
-                                <rect key="frame" x="16" y="72" width="343" height="543"/>
+                                <rect key="frame" x="16" y="72" width="343" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="Phz-cc-xLB"/>
+                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -226,7 +229,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="top" secondItem="0O1-j5-n2Q" secondAttribute="bottom" constant="8" symbolic="YES" id="8HD-dj-AUl"/>
-                            <constraint firstItem="1B5-Uy-Nss" firstAttribute="top" secondItem="ZXa-U4-Uzx" secondAttribute="bottom" constant="8" symbolic="YES" id="Gt4-Z9-dMe"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="trailing" secondItem="wP6-8T-tCH" secondAttribute="trailingMargin" id="TLE-9K-ke9"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leadingMargin" id="VP3-Xx-jJO"/>
                         </constraints>
