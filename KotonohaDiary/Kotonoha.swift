@@ -12,18 +12,18 @@ import CoreData
 class Kotonoha: NSManagedObject {
 
     override func awakeFromInsert() {
-        print("awakeFromInsert");
         super.awakeFromInsert()
         id = NSUUID().uuidString
         createdAt = Date() as NSDate
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年MM月dd日"
-        section = formatter.string(from: createdAt! as Date)
+        setSection()
     }
     
     override func awakeFromFetch() {
-        print("awakeFromInsert");
         super.awakeFromFetch()
+        setSection()
+    }
+    
+    private func setSection() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日"
         section = formatter.string(from: createdAt! as Date)

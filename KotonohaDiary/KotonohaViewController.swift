@@ -16,6 +16,9 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         initializeFetchedResultsController()
         kotonohaInputText.delegate = self
         tableView.dataSource = self
@@ -99,20 +102,37 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         cell.delegate = self
         cell.editButton.indexPath = indexPath
         let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-        print("kotonoha: \(kotonoha)");
         cell.kotonohaLabel.text = kotonoha.text
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 24
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label : UILabel = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .black
         if let sectionTitle = self.fetchedResultsController?.sections?[section] {
-            return sectionTitle.name
+            label.text = sectionTitle.name
         } else {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy年MM月dd日"
-            return formatter.string(from: Date())
+            label.text = formatter.string(from: Date())
         }
+        return label
     }
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
+//            return sectionTitle.name
+//        } else {
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy年MM月dd日"
+//            return formatter.string(from: Date())
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
