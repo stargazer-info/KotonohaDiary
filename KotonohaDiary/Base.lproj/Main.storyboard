@@ -261,7 +261,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eyj-Zy-9g1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="ことのは" image="selected" id="ev9-JG-5td"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="rcG-K5-Sx9">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="rcG-K5-Sx9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -279,7 +279,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ghn-Qm-k2i" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="eSx-Lx-PNa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eSx-Lx-PNa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -380,7 +380,7 @@
         <image name="unselected" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TF6-Pg-znJ"/>
-        <segue reference="ZZz-yB-Kx7"/>
+        <segue reference="oNa-bb-ItZ"/>
+        <segue reference="dKa-bK-w9t"/>
     </inferredMetricsTieBreakers>
 </document>

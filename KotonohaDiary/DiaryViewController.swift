@@ -17,6 +17,7 @@ class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
 
     override func didReceiveMemoryWarning() {

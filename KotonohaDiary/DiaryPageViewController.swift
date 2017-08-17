@@ -16,6 +16,10 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     override func viewDidLoad() {
         print("DiaryPageViewController viewDidLoad")
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        self.navigationController?.toolbar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
 
         initializeFetchedResults()
         self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
