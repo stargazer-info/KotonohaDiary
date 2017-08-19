@@ -1,0 +1,33 @@
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "7h2-L7-slL"; */
+"7h2-L7-slL.normalTitle" = "編集";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "AxS-RD-SzP"; */
+"AxS-RD-SzP.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "日記入力"; ObjectID = "E3y-WV-lb9"; */
+"E3y-WV-lb9.title" = "日記入力";
+
+/* Class = "UINavigationItem"; title = "ことのは"; ObjectID = "P1Y-ke-9VJ"; */
+"P1Y-ke-9VJ.title" = "ことのは";
+
+/* Class = "UINavigationItem"; title = "日記"; ObjectID = "PUg-2O-et0"; */
+"PUg-2O-et0.title" = "日記";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ZXa-U4-Uzx"; */
+"ZXa-U4-Uzx.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "dnw-Em-iVs"; */
+"dnw-Em-iVs.normalTitle" = "保存";
+
+/* Class = "UITabBarItem"; title = "ことのは"; ObjectID = "ev9-JG-5td"; */
+"ev9-JG-5td.title" = "ことのは";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "x6w-Ig-f6X"; */
+"x6w-Ig-f6X.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "xIX-tV-DcY"; */
+"xIX-tV-DcY.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "ひとりごと"; ObjectID = "zgY-q2-kMZ"; */
+"zgY-q2-kMZ.placeholder" = "ひとりごと";

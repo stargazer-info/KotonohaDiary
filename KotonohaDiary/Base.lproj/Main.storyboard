@@ -344,7 +344,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="yZU-3y-6SJ"/>
-                        <barButtonItem systemItem="compose" id="I4C-p9-SyE">
+                        <barButtonItem systemItem="add" id="I4C-p9-SyE">
                             <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="Ghn-Qm-k2i" kind="presentation" identifier="AddDiaryFromDiaryView" id="oNa-bb-ItZ"/>
