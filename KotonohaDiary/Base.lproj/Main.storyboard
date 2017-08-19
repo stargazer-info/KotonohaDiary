@@ -20,7 +20,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mdJ-sH-lSM">
@@ -54,7 +54,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="46" id="2JB-FW-mGt"/>
                                                 </constraints>
-                                                <state key="normal" title="Save"/>
+                                                <state key="normal" title="Save">
+                                                    <color key="titleColor" red="0.058823529411764705" green="0.40000000000000002" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="saveText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h0O-5M-LBr"/>
                                                 </connections>
@@ -92,7 +94,9 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="46" id="BqE-eJ-B6s"/>
                                                                     </constraints>
-                                                                    <state key="normal" title="Edit"/>
+                                                                    <state key="normal" title="Edit">
+                                                                        <color key="titleColor" red="0.058823529411764705" green="0.40000000000000002" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    </state>
                                                                     <connections>
                                                                         <action selector="edit:" destination="RCa-BT-01K" eventType="touchUpInside" id="1Ch-ig-JBn"/>
                                                                     </connections>
@@ -136,6 +140,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="ことのは" id="P1Y-ke-9VJ">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="jss-5z-Qvm">
+                            <color key="tintColor" red="0.058823529411764705" green="0.40000000000000002" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="Ghn-Qm-k2i" kind="presentation" identifier="AddDiary" id="TF6-Pg-znJ"/>
                             </connections>
@@ -215,11 +220,11 @@
                         <viewControllerLayoutGuide type="bottom" id="1B5-Uy-Nss"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wP6-8T-tCH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZXa-U4-Uzx">
-                                <rect key="frame" x="16" y="72" width="343" height="250"/>
+                                <rect key="frame" x="16" y="8" width="343" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="Phz-cc-xLB"/>
                                 </constraints>
@@ -237,16 +242,19 @@
                     </view>
                     <navigationItem key="navigationItem" title="日記入力" id="E3y-WV-lb9">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CVa-CW-db9">
+                            <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="cancel:" destination="sgC-dS-38J" id="chV-6P-mrB"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="YAX-Ya-10p">
+                            <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="save:" destination="sgC-dS-38J" id="Izk-1D-prj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="textView" destination="ZXa-U4-Uzx" id="jZb-OU-6gE"/>
                     </connections>
@@ -279,7 +287,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ghn-Qm-k2i" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eSx-Lx-PNa">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="eSx-Lx-PNa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -297,11 +306,12 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="73T-hD-gxH" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="891-Ke-dzH">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="891-Ke-dzH">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="selectedImageTintColor" red="0.40000000600000002" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.060080506881040073" green="0.57041164340101524" blue="0.026784665050729094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="Eyj-Zy-9g1" kind="relationship" relationship="viewControllers" id="je7-CU-Nyj"/>
@@ -328,12 +338,14 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
                         <barButtonItem systemItem="trash" id="eNP-4m-2Hj">
+                            <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="onClickDeleteBtn:" destination="5ug-gO-guE" id="qyz-VP-Fiw"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="yZU-3y-6SJ"/>
-                        <barButtonItem systemItem="add" id="I4C-p9-SyE">
+                        <barButtonItem systemItem="compose" id="I4C-p9-SyE">
+                            <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="Ghn-Qm-k2i" kind="presentation" identifier="AddDiaryFromDiaryView" id="oNa-bb-ItZ"/>
                             </connections>
@@ -341,11 +353,13 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="日記" id="PUg-2O-et0">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="VmY-VF-voV">
+                            <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="sgC-dS-38J" kind="show" identifier="EditDiaryFromDiaryView" id="dKa-bK-w9t"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjS-WB-paY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -357,12 +371,13 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="PRC-gS-pgS" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="featured" id="a8g-lJ-eSv"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Go9-D8-7NX">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Go9-D8-7NX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Opw-kM-6ea">
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="Opw-kM-6ea">
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
@@ -380,7 +395,7 @@
         <image name="unselected" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oNa-bb-ItZ"/>
         <segue reference="dKa-bK-w9t"/>
+        <segue reference="oNa-bb-ItZ"/>
     </inferredMetricsTieBreakers>
 </document>
