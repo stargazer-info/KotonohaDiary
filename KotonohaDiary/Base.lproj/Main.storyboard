@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ことのは-->
+        <!--Words-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="KotonohaViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                                                     <action selector="unselectAll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ygi-Pe-RA3"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ひとりごと" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-q2-kMZ">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input words" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-q2-kMZ">
                                                 <rect key="frame" x="40" y="0.0" width="249" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="32" id="vk6-dm-6zT"/>
@@ -138,7 +138,7 @@
                             <constraint firstItem="mdJ-sH-lSM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="qLG-hu-pdw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="ことのは" id="P1Y-ke-9VJ">
+                    <navigationItem key="navigationItem" title="Words" id="P1Y-ke-9VJ">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="jss-5z-Qvm">
                             <color key="tintColor" red="0.058823529411764705" green="0.40000000000000002" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -211,7 +211,7 @@
             </objects>
             <point key="canvasLocation" x="2015" y="1558"/>
         </scene>
-        <!--日記入力-->
+        <!--Diary-->
         <scene sceneID="AdS-a7-VoQ">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="sgC-dS-38J" customClass="DiaryEditViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
@@ -240,7 +240,7 @@
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leadingMargin" id="VP3-Xx-jJO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="日記入力" id="E3y-WV-lb9">
+                    <navigationItem key="navigationItem" title="Diary" id="E3y-WV-lb9">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CVa-CW-db9">
                             <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -263,11 +263,11 @@
             </objects>
             <point key="canvasLocation" x="4055.1999999999998" y="136.28185907046478"/>
         </scene>
-        <!--ことのは-->
+        <!--Words-->
         <scene sceneID="PnK-Qz-b5M">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eyj-Zy-9g1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="ことのは" image="selected" id="ev9-JG-5td"/>
+                    <tabBarItem key="tabBarItem" title="Words" image="kotonohaTab" id="ev9-JG-5td"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="rcG-K5-Sx9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -322,7 +322,7 @@
             </objects>
             <point key="canvasLocation" x="137" y="542"/>
         </scene>
-        <!--日記-->
+        <!--Diary-->
         <scene sceneID="MYg-hT-x6s">
             <objects>
                 <viewController id="5ug-gO-guE" customClass="DiaryPageViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
@@ -351,7 +351,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="日記" id="PUg-2O-et0">
+                    <navigationItem key="navigationItem" title="Diary" id="PUg-2O-et0">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="VmY-VF-voV">
                             <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -365,11 +365,11 @@
             </objects>
             <point key="canvasLocation" x="2015.2" y="883.80809595202402"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Diary-->
         <scene sceneID="R1g-L8-vcO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="PRC-gS-pgS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="featured" id="a8g-lJ-eSv"/>
+                    <tabBarItem key="tabBarItem" title="Diary" image="diaryTab" id="a8g-lJ-eSv"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Go9-D8-7NX">
@@ -391,11 +391,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="selected" width="25" height="25"/>
+        <image name="diaryTab" width="31" height="25"/>
+        <image name="kotonohaTab" width="23" height="23"/>
         <image name="unselected" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dKa-bK-w9t"/>
-        <segue reference="oNa-bb-ItZ"/>
+        <segue reference="TF6-Pg-znJ"/>
     </inferredMetricsTieBreakers>
 </document>
