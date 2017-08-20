@@ -18,6 +18,7 @@
 		0816A2E51F1C30D0000FA96F /* Kotonoha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E41F1C30D0000FA96F /* Kotonoha.swift */; };
 		0816A2E91F1F98C6000FA96F /* DiaryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E81F1F98C6000FA96F /* DiaryEditViewController.swift */; };
 		081DB0851F262C2B0003312A /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081DB0841F262C2B0003312A /* DiaryViewController.swift */; };
+		081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 081DB0AC1F496B150003312A /* InfoPlist.strings */; };
 		085F80D91F244EE80045908E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80D81F244EE80045908E /* Diary.swift */; };
 		085F80DB1F26214E0045908E /* DiaryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80DA1F26214E0045908E /* DiaryPageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,8 @@
 		081DB0841F262C2B0003312A /* DiaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		081DB0A61F4878560003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		081DB0A71F4878560003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		081DB0AD1F496B150003312A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = KotonohaDiary/Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		081DB0AF1F496B730003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = KotonohaDiary/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		085F80D81F244EE80045908E /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +78,7 @@
 		0816A2B11F1AFE5D000FA96F = {
 			isa = PBXGroup;
 			children = (
+				081DB0AC1F496B150003312A /* InfoPlist.strings */,
 				0816A2BC1F1AFE5D000FA96F /* KotonohaDiary */,
 				0816A2D41F1AFE5D000FA96F /* KotonohaDiaryTests */,
 				0816A2BB1F1AFE5D000FA96F /* Products */,
@@ -187,6 +191,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 0816A2B11F1AFE5D000FA96F;
 			productRefGroup = 0816A2BB1F1AFE5D000FA96F /* Products */;
@@ -205,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0816A2CB1F1AFE5D000FA96F /* LaunchScreen.storyboard in Resources */,
+				081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */,
 				0816A2C81F1AFE5D000FA96F /* Assets.xcassets in Resources */,
 				0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */,
 			);
@@ -271,6 +277,15 @@
 				081DB0A71F4878560003312A /* ja */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		081DB0AC1F496B150003312A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				081DB0AD1F496B150003312A /* Base */,
+				081DB0AF1F496B730003312A /* ja */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
