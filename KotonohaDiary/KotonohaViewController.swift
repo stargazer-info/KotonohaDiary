@@ -44,7 +44,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
                 let rows = self.tableView.indexPathsForSelectedRows {
                 print("dest: \(dest)");
                 print("indexPathsForSelectedRows: \(rows)");
-                dest.text = rows.map {
+                dest.text = rows.reversed().map {
                         indexPath -> String in
                         let kotonoha = self.fetchedResultsController?.object(at: indexPath) as? Kotonoha
                         return kotonoha?.text ?? ""
