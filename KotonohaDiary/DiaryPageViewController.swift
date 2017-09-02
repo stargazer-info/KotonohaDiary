@@ -157,6 +157,9 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         print("viewControllerBefore")
+        if pageData.isEmpty {
+            return nil
+        }
         var index = self.indexOfViewController(viewController as! DiaryViewController)
         if (index == 0) || (index == NSNotFound) {
             return nil
@@ -168,6 +171,9 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         print("viewControllerAfter")
+        if pageData.isEmpty {
+            return nil
+        }
         var index = self.indexOfViewController(viewController as! DiaryViewController)
         if index == NSNotFound {
             return nil
@@ -234,12 +240,16 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
             if let startingViewController: DiaryViewController = self.viewControllerAtIndex(0, storyboard: self.storyboard!) {
                 return startingViewController
             } else {
-                return self.storyboard!.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
+                return getEmptyViewController()
             }
         }
         
         let viewControllers = [getStartViewController()]
         self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
+    }
+    
+    private func getEmptyViewController() -> DiaryViewController {
+        return self.storyboard!.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
     }
     
     private func showAlert(okHandler: ((_ action: UIAlertAction?) -> Void)?, cancelHandler: ((_ action: UIAlertAction?) -> Void)? ) {
