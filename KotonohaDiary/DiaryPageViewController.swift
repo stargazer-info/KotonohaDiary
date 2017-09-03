@@ -11,33 +11,42 @@ import CoreData
 
 class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
     var pageViewController: UIPageViewController?
 
     override func viewDidLoad() {
         print("DiaryPageViewController viewDidLoad")
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-        self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-        self.navigationController?.toolbar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-        self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-
-        self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
-        self.pageViewController!.delegate = self
-        self.pageViewController!.dataSource = self
-
-        self.addChildViewController(self.pageViewController!)
-        self.view.addSubview(self.pageViewController!.view)
         
-        var pageViewRect = self.view.bounds
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            pageViewRect = pageViewRect.insetBy(dx: 40.0, dy: 40.0)
+        func initBackground() {
+            self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+            self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+            self.navigationController?.toolbar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+            self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         }
-        self.pageViewController!.view.frame = pageViewRect
         
-        self.pageViewController!.didMove(toParentViewController: self)
+        func initPageView() {
+            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
+            self.pageViewController!.delegate = self
+            self.pageViewController!.dataSource = self
+            self.addChildViewController(self.pageViewController!)
+            self.view.addSubview(self.pageViewController!.view)
+            var pageViewRect = self.view.bounds
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                pageViewRect = pageViewRect.insetBy(dx: 40.0, dy: 40.0)
+            }
+            self.pageViewController!.view.frame = pageViewRect
+            self.pageViewController!.didMove(toParentViewController: self)
+        }
         
+        initBackground()
+        initPageView()
         initializeFetchedResults()
-        showCurrViewControllers()
+        initActionButtons()
+        updateViewControllers()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -134,7 +143,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updatePageData()
-        showCurrViewControllers()
+        initActionButtons()
+        updateViewControllers()
     }
     
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DiaryViewController? {
@@ -233,7 +243,17 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     // MARK: - private
     
-    private func showCurrViewControllers() {
+    private func initActionButtons() {
+        if pageData.isEmpty {
+            editButton.isEnabled = false;
+            deleteButton.isEnabled = false;
+        } else {
+            editButton.isEnabled = true;
+            deleteButton.isEnabled = true;
+        }
+    }
+    
+    private func updateViewControllers() {
         let viewControllers = [getCurrViewController()]
         self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
     }

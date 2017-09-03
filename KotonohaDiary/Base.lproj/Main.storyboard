@@ -358,6 +358,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="deleteButton" destination="eNP-4m-2Hj" id="6ME-u9-99R"/>
+                        <outlet property="editButton" destination="VmY-VF-voV" id="dSk-fz-xTF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjS-WB-paY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
