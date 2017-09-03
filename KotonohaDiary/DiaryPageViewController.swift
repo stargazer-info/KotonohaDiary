@@ -21,7 +21,6 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         self.navigationController?.toolbar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
 
-        initializeFetchedResults()
         self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
         self.pageViewController!.delegate = self
         self.pageViewController!.dataSource = self
@@ -37,7 +36,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         
         self.pageViewController!.didMove(toParentViewController: self)
         
-        initViewControllers()
+        initializeFetchedResults()
+        showCurrViewControllers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,6 +65,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         }
     }
     
+    var curIndex = 0
     var pageData: [Diary] = []
     
     // MARK: - CoreData
@@ -117,39 +118,36 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 ////        }
 //    }
 //    
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-////        switch type {
-////        case .insert:
-////            tableView.insertRows(at: [newIndexPath!], with: .fade)
-////        case .delete:
-////            tableView.deleteRows(at: [indexPath!], with: .fade)
-////        case .update:
-////            tableView.reloadRows(at: [indexPath!], with: .fade)
-////        case .move:
-////            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-////        }
-//    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            curIndex = newIndexPath!.row
+        case .delete:
+            let prevIndex = indexPath!.row - 1
+            curIndex = prevIndex < 0 ? 0 : prevIndex
+        case .update:
+            curIndex = indexPath!.row
+        case .move:
+            curIndex = newIndexPath!.row
+        }
+    }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updatePageData()
-        initViewControllers()
+        showCurrViewControllers()
     }
     
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DiaryViewController? {
-        // Return the data view controller for the given index.
         if (self.pageData.count == 0) || (index >= self.pageData.count) {
             return nil
         }
         
-        // Create a new view controller and pass suitable data.
         let diaryViewController = storyboard.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
             diaryViewController.diary = self.pageData[index]
         return diaryViewController
     }
     
     func indexOfViewController(_ viewController: DiaryViewController) -> Int {
-        // Return the index of the given data view controller.
-        // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
         return pageData.index(of: viewController.diary!) ?? NSNotFound
     }
     
@@ -235,23 +233,23 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     // MARK: - private
     
-    private func initViewControllers() {
-        func getStartViewController() -> DiaryViewController {
-            if let startingViewController: DiaryViewController = self.viewControllerAtIndex(0, storyboard: self.storyboard!) {
-                return startingViewController
-            } else {
-                return getEmptyViewController()
-            }
-        }
-        
-        let viewControllers = [getStartViewController()]
+    private func showCurrViewControllers() {
+        let viewControllers = [getCurrViewController()]
         self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
+    }
+    
+    private func getCurrViewController() -> DiaryViewController {
+        if let currViewController: DiaryViewController = self.viewControllerAtIndex(curIndex, storyboard: self.storyboard!) {
+            return currViewController
+        } else {
+            return getEmptyViewController()
+        }
     }
     
     private func getEmptyViewController() -> DiaryViewController {
         return self.storyboard!.instantiateViewController(withIdentifier: "DiaryViewController") as! DiaryViewController
     }
-    
+
     private func showAlert(okHandler: ((_ action: UIAlertAction?) -> Void)?, cancelHandler: ((_ action: UIAlertAction?) -> Void)? ) {
         let alert: UIAlertController = UIAlertController(
             title: "削除",
