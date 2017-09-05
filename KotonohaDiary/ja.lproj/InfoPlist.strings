@@ -1,9 +1,3 @@
-/* 
-  InfoPlist.strings
-  KotonohaDiary
-
-  Created by 山口 伸行 on 2017/08/20.
-  Copyright © 2017年 Stargazer Information. All rights reserved.
-*/
+/* (No Commment) */
 "CFBundleDisplayName" = "ことのは";
-"NSHumanReadableCopyright" = "2017 Stargazer information Inc. All rights reserved.";
+

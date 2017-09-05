@@ -232,7 +232,6 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
             
             showAlert(okHandler: { [unowned self]
                 (action: UIAlertAction!) -> Void in
-                print("OK")
                 self.dataContext.delete(currentVc.diary!)
                 try? self.dataContext.save()
                 },
@@ -272,16 +271,16 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 
     private func showAlert(okHandler: ((_ action: UIAlertAction?) -> Void)?, cancelHandler: ((_ action: UIAlertAction?) -> Void)? ) {
         let alert: UIAlertController = UIAlertController(
-            title: "削除",
-            message: "この日記を削除しますか？",
+            title: NSLocalizedString("Delete", comment: "delete"),
+            message: NSLocalizedString("Delete this diary?", comment: "a message of the delete diary dialog"),
             preferredStyle:  .alert)
         let defaultAction: UIAlertAction = UIAlertAction(
-            title: "OK",
+            title: NSLocalizedString("OK", comment: "OK button"),
             style: .default,
             handler: okHandler
         )
         let cancelAction: UIAlertAction = UIAlertAction(
-            title: "キャンセル",
+            title: NSLocalizedString("Cancel", comment: "Cancel button"),
             style: .cancel,
             handler:cancelHandler
         )

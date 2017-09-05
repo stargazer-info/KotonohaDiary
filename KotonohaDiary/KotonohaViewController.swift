@@ -117,9 +117,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         if let sectionTitle = self.fetchedResultsController?.sections?[section] {
             label.text = sectionTitle.name
         } else {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy年MM月dd日"
-            label.text = formatter.string(from: Date())
+            label.text = DateFormatUtil.format(date: Date())
         }
         return label
     }

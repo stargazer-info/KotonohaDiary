@@ -24,8 +24,6 @@ class Kotonoha: NSManagedObject {
     }
     
     private func setSection() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年MM月dd日"
-        section = formatter.string(from: createdAt! as Date)
+        section = DateFormatUtil.format(date: createdAt! as Date)
     }
 }

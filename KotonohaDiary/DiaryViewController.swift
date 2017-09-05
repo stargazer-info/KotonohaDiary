@@ -28,17 +28,15 @@ class DiaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("DiaryViewController viewDidLoad")
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年MM月dd日"
         if let diary = diary {
             print("diary \(diary)")
-            dateTitle.text = formatter.string(from: diary.createdAt! as Date)
+            dateTitle.text = DateFormatUtil.format(date: diary.createdAt! as Date)
             dairyText.text = diary.text
             print("dateTitle \(String(describing: dateTitle.text))")
             print("dairyText \(dairyText.text)")
         } else {
-            dateTitle.text = formatter.string(from: Date())
-            dairyText.text = "日記はありません"
+            dateTitle.text = DateFormatUtil.format(date: Date())
+            dairyText.text = NSLocalizedString("There is no diary.", comment: "The message shown when there is no diary.")
         }
     }
 

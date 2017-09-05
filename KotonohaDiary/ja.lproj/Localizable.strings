@@ -1,0 +1,12 @@
+/* Cancel button */
+"Cancel" = "キャンセル";
+
+/* delete */
+"Delete" = "削除";
+
+/* a message of the delete diary dialog */
+"Delete this diary?" = "この日記を削除しますか？";
+
+/* The message shown when there is no diary. */
+"There is no diary." = "日記はありません。";
+
