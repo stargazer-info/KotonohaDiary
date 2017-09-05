@@ -359,7 +359,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="deleteButton" destination="eNP-4m-2Hj" id="6ME-u9-99R"/>
+                        <outlet property="deleteButton" destination="eNP-4m-2Hj" id="dD0-To-Msl"/>
                         <outlet property="editButton" destination="VmY-VF-voV" id="dSk-fz-xTF"/>
                     </connections>
                 </viewController>

@@ -10,7 +10,6 @@ import UIKit
 
 protocol KotonohaTableViewCellDelegate: class {
     func kotonohaTableViewCellEdit(cell: KotonohaTableViewCell) -> ()
-//    func kotonohaTableViewCellEdit(indexPath: IndexPath?) -> ()
 }
 
 class KotonohaTableViewCellButton : UIButton {
@@ -27,7 +26,6 @@ class KotonohaTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -41,6 +39,5 @@ class KotonohaTableViewCell: UITableViewCell {
 
     @IBAction func edit(_ sender: KotonohaTableViewCellButton) {
         self.delegate.kotonohaTableViewCellEdit(cell: self)
-//        self.delegate.kotonohaTableViewCellEdit(indexPath: sender.indexPath)
     }
 }
