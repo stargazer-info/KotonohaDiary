@@ -240,6 +240,16 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         }
     }
     
+    @IBAction func onClickShareBtn(_ sender: UIBarButtonItem) {
+        let currDiary = self.pageData[curIndex]
+        print("current diary \(String(describing: currDiary.text))")
+        let text = currDiary.text ?? ""
+        let items = [text]
+        
+        let activityVc = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        self.present(activityVc, animated: true, completion: nil)
+    }
+    
     // MARK: - private
     
     private func initActionButtons() {
