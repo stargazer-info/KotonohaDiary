@@ -119,6 +119,43 @@
                                                     <outlet property="kotonohaLabel" destination="xIX-tV-DcY" id="Z5W-iN-rxQ"/>
                                                 </connections>
                                             </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kotonohaImage" rowHeight="56" id="fej-BR-Q6i" customClass="KotonohaImageTableViewCell" customModule="KotonohaDiary" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="56" width="343" height="56"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fej-BR-Q6i" id="ffR-Ea-iaa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="55.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="center" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eyi-lT-X72">
+                                                            <rect key="frame" x="0.0" y="2" width="77.5" height="50.5"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unselected" translatesAutoresizingMaskIntoConstraints="NO" id="rg0-UK-HNx">
+                                                                    <rect key="frame" x="0.0" y="15.5" width="19.5" height="19.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="19.5" id="Js7-TR-QfP"/>
+                                                                        <constraint firstAttribute="width" constant="19.5" id="L9G-9M-kOM"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yso-cy-TGI">
+                                                                    <rect key="frame" x="27.5" y="0.0" width="50" height="50.5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="50" id="Oah-nJ-XLA"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="eyi-lT-X72" firstAttribute="top" secondItem="ffR-Ea-iaa" secondAttribute="top" constant="2" id="J21-rQ-Vd4"/>
+                                                        <constraint firstItem="eyi-lT-X72" firstAttribute="leading" secondItem="ffR-Ea-iaa" secondAttribute="leading" id="P59-GF-Chm"/>
+                                                        <constraint firstAttribute="bottom" secondItem="eyi-lT-X72" secondAttribute="bottom" constant="3" id="UgY-Zj-ayK"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="checkMark" destination="rg0-UK-HNx" id="wWI-hS-Few"/>
+                                                    <outlet property="image" destination="yso-cy-TGI" id="JUu-jQ-u8K"/>
+                                                </connections>
+                                            </tableViewCell>
                                         </prototypes>
                                     </tableView>
                                 </subviews>
@@ -405,6 +442,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dKa-bK-w9t"/>
-        <segue reference="oNa-bb-ItZ"/>
+        <segue reference="TF6-Pg-znJ"/>
     </inferredMetricsTieBreakers>
 </document>
