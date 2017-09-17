@@ -114,10 +114,8 @@
 				0816A2C71F1AFE5D000FA96F /* Assets.xcassets */,
 				0816A2C91F1AFE5D000FA96F /* LaunchScreen.storyboard */,
 				0816A2CC1F1AFE5D000FA96F /* Info.plist */,
-				0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */,
-				0816A2E41F1C30D0000FA96F /* Kotonoha.swift */,
+				084140BA1F6E16EF002EB27A /* CoreData */,
 				08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */,
-				085F80D81F244EE80045908E /* Diary.swift */,
 			);
 			path = KotonohaDiary;
 			sourceTree = "<group>";
@@ -130,6 +128,16 @@
 				0816A2D71F1AFE5D000FA96F /* Info.plist */,
 			);
 			path = KotonohaDiaryTests;
+			sourceTree = "<group>";
+		};
+		084140BA1F6E16EF002EB27A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */,
+				0816A2E41F1C30D0000FA96F /* Kotonoha.swift */,
+				085F80D81F244EE80045908E /* Diary.swift */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
