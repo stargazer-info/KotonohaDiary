@@ -9,10 +9,12 @@
 import UIKit
 import CoreData
 
-class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, KotonohaTableViewCellDelegate {
+class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, KotonohaTableViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var kotonohaInputText: UITextField!
+    
+    var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +26,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
+        imagePicker.delegate = self
         kotonohaInputText.inputAccessoryView = getInputAccessoryView()
     }
 
@@ -205,6 +208,15 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         }
     }
 
+    // MARK: - UIImagePickerControllerDelegate
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            print("image: \(image)")
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Action
     
     @IBAction func unselectAll(_ sender: UIButton) {
@@ -250,9 +262,48 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
         toolbar.sizeToFit()
+        let imageButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(KotonohaViewController.pickImage))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(KotonohaViewController.cancelInput))
-        toolbar.setItems([spacer,cancelButton], animated: true)
+        toolbar.setItems([imageButton,spacer,cancelButton], animated: true)
         return toolbar
+    }
+
+    func pickImage() {
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallary()
+        }))
+        
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openCamera()
+    {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
+        {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+        else
+        {
+            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallary()
+    {
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
     }
 }
