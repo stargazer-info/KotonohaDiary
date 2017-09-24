@@ -9,16 +9,16 @@
 import UIKit
 import CoreData
 
-class Kotonoha: NSManagedObject {
+public class Kotonoha: NSManagedObject {
 
-    override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         id = NSUUID().uuidString
         createdAt = Date() as NSDate
         setSection()
     }
     
-    override func awakeFromFetch() {
+    override public func awakeFromFetch() {
         super.awakeFromFetch()
         setSection()
     }

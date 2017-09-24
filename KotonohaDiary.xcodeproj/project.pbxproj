@@ -58,6 +58,7 @@
 		081DB0AD1F496B150003312A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = KotonohaDiary/Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		081DB0AF1F496B730003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = KotonohaDiary/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		084140BD1F6E777C002EB27A /* KotonohaImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KotonohaImageTableViewCell.swift; path = ../KotonohaImageTableViewCell.swift; sourceTree = "<group>"; };
+		084140C21F77704A002EB27A /* KotonohaDiary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KotonohaDiary 2.xcdatamodel"; sourceTree = "<group>"; };
 		085F80D81F244EE80045908E /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
 		08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatUtil.swift; sourceTree = "<group>"; };
@@ -524,9 +525,10 @@
 		0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				084140C21F77704A002EB27A /* KotonohaDiary 2.xcdatamodel */,
 				0816A2C51F1AFE5D000FA96F /* KotonohaDiary.xcdatamodel */,
 			);
-			currentVersion = 0816A2C51F1AFE5D000FA96F /* KotonohaDiary.xcdatamodel */;
+			currentVersion = 084140C21F77704A002EB27A /* KotonohaDiary 2.xcdatamodel */;
 			path = KotonohaDiary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

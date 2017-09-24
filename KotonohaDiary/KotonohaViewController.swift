@@ -105,6 +105,8 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         cell.delegate = self
         cell.editButton.indexPath = indexPath
         let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+        print("cellForRowAt \(indexPath)")
+        print("kotonoha \(kotonoha)")
         cell.kotonohaLabel.text = kotonoha.text
         return cell
     }
@@ -146,7 +148,11 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
 //        } else if editingStyle == .insert {
 //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
-        try? dataContext.save()
+        do {
+            try dataContext.save()
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
     }
     
     // MARK: NSFetchedResultsControllerDelegate
@@ -211,8 +217,10 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     // MARK: - UIImagePickerControllerDelegate
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("info: \(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             print("image: \(image)")
+            prepareImage(image: image)
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -248,11 +256,68 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             !text.isEmpty {
             let kotonoha = getKotonoha();
             kotonoha.text = text
-            try? dataContext.save()
+            do {
+                try dataContext.save()
+            } catch {
+                fatalError("Failed to save: \(error)")
+            }
         }
         clearInputText()
     }
 
+    func saveKotonohaImage(data: Data) {
+        let kotonoha = Kotonoha(context: dataContext)
+        let image = Image(context: dataContext)
+        image.data = data as NSData;
+        kotonoha.image = image
+        do {
+            try dataContext.save()
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
+        clearInputText()
+    }
+    
+    func prepareImage(image:UIImage) {
+//        func resizeFill(size:CGSize, toSize: CGSize) -> CGSize {
+//            
+//            let scale : CGFloat = (size.height / size.width) < (toSize.height / toSize.width) ? (size.height / toSize.height) : (size.width / toSize.width)
+//            return CGSize(width: (size.width / scale), height: (size.height / scale))
+//            
+//        }
+//        
+//        func scale(image:UIImage, toSize newSize:CGSize) -> UIImage {
+//            
+//            // make sure the new size has the correct aspect ratio
+//            let aspectFill = resizeFill(size: image.size, toSize: newSize)
+//            
+//            UIGraphicsBeginImageContextWithOptions(aspectFill, false, 0.0);
+//            image.draw(in: CGRect(x:0, y:0, width:aspectFill.width, height:aspectFill.height))
+//            let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//            UIGraphicsEndImageContext()
+//            
+//            return newImage
+//        }
+
+        // create NSData from UIImage
+        guard let imageData = UIImageJPEGRepresentation(image, 1) else {
+            // handle failed conversion
+            print("jpg error")
+            return
+        }
+        print("imageData: \(imageData)")
+        saveKotonohaImage(data: imageData)
+//        // scale image, I chose the size of the VC because it is easy
+//        let thumbnail = scale(image: image, toSize: self.view.frame.size)
+//        
+//        guard let thumbnailData  = UIImageJPEGRepresentation(thumbnail, 0.7) else {
+//            // handle failed conversion
+//            print("jpg error")
+//            return
+//        }
+        
+    }
+    
     func clearInputText() {
         editingKotonoha = nil
         kotonohaInputText.text = ""
@@ -271,39 +336,30 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
 
     func pickImage() {
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-            self.openCamera()
-        }))
-        
+        if(UIImagePickerController .isSourceTypeAvailable(.camera))
+        {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+                self.openCamera()
+            }))
+        }
         alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
             self.openGallary()
         }))
-        
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
     func openCamera()
     {
-        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
-        {
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-        else
-        {
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     func openGallary()
     {
-        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
         self.present(imagePicker, animated: true, completion: nil)
     }
 }
