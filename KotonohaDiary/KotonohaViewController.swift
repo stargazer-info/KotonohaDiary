@@ -99,16 +99,25 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonoha") as? KotonohaTableViewCell else {
-            fatalError("The dequeued cell is not an instance of KotonohaTableViewCell.")
-        }
-        cell.delegate = self
-        cell.editButton.indexPath = indexPath
-        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
         print("cellForRowAt \(indexPath)")
+        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
         print("kotonoha \(kotonoha)")
-        cell.kotonohaLabel.text = kotonoha.text
-        return cell
+        if let image = kotonoha.image {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonohaImage") as? KotonohaImageTableViewCell else {
+                fatalError("The dequeued cell is not an instance of KotonohaImageTableViewCell.")
+            }
+            let uiimage = UIImage(data: image.data! as Data)
+            cell.setImage(image: uiimage!)
+            return cell;
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonoha") as? KotonohaTableViewCell else {
+                fatalError("The dequeued cell is not an instance of KotonohaTableViewCell.")
+            }
+            cell.delegate = self
+            cell.editButton.indexPath = indexPath
+            cell.kotonohaLabel.text = kotonoha.text
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -144,7 +153,11 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+            let imageEntity = kotonoha.image
             dataContext.delete(kotonoha)
+            if let image = imageEntity {
+                dataContext.delete(image)
+            }
 //        } else if editingStyle == .insert {
 //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

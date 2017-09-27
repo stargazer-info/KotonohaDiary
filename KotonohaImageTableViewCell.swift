@@ -11,7 +11,7 @@ import UIKit
 class KotonohaImageTableViewCell: UITableViewCell {
 
     @IBOutlet weak var checkMark: UIImageView!
-    @IBOutlet weak var imageV: UIImageView!
+    @IBOutlet weak var photo: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,4 +26,7 @@ class KotonohaImageTableViewCell: UITableViewCell {
         }
     }
 
+    public func setImage(image: UIImage) {
+        photo.image = image
+    }
 }
