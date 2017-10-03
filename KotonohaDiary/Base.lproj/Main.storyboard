@@ -10,6 +10,65 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Image View Controller-->
+        <scene sceneID="PNb-8e-PT9">
+            <objects>
+                <viewController id="Ck1-NF-Aca" customClass="ImageViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eiZ-zV-EVY"/>
+                        <viewControllerLayoutGuide type="bottom" id="ftb-0B-xeS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pWx-e3-hkw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rXm-tX-4CL">
+                                <rect key="frame" x="20" y="28" width="335" height="631"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ols-0b-PcJ" appends="YES" id="5wn-VR-efu"/>
+                                    <outletCollection property="gestureRecognizers" destination="kzP-Db-5GT" appends="YES" id="4nD-UE-LeP"/>
+                                    <outletCollection property="gestureRecognizers" destination="LCb-qc-FrS" appends="YES" id="2lP-UW-Bpc"/>
+                                    <outletCollection property="gestureRecognizers" destination="rs0-hz-0bD" appends="YES" id="XRt-1L-t0K"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="rXm-tX-4CL" secondAttribute="trailing" constant="20" symbolic="YES" id="IdJ-y7-opL"/>
+                            <constraint firstItem="rXm-tX-4CL" firstAttribute="leading" secondItem="pWx-e3-hkw" secondAttribute="leading" constant="20" symbolic="YES" id="WnA-t6-LR4"/>
+                            <constraint firstItem="ftb-0B-xeS" firstAttribute="top" secondItem="rXm-tX-4CL" secondAttribute="bottom" constant="8" symbolic="YES" id="g4l-fc-QZ5"/>
+                            <constraint firstItem="rXm-tX-4CL" firstAttribute="top" secondItem="eiZ-zV-EVY" secondAttribute="bottom" constant="8" symbolic="YES" id="o2i-Ie-j9n"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="photo" destination="rXm-tX-4CL" id="cM5-OV-aQn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dTR-wd-hbP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="ols-0b-PcJ">
+                    <connections>
+                        <action selector="swiped" destination="Ck1-NF-Aca" id="Ds1-DL-R6d"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="kzP-Db-5GT">
+                    <connections>
+                        <action selector="swiped" destination="Ck1-NF-Aca" id="AUX-2O-edC"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="LCb-qc-FrS">
+                    <connections>
+                        <action selector="swiped" destination="Ck1-NF-Aca" id="xFk-6f-NiR"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="rs0-hz-0bD">
+                    <connections>
+                        <action selector="swiped" destination="Ck1-NF-Aca" id="Ql3-8w-eKR"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3116" y="135"/>
+        </scene>
         <!--Words-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -189,11 +248,12 @@
                     <connections>
                         <outlet property="kotonohaInputText" destination="zgY-q2-kMZ" id="wga-lq-rHR"/>
                         <outlet property="tableView" destination="VzS-5h-JMX" id="Yvg-P4-i2A"/>
+                        <segue destination="Ck1-NF-Aca" kind="presentation" identifier="showKotonohaImage" id="ehc-YX-tpP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2015.2" y="137.18140929535232"/>
+            <point key="canvasLocation" x="2015" y="136"/>
         </scene>
         <!--Diary View Controller-->
         <scene sceneID="sdt-El-l5N">
@@ -301,7 +361,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SvY-58-Pc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4055.1999999999998" y="136.28185907046478"/>
+            <point key="canvasLocation" x="4146" y="884"/>
         </scene>
         <!--Words-->
         <scene sceneID="PnK-Qz-b5M">
@@ -338,7 +398,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="liF-nI-ZJi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3116" y="136.28185907046478"/>
+            <point key="canvasLocation" x="3116" y="884"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Udd-zK-fPl">
@@ -445,6 +505,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="TF6-Pg-znJ"/>
-        <segue reference="dKa-bK-w9t"/>
+        <segue reference="ZZz-yB-Kx7"/>
     </inferredMetricsTieBreakers>
 </document>

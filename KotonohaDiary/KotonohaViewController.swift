@@ -32,7 +32,6 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
@@ -45,13 +44,15 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             if let destinationNavigationController = segue.destination as? UINavigationController,
                 let dest = destinationNavigationController.topViewController as? DiaryEditViewController,
                 let rows = self.tableView.indexPathsForSelectedRows {
-                print("dest: \(dest)");
-                print("indexPathsForSelectedRows: \(rows)");
                 dest.text = rows.map {
                         indexPath -> String in
                         let kotonoha = self.fetchedResultsController?.object(at: indexPath) as? Kotonoha
                         return kotonoha?.text ?? ""
                     }.joined(separator: "\n")
+            }
+        case "showKotonohaImage":
+            if let dest = segue.destination as? ImageViewController, let cell = sender as? KotonohaImageTableViewCell, let image = cell.photo.image {
+                dest.image = image
             }
         default:
             fatalError("Something's wrong.")
@@ -106,6 +107,7 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonohaImage") as? KotonohaImageTableViewCell else {
                 fatalError("The dequeued cell is not an instance of KotonohaImageTableViewCell.")
             }
+            cell.delegate = self
             let uiimage = UIImage(data: image.data! as Data)
             cell.setImage(image: uiimage!)
             return cell;
@@ -292,43 +294,28 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     }
     
     func prepareImage(image:UIImage) {
-//        func resizeFill(size:CGSize, toSize: CGSize) -> CGSize {
-//            
-//            let scale : CGFloat = (size.height / size.width) < (toSize.height / toSize.width) ? (size.height / toSize.height) : (size.width / toSize.width)
-//            return CGSize(width: (size.width / scale), height: (size.height / scale))
-//            
-//        }
-//        
-//        func scale(image:UIImage, toSize newSize:CGSize) -> UIImage {
-//            
-//            // make sure the new size has the correct aspect ratio
-//            let aspectFill = resizeFill(size: image.size, toSize: newSize)
-//            
-//            UIGraphicsBeginImageContextWithOptions(aspectFill, false, 0.0);
-//            image.draw(in: CGRect(x:0, y:0, width:aspectFill.width, height:aspectFill.height))
-//            let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//            UIGraphicsEndImageContext()
-//            
-//            return newImage
-//        }
-
-        // create NSData from UIImage
-        guard let imageData = UIImageJPEGRepresentation(image, 1) else {
-            // handle failed conversion
+//        let SHORT_SIDE_SIZE = 1242
+        let SHORT_SIDE_SIZE = CGFloat(640)
+        let JPEG_QUALITY = CGFloat(0.5)
+        func resize(image: UIImage) -> UIImage? {
+            let size = image.size
+            let shortSide = size.width > size.height ? size.height : size.width
+            let scale = SHORT_SIDE_SIZE / shortSide
+            let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return resizedImage
+        }
+        
+        let resizedImage = resize(image: image)
+        guard let imageData = UIImageJPEGRepresentation(resizedImage!, JPEG_QUALITY) else {
             print("jpg error")
             return
         }
         print("imageData: \(imageData)")
         saveKotonohaImage(data: imageData)
-//        // scale image, I chose the size of the VC because it is easy
-//        let thumbnail = scale(image: image, toSize: self.view.frame.size)
-//        
-//        guard let thumbnailData  = UIImageJPEGRepresentation(thumbnail, 0.7) else {
-//            // handle failed conversion
-//            print("jpg error")
-//            return
-//        }
-        
     }
     
     func clearInputText() {
@@ -374,5 +361,11 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
         self.present(imagePicker, animated: true, completion: nil)
+    }
+}
+
+extension KotonohaViewController: KotonohaImageTableViewCellDelegate {
+    func kotonohaImageTableViewCellShowImage(cell: KotonohaImageTableViewCell) {
+        performSegue(withIdentifier: "showKotonohaImage", sender: cell)
     }
 }
