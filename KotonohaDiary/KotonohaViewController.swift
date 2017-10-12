@@ -9,7 +9,8 @@
 import UIKit
 import CoreData
 
-class KotonohaViewController: UIViewController, UINavigationControllerDelegate {
+class KotonohaViewController: UIViewController
+{
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var kotonohaInputText: UITextField!
@@ -73,6 +74,11 @@ class KotonohaViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     // MARK: - Private
+    
+//    func initImagePicker() {
+//        imagePicker = KonotohaImagePicker(viewController: self)
+//        imagePicker.delegate = self
+//    }
     
     func saveKotonoha() {
         func getKotonoha() -> Kotonoha {
@@ -273,9 +279,9 @@ extension KotonohaViewController : UITextFieldDelegate {
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
         toolbar.sizeToFit()
-        let imageButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(KotonohaViewController.pickImage))
+        let imageButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(pickImage))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(KotonohaViewController.cancelInput))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelInput))
         toolbar.setItems([imageButton,spacer,cancelButton], animated: true)
         return toolbar
     }
@@ -287,21 +293,6 @@ extension KotonohaViewController : UITextFieldDelegate {
     
     internal func textFieldDidEndEditing(_ textField: UITextField) {
         saveKotonoha()
-    }
-    
-    func pickImage() {
-        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-        if(UIImagePickerController .isSourceTypeAvailable(.camera))
-        {
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-                self.openCamera()
-            }))
-        }
-        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
-            self.openGallary()
-        }))
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     func cancelInput(sender: UIBarButtonItem) {
@@ -317,18 +308,37 @@ extension KotonohaViewController : UITextFieldDelegate {
 
 // MARK: - UIImagePickerControllerDelegate
 
-extension KotonohaViewController : UIImagePickerControllerDelegate {
+extension KotonohaViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func initImagePicker() {
         imagePicker.delegate = self
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         print("info: \(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             print("image: \(image)")
-            prepareImage(image: image)
+            let kotonohaImage = KotonohaImage(cgImage: image.cgImage!)
+            print("kotonohaImage: \(kotonohaImage)")
+            if let saveData = kotonohaImage.getSaveData() {
+                saveKotonohaImage(data: saveData)
+            }
         }
         self.dismiss(animated: true, completion: nil)
+    }
+
+    func pickImage() {
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        if(UIImagePickerController .isSourceTypeAvailable(.camera))
+        {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+                self.openCamera()
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallary()
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func openCamera() {
@@ -336,38 +346,13 @@ extension KotonohaViewController : UIImagePickerControllerDelegate {
         imagePicker.allowsEditing = false
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
+
     func openGallary() {
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
-    func prepareImage(image:UIImage) {
-        //        let SHORT_SIDE_SIZE = 1242
-        let SHORT_SIDE_SIZE = CGFloat(640)
-        let JPEG_QUALITY = CGFloat(0.5)
-        func resize(image: UIImage) -> UIImage? {
-            let size = image.size
-            let shortSide = size.width > size.height ? size.height : size.width
-            let scale = SHORT_SIDE_SIZE / shortSide
-            let newSize = CGSize(width: size.width * scale, height: size.height * scale)
-            UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-            image.draw(in: CGRect(origin: .zero, size: newSize))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return resizedImage
-        }
-        
-        let resizedImage = resize(image: image)
-        print("resizedImage: \(String(describing: resizedImage))")
-        guard let imageData = UIImageJPEGRepresentation(resizedImage!, JPEG_QUALITY) else {
-            print("jpg error")
-            return
-        }
-        print("imageData: \(imageData)")
-        saveKotonohaImage(data: imageData)
-    }
+
 }
 
 // MARK: - KotonohaTableViewCellDelegate

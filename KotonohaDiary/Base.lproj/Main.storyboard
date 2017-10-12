@@ -324,20 +324,59 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZXa-U4-Uzx">
-                                <rect key="frame" x="16" y="8" width="343" height="250"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="Phz-cc-xLB"/>
-                                </constraints>
+                                <rect key="frame" x="16" y="8" width="343" height="259"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xmk-VG-WCB">
+                                <rect key="frame" x="20" y="275" width="335" height="88"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="88" id="cBc-Pi-jBc"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qql-gT-moU">
+                                    <size key="itemSize" width="88" height="88"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="diaryImage" id="tiN-dX-Ssx" customClass="DiaryImageCollectionViewCell" customModule="KotonohaDiary" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addImage" translatesAutoresizingMaskIntoConstraints="NO" id="yqw-ui-PdS">
+                                                    <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="yqw-ui-PdS" secondAttribute="trailing" id="50O-2o-w3X"/>
+                                            <constraint firstItem="yqw-ui-PdS" firstAttribute="leading" secondItem="tiN-dX-Ssx" secondAttribute="leading" id="7me-iz-ewR"/>
+                                            <constraint firstItem="yqw-ui-PdS" firstAttribute="top" secondItem="tiN-dX-Ssx" secondAttribute="top" id="KcJ-oW-1Si"/>
+                                            <constraint firstAttribute="bottom" secondItem="yqw-ui-PdS" secondAttribute="bottom" id="cot-mK-Om3"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="yqw-ui-PdS" id="bOn-S7-Yhc"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Xmk-VG-WCB" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leading" constant="20" symbolic="YES" id="1Ri-Zl-5eW"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="top" secondItem="0O1-j5-n2Q" secondAttribute="bottom" constant="8" symbolic="YES" id="8HD-dj-AUl"/>
+                            <constraint firstItem="Xmk-VG-WCB" firstAttribute="top" secondItem="ZXa-U4-Uzx" secondAttribute="bottom" constant="8" symbolic="YES" id="Rx4-rU-P7O"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="trailing" secondItem="wP6-8T-tCH" secondAttribute="trailingMargin" id="TLE-9K-ke9"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leadingMargin" id="VP3-Xx-jJO"/>
+                            <constraint firstItem="1B5-Uy-Nss" firstAttribute="top" secondItem="Xmk-VG-WCB" secondAttribute="bottom" constant="240" id="m4Z-xo-ctP"/>
+                            <constraint firstAttribute="trailing" secondItem="Xmk-VG-WCB" secondAttribute="trailing" constant="20" symbolic="YES" id="qrZ-LV-Yvr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Diary" id="E3y-WV-lb9">
@@ -356,12 +395,13 @@
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="imageCollectionView" destination="Xmk-VG-WCB" id="uTp-OS-hlc"/>
                         <outlet property="textView" destination="ZXa-U4-Uzx" id="jZb-OU-6gE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SvY-58-Pc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4146" y="884"/>
+            <point key="canvasLocation" x="4144.8000000000002" y="883.80809595202402"/>
         </scene>
         <!--Words-->
         <scene sceneID="PnK-Qz-b5M">
@@ -499,6 +539,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="addImage" width="160" height="160"/>
         <image name="diaryTab" width="31" height="25"/>
         <image name="kotonohaTab" width="23" height="23"/>
         <image name="unselected" width="25" height="25"/>
