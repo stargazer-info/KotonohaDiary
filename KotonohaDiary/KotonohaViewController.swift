@@ -75,11 +75,6 @@ class KotonohaViewController: UIViewController
     
     // MARK: - Private
     
-//    func initImagePicker() {
-//        imagePicker = KonotohaImagePicker(viewController: self)
-//        imagePicker.delegate = self
-//    }
-    
     func saveKotonoha() {
         func getKotonoha() -> Kotonoha {
             if let indexPath = editingKotonoha {
@@ -101,11 +96,11 @@ class KotonohaViewController: UIViewController
         clearInputText()
     }
 
-    func saveKotonohaImage(data: Data) {
-        let kotonoha = Kotonoha(context: dataContext)
-        let image = Image(context: dataContext)
-        image.data = data as NSData;
-        kotonoha.image = image
+    func saveKotonohaImage(image: UIImage) {
+        let kotonohaEntity = Kotonoha(context: dataContext)
+        let imageEntity = Image(context: dataContext)
+        imageEntity.image = image
+        kotonohaEntity.image = imageEntity
         do {
             try dataContext.save()
         } catch {
@@ -204,8 +199,8 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
                 fatalError("The dequeued cell is not an instance of KotonohaImageTableViewCell.")
             }
             cell.delegate = self
-            let uiimage = UIImage(data: image.data! as Data)
-            cell.setImage(image: uiimage!)
+            let uiimage = image.image
+            cell.setImage(image: uiimage)
             return cell;
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonoha") as? KotonohaTableViewCell else {
@@ -317,11 +312,7 @@ extension KotonohaViewController : UIImagePickerControllerDelegate, UINavigation
         print("info: \(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             print("image: \(image)")
-            let kotonohaImage = KotonohaImage(cgImage: image.cgImage!)
-            print("kotonohaImage: \(kotonohaImage)")
-            if let saveData = kotonohaImage.getSaveData() {
-                saveKotonohaImage(data: saveData)
-            }
+            saveKotonohaImage(image: image)
         }
         self.dismiss(animated: true, completion: nil)
     }

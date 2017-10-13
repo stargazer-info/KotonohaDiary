@@ -5,8 +5,10 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Image" representedClassName="Image" syncable="YES" codeGenerationType="class">
+    <entity name="Image" representedClassName=".Image" syncable="YES" codeGenerationType="category">
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="data" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
         <relationship name="kotonoha" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Kotonoha" inverseName="image" inverseEntity="Kotonoha" syncable="YES"/>
     </entity>
     <entity name="Kotonoha" representedClassName=".Kotonoha" syncable="YES" codeGenerationType="category">
@@ -18,7 +20,7 @@
     </entity>
     <elements>
         <element name="Diary" positionX="-54" positionY="18" width="128" height="90"/>
-        <element name="Image" positionX="-36" positionY="45" width="128" height="75"/>
+        <element name="Image" positionX="-36" positionY="45" width="128" height="105"/>
         <element name="Kotonoha" positionX="-54" positionY="-9" width="128" height="120"/>
     </elements>
 </model>

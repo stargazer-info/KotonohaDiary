@@ -128,10 +128,8 @@ extension DiaryEditViewController : UIImagePickerControllerDelegate, UINavigatio
         print("info: \(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             print("image: \(image)")
-            let kotonohaImage = KotonohaImage(cgImage: image.cgImage!)
-            print("kotonohaImage: \(kotonohaImage)")
             let newIndexPath = IndexPath(row: images.count-1, section: 0)
-            images.insert(kotonohaImage, at: newIndexPath.row)
+            images.insert(image, at: newIndexPath.row)
             print("images: \(images)")
             imageCollectionView.insertItems(at: [newIndexPath])
         }
@@ -192,7 +190,6 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
             fatalError("The dequeued cell is not an instance of UICollectionViewCell.")
         }
         cell.setImage(image: images[indexPath.row])
-//        cell.imageView.image = images[indexPath.row]
         return cell
     }
     
