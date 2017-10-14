@@ -16,7 +16,7 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="section" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="kotonoha" inverseEntity="Image" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="kotonoha" inverseEntity="Image" syncable="YES"/>
     </entity>
     <elements>
         <element name="Diary" positionX="-54" positionY="18" width="128" height="90"/>

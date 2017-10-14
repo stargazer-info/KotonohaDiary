@@ -246,11 +246,11 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-            let imageEntity = kotonoha.image
+//            let imageEntity = kotonoha.image
             dataContext.delete(kotonoha)
-            if let image = imageEntity {
-                dataContext.delete(image)
-            }
+//            if let image = imageEntity {
+//                dataContext.delete(image)
+//            }
             //        } else if editingStyle == .insert {
             //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
