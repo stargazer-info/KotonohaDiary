@@ -24,14 +24,19 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         if let diary = editingDiary {
-            textView.text = diary.text
-        } else {
-            textView.text = text
+            print("editingDiary \(diary)")
+            text = diary.text ?? ""
+            print("editingDiary.images \(String(describing: diary.images))")
+            if let diaryImages = diary.images,
+                let imageArr = diaryImages.array as? [Image] {
+                images = imageArr.map { UIImage(data:$0.data! as Data)! }
+            }
         }
+        textView.text = text
+        images.append(#imageLiteral(resourceName: "addImage"))
+        initImageCollectionView()
         textView.inputAccessoryView = getInputAccessoryView()
         initImagePicker()
-        initImageCollectionView()
-        images = [#imageLiteral(resourceName: "addImage")]
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -41,7 +46,6 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
@@ -87,10 +91,8 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
         toolbar.sizeToFit()
-//        let imageButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(pickImage))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelInput))
-//        toolbar.setItems([imageButton,spacer,cancelButton], animated: true)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelInput))
         toolbar.setItems([spacer,cancelButton], animated: true)
         return toolbar
     }
@@ -100,6 +102,16 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     }
     
     func saveDiary() {
+        func isEmpty() -> Bool {
+            if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                !text.isEmpty {
+                return false
+            }
+            if images.count > 1 {
+                return false
+            }
+            return true
+        }
         func getDiary() -> Diary {
             if let diary = editingDiary {
                 return diary
@@ -107,14 +119,41 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
                 return Diary(context: dataContext)
             }
         }
-        if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            !text.isEmpty {
-            let diary = getDiary();
-            diary.text = text
-            try? dataContext.save()
+        func removeAllImages(diary: Diary) {
+            if let images = diary.images?.array as? [Image] {
+                for image in images {
+                    dataContext.delete(image)
+                }
+            }
+        }
+        func createImageEntities() -> [Image] {
+            return images.enumerated()
+                .filter { $0.offset < images.count - 1 }
+                .map { (image) -> Image in
+                    let imageEntity = Image(context: dataContext)
+                    imageEntity.image = image.element
+                    return imageEntity
+            }
+        }
+        if !isEmpty() {
+            let diary = getDiary()
+            if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                diary.text = text
+            }
+            if images.count > 1 {
+                removeAllImages(diary: diary)
+                diary.addToImages(
+                    NSOrderedSet(array: createImageEntities())
+                )
+            }
+            print("updated diary \(diary)")
+            do {
+                try dataContext.save()
+            } catch {
+                fatalError("Failed to save: \(error)")
+            }
         }
     }
-    
 }
 
 // MARK: - UIImagePickerControllerDelegate

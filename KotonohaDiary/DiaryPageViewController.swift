@@ -67,6 +67,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
             }
         case "EditDiaryFromDiaryView":
             if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController, let destVc = segue.destination as? DiaryEditViewController {
+                print("EditDiaryFromDiaryView \(String(describing: currentVc.diary))")
+                print("EditDiaryFromDiaryView.images \(String(describing: currentVc.diary?.images))")
                 destVc.editingDiary = currentVc.diary
             }
         default:

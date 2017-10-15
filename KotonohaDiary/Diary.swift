@@ -16,5 +16,4 @@ public class Diary: NSManagedObject {
         id = NSUUID().uuidString
         createdAt = Date() as NSDate
     }
-    
 }

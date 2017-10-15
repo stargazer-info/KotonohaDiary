@@ -26,10 +26,6 @@ public class Image: NSManagedObject {
         createdAt = Date() as NSDate
     }
     
-    override public func awakeFromFetch() {
-        super.awakeFromFetch()
-    }
-    
     let SHORT_SIDE_SIZE = CGFloat(640)
     //        let SHORT_SIDE_SIZE = 1242
     let JPEG_QUALITY = CGFloat(0.5)
