@@ -213,6 +213,7 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
 //        if let layout = imageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
 //            layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
 //        }
+        self.imageCollectionView.register(UINib(nibName: "DiaryImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "diaryImage")
     }
     
 //    func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -228,6 +229,7 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "diaryImage", for: indexPath) as? DiaryImageCollectionViewCell else {
             fatalError("The dequeued cell is not an instance of UICollectionViewCell.")
         }
+        print("diaryImage image: \(images[indexPath.row])")
         cell.setImage(image: images[indexPath.row])
         return cell
     }

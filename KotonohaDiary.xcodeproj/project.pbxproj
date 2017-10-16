@@ -22,6 +22,9 @@
 		085F80D91F244EE80045908E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80D81F244EE80045908E /* Diary.swift */; };
 		085F80DB1F26214E0045908E /* DiaryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80DA1F26214E0045908E /* DiaryPageViewController.swift */; };
 		087B28891F910A8C00394F6F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B28881F910A8C00394F6F /* Image.swift */; };
+		087B288D1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */; };
+		087B28901F94FBD800394F6F /* testCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B288E1F94FBD800394F6F /* testCollectionViewCell.swift */; };
+		087B28911F94FBD800394F6F /* testCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087B288F1F94FBD800394F6F /* testCollectionViewCell.xib */; };
 		08920F951F839EB800E16E99 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920F941F839EB800E16E99 /* ImageViewController.swift */; };
 		08920FA31F8A530900E16E99 /* DiaryImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920FA21F8A530900E16E99 /* DiaryImageCollectionViewCell.swift */; };
 		08920FAA1F8FC59500E16E99 /* KotonohaImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920FA91F8FC59500E16E99 /* KotonohaImageTableViewCell.swift */; };
@@ -64,6 +67,9 @@
 		085F80D81F244EE80045908E /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
 		087B28881F910A8C00394F6F /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryImageCollectionViewCell.xib; sourceTree = "<group>"; };
+		087B288E1F94FBD800394F6F /* testCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testCollectionViewCell.swift; sourceTree = "<group>"; };
+		087B288F1F94FBD800394F6F /* testCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = testCollectionViewCell.xib; sourceTree = "<group>"; };
 		08920F941F839EB800E16E99 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		08920FA21F8A530900E16E99 /* DiaryImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		08920FA91F8FC59500E16E99 /* KotonohaImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KotonohaImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -119,6 +125,7 @@
 				0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */,
 				0816A2C11F1AFE5D000FA96F /* Main.storyboard */,
 				08920FA21F8A530900E16E99 /* DiaryImageCollectionViewCell.swift */,
+				087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */,
 				08920F941F839EB800E16E99 /* ImageViewController.swift */,
 				081DB0841F262C2B0003312A /* DiaryViewController.swift */,
 				085F80DA1F26214E0045908E /* DiaryPageViewController.swift */,
@@ -128,6 +135,8 @@
 				0816A2CC1F1AFE5D000FA96F /* Info.plist */,
 				084140BA1F6E16EF002EB27A /* CoreData */,
 				08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */,
+				087B288E1F94FBD800394F6F /* testCollectionViewCell.swift */,
+				087B288F1F94FBD800394F6F /* testCollectionViewCell.xib */,
 			);
 			path = KotonohaDiary;
 			sourceTree = "<group>";
@@ -241,9 +250,11 @@
 			files = (
 				08C4B2D01F5E97AF00D99FBB /* Localizable.strings in Resources */,
 				0816A2CB1F1AFE5D000FA96F /* LaunchScreen.storyboard in Resources */,
+				087B288D1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib in Resources */,
 				081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */,
 				0816A2C81F1AFE5D000FA96F /* Assets.xcassets in Resources */,
 				0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */,
+				087B28911F94FBD800394F6F /* testCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +286,7 @@
 				0816A2BE1F1AFE5D000FA96F /* AppDelegate.swift in Sources */,
 				0816A2E51F1C30D0000FA96F /* Kotonoha.swift in Sources */,
 				08920FAA1F8FC59500E16E99 /* KotonohaImageTableViewCell.swift in Sources */,
+				087B28901F94FBD800394F6F /* testCollectionViewCell.swift in Sources */,
 				08920F951F839EB800E16E99 /* ImageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
