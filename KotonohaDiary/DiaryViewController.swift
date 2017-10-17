@@ -14,10 +14,12 @@ class DiaryViewController: UIViewController {
 
     @IBOutlet weak var dateTitle: UILabel!
     @IBOutlet weak var dairyText: UITextView!
+    @IBOutlet weak var imageCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        initImageCollectionView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,4 +52,37 @@ class DiaryViewController: UIViewController {
     }
     */
 
+}
+
+extension DiaryViewController : UICollectionViewDataSource, UICollectionViewDelegate {
+    func initImageCollectionView() {
+        imageCollectionView.dataSource = self
+        imageCollectionView.delegate = self
+        self.imageCollectionView.register(UINib(nibName: "DiaryImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "diaryImage")
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("numberOfItemsInSection: \(String(describing: diary))")
+        if let diary = diary, let images = diary.images {
+            return images.count
+        } else {
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("diaryImage: \(indexPath)")
+        if let diary = diary,
+            let images = diary.images,
+            let image = images[indexPath.row] as? Image {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "diaryImage", for: indexPath) as? DiaryImageCollectionViewCell else {
+                fatalError("The dequeued cell is not an instance of UICollectionViewCell.")
+            }
+            print("diaryImage image: \(image)")
+            cell.setImage(image: image.image)
+            return cell
+        } else {
+            fatalError("Invalid data")
+        }
+    }
 }
