@@ -378,6 +378,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Xmk-VG-WCB" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leading" constant="20" symbolic="YES" id="1Ri-Zl-5eW"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="top" secondItem="0O1-j5-n2Q" secondAttribute="bottom" constant="8" symbolic="YES" id="8HD-dj-AUl"/>

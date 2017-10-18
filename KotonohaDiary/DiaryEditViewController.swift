@@ -143,7 +143,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         }
         func createImageEntities() -> [Image] {
             return images.enumerated()
-                .filter { $0.offset < images.count - 1 }
+                .filter { $0.offset < images.indices.last! }
                 .map { (image) -> Image in
                     let imageEntity = Image(context: dataContext)
                     imageEntity.image = image.element
@@ -182,7 +182,7 @@ extension DiaryEditViewController : UIImagePickerControllerDelegate, UINavigatio
         print("info: \(info)")
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             print("image: \(image)")
-            let newIndexPath = IndexPath(row: images.count-1, section: 0)
+            let newIndexPath = IndexPath(row: images.indices.last!, section: 0)
             images.insert(image, at: newIndexPath.row)
             print("images: \(images)")
             imageCollectionView.insertItems(at: [newIndexPath])
@@ -229,9 +229,27 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
 //            layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
 //        }
         self.imageCollectionView.register(UINib(nibName: "DiaryImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "diaryImage")
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
+        imageCollectionView.addGestureRecognizer(longPressGesture)
     }
     
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = imageCollectionView.indexPathForItem(at: gesture.location(in: imageCollectionView)) else {
+                break
+            }
+            imageCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            imageCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+            imageCollectionView.endInteractiveMovement()
+        default:
+            imageCollectionView.cancelInteractiveMovement()
+        }
+    }
+    
+    //    func numberOfSections(in collectionView: UICollectionView) -> Int {
 //        return 1
 //    }
     
@@ -251,12 +269,28 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("didSelectedItemAt: \(indexPath)")
-        if indexPath.row == images.count - 1 {
+        print("images.endIndex: \(String(describing: images.indices.last))")
+        if indexPath.row == images.indices.last {
             pickImage()
         } else {
             let image = images[indexPath.row]
             print("image: \(image)")
             performSegue(withIdentifier: "showEditDiaryImage", sender: image)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == images.indices.last {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        images.insert(
+            images.remove(at: sourceIndexPath.row),
+            at: destinationIndexPath.row
+        )
     }
 }
