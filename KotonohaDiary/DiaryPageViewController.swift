@@ -28,7 +28,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         }
         
         func initPageView() {
-            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
+            self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+//            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
             self.pageViewController!.delegate = self
             self.pageViewController!.dataSource = self
             self.addChildViewController(self.pageViewController!)

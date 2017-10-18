@@ -42,15 +42,22 @@ class DiaryViewController: UIViewController {
         }
     }
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        print("prepare for segue:")
+        super.prepare(for: segue, sender: sender)
+        switch segue.identifier ?? "" {
+        case "showDiaryImage":
+            print("showDiaryImage: \(String(describing: sender))")
+            if let dest = segue.destination as? ImageViewController, let image = sender as? Image {
+                print("image: \(image)")
+                dest.image = image.image
+             }
+        default:
+            fatalError("Something's wrong.")
+        }
     }
-    */
 
 }
 
@@ -72,9 +79,7 @@ extension DiaryViewController : UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("diaryImage: \(indexPath)")
-        if let diary = diary,
-            let images = diary.images,
-            let image = images[indexPath.row] as? Image {
+        if let image = diary?.images?[indexPath.row] as? Image {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "diaryImage", for: indexPath) as? DiaryImageCollectionViewCell else {
                 fatalError("The dequeued cell is not an instance of UICollectionViewCell.")
             }
@@ -83,6 +88,14 @@ extension DiaryViewController : UICollectionViewDataSource, UICollectionViewDele
             return cell
         } else {
             fatalError("Invalid data")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("didSelectedItemAt: \(indexPath)")
+        if let image = diary?.images?[indexPath.row] as? Image {
+            print("image: \(image)")
+            performSegue(withIdentifier: "showDiaryImage", sender: image)
         }
     }
 }

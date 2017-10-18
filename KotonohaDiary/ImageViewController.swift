@@ -11,13 +11,20 @@ import UIKit
 class ImageViewController: UIViewController {
 
     @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var deleteBtn: UIButton!
     
     var image : UIImage?
+    var showDeleteBtn = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if let image = image {
             photo.image = image
+        }
+        if showDeleteBtn {
+            deleteBtn.isHidden = false
+        } else {
+            deleteBtn.isHidden = true
         }
     }
 

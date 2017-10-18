@@ -47,18 +47,33 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        print("prepare for segue:")
+        super.prepare(for: segue, sender: sender)
+        switch segue.identifier ?? "" {
+        case "showEditDiaryImage":
+            print("showEditDiaryImage: \(String(describing: sender))")
+            if let dest = segue.destination as? ImageViewController, let image = sender as? UIImage {
+                print("image: \(image)")
+                dest.image = image
+                dest.showDeleteBtn = true
+            }
+        default:
+            fatalError("Something's wrong.")
+        }
     }
-    */
 
+    @IBAction func unwindToDiaryEdit(sender: UIStoryboardSegue) {
+        print("selected: \(String(describing: imageCollectionView.indexPathsForSelectedItems))")
+        if let index = imageCollectionView.indexPathsForSelectedItems?.first {
+            images.remove(at: index.row)
+            imageCollectionView.deleteItems(at: [index])
+        }
+    }
+    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         close()
     }
@@ -238,6 +253,10 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
         print("didSelectedItemAt: \(indexPath)")
         if indexPath.row == images.count - 1 {
             pickImage()
+        } else {
+            let image = images[indexPath.row]
+            print("image: \(image)")
+            performSegue(withIdentifier: "showEditDiaryImage", sender: image)
         }
     }
 }
