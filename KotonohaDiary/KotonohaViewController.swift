@@ -46,11 +46,21 @@ class KotonohaViewController: UIViewController
             if let destinationNavigationController = segue.destination as? UINavigationController,
                 let dest = destinationNavigationController.topViewController as? DiaryEditViewController,
                 let rows = self.tableView.indexPathsForSelectedRows {
-                dest.text = rows.map {
-                        indexPath -> String in
-                        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as? Kotonoha
-                        return kotonoha?.text ?? ""
-                    }.joined(separator: "\n")
+                let kotonohas = rows
+                    .map {
+                        self.fetchedResultsController?.object(at: $0) as? Kotonoha
+                }
+                dest.text = kotonohas
+                    .map { kotonoha -> String in
+                        if let kotonoha = kotonoha {
+                            return kotonoha.text ?? ""
+                        } else {
+                            return ""
+                        }
+                    }
+                    .joined(separator: "\n")
+                dest.images = kotonohas
+                    .flatMap { $0?.image?.image }
             }
         case "showKotonohaImage":
             if let dest = segue.destination as? ImageViewController, let cell = sender as? KotonohaImageTableViewCell, let image = cell.photo.image {
