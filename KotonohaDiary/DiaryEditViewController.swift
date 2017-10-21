@@ -41,7 +41,6 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        textView.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -155,12 +154,10 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
             if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
                 diary.text = text
             }
-            if images.count > 1 {
-                removeAllImages(diary: diary)
-                diary.addToImages(
-                    NSOrderedSet(array: createImageEntities())
-                )
-            }
+            removeAllImages(diary: diary)
+            diary.addToImages(
+                NSOrderedSet(array: createImageEntities())
+            )
             print("updated diary \(diary)")
             do {
                 try dataContext.save()

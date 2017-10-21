@@ -13,6 +13,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     
     var pageViewController: UIPageViewController?
 
@@ -259,9 +260,11 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         if pageData.isEmpty {
             editButton.isEnabled = false;
             deleteButton.isEnabled = false;
+            shareButton.isEnabled = false;
         } else {
             editButton.isEnabled = true;
             deleteButton.isEnabled = true;
+            shareButton.isEnabled = true;
         }
     }
     
