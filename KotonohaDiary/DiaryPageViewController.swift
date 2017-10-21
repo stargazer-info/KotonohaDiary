@@ -245,13 +245,22 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     }
     
     @IBAction func onClickShareBtn(_ sender: UIBarButtonItem) {
-        let currDiary = self.pageData[curIndex]
-        print("current diary \(String(describing: currDiary.text))")
-        let text = currDiary.text ?? ""
-        let items = [text]
-        
-        let activityVc = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        self.present(activityVc, animated: true, completion: nil)
+        if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController,
+            let currDiary = currentVc.diary
+        {
+            print("current diary \(String(describing: currDiary.text))")
+            var items : [Any] = []
+            if let text = currDiary.text {
+                items.append(text)
+            }
+            let images = currDiary.images?.array.flatMap { ($0 as? Image)?.image }
+            if let images = images {
+                items.append(contentsOf: images as [Any])
+            }
+            print("items: \(items)")
+            let activityVc = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.present(activityVc, animated: true, completion: nil)
+        }
     }
     
     // MARK: - private
