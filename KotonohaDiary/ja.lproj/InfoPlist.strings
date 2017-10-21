@@ -1,3 +1,9 @@
-/* (No Commment) */
+/* (No Comment) */
 "CFBundleDisplayName" = "ことのは";
+
+/* (No Comment) */
+"NSCameraUsageDescription" = "撮影した画像を日記に使用できます。";
+
+/* (No Comment) */
+"NSPhotoLibraryUsageDescription" = "選択した画像を日記に使用できます。";
 
