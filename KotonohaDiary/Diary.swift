@@ -9,12 +9,11 @@
 import UIKit
 import CoreData
 
-class Diary: NSManagedObject {
+public class Diary: NSManagedObject {
 
-    override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         id = NSUUID().uuidString
         createdAt = Date() as NSDate
     }
-    
 }

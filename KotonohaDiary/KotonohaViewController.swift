@@ -9,10 +9,18 @@
 import UIKit
 import CoreData
 
-class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, KotonohaTableViewCellDelegate {
+class KotonohaViewController: UIViewController
+{
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var kotonohaInputText: UITextField!
+    
+    var editingKotonoha: IndexPath?
+    var imagePicker = UIImagePickerController()
+    
+    let dataContainer = AppDelegate.persistentContainer
+    let dataContext = AppDelegate.viewContext
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,18 +28,14 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         initializeFetchedResultsController()
-        kotonohaInputText.delegate = self
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.reloadData()
-        kotonohaInputText.inputAccessoryView = getInputAccessoryView()
+        initTableView()
+        initImagePicker()
+        initKotonohaInput()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
 
     // MARK: - Navigation
 
@@ -42,25 +46,84 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             if let destinationNavigationController = segue.destination as? UINavigationController,
                 let dest = destinationNavigationController.topViewController as? DiaryEditViewController,
                 let rows = self.tableView.indexPathsForSelectedRows {
-                print("dest: \(dest)");
-                print("indexPathsForSelectedRows: \(rows)");
-                dest.text = rows.map {
-                        indexPath -> String in
-                        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as? Kotonoha
-                        return kotonoha?.text ?? ""
-                    }.joined(separator: "\n")
+                let kotonohas = rows
+                    .map {
+                        self.fetchedResultsController?.object(at: $0) as? Kotonoha
+                }
+                dest.text = kotonohas
+                    .map { kotonoha -> String in
+                        if let kotonoha = kotonoha {
+                            return kotonoha.text ?? ""
+                        } else {
+                            return ""
+                        }
+                    }
+                    .joined(separator: "\n")
+                dest.images = kotonohas
+                    .flatMap { $0?.image?.image }
+            }
+        case "showKotonohaImage":
+            if let dest = segue.destination as? ImageViewController, let cell = sender as? KotonohaImageTableViewCell, let image = cell.photo.image {
+                dest.image = image
             }
         default:
             fatalError("Something's wrong.")
         }
     }
 
-    // MARK: - CoreData
+    // MARK: - Action
     
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    @IBAction func unselectAll(_ sender: UIButton) {
+        self.tableView.indexPathsForSelectedRows?
+            .forEach { self.tableView.deselectRow(at: $0, animated: true) }
+    }
     
+    @IBAction func saveText(_ sender: UIButton) {
+        saveKotonoha()
+        kotonohaInputText.resignFirstResponder()
+    }
+    
+    // MARK: - Private
+    
+    func saveKotonoha() {
+        func getKotonoha() -> Kotonoha {
+            if let indexPath = editingKotonoha {
+                return self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+            } else {
+                return Kotonoha(context: dataContext)
+            }
+        }
+        if let text = kotonohaInputText.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            !text.isEmpty {
+            let kotonoha = getKotonoha();
+            kotonoha.text = text
+            do {
+                try dataContext.save()
+            } catch {
+                fatalError("Failed to save: \(error)")
+            }
+        }
+        clearInputText()
+    }
+
+    func saveKotonohaImage(image: UIImage) {
+        let kotonohaEntity = Kotonoha(context: dataContext)
+        let imageEntity = Image(context: dataContext)
+        imageEntity.image = image
+        kotonohaEntity.image = imageEntity
+        do {
+            try dataContext.save()
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
+        clearInputText()
+    }
+    
+}
+
+// MARK: - CoreData
+
+extension KotonohaViewController : NSFetchedResultsControllerDelegate {
     func initializeFetchedResultsController() {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Kotonoha")
         let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
@@ -80,73 +143,6 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
-    
-    // MARK: - UITableViewDataSource
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController!.sections!.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController?.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonoha") as? KotonohaTableViewCell else {
-            fatalError("The dequeued cell is not an instance of KotonohaTableViewCell.")
-        }
-        cell.delegate = self
-        cell.editButton.indexPath = indexPath
-        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-        cell.kotonohaLabel.text = kotonoha.text
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 24
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label : UILabel = UILabel()
-        label.backgroundColor = .clear
-        label.textColor = .black
-        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
-            label.text = sectionTitle.name
-        } else {
-            label.text = DateFormatUtil.format(date: Date())
-        }
-        return label
-    }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
-//            return sectionTitle.name
-//        } else {
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy年MM月dd日"
-//            return formatter.string(from: Date())
-//        }
-//    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-            dataContext.delete(kotonoha)
-//        } else if editingStyle == .insert {
-//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
-        try? dataContext.save()
-    }
-    
-    // MARK: NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -181,8 +177,115 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+}
+
+// MARK: - UITableView
+
+extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
+    func initTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.reloadData()
+    }
     
-    // MARK: - UITextFieldDelegate
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController!.sections!.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sections = fetchedResultsController?.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("cellForRowAt \(indexPath)")
+        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+        print("kotonoha \(kotonoha)")
+        if let image = kotonoha.image {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonohaImage") as? KotonohaImageTableViewCell else {
+                fatalError("The dequeued cell is not an instance of KotonohaImageTableViewCell.")
+            }
+            cell.delegate = self
+            let uiimage = image.image
+            cell.setImage(image: uiimage)
+            return cell;
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonoha") as? KotonohaTableViewCell else {
+                fatalError("The dequeued cell is not an instance of KotonohaTableViewCell.")
+            }
+            cell.delegate = self
+            cell.editButton.indexPath = indexPath
+            cell.kotonohaLabel.text = kotonoha.text
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 24
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label : UILabel = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .black
+        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
+            label.text = sectionTitle.name
+        } else {
+            label.text = DateFormatUtil.format(date: Date())
+        }
+        return label
+    }
+    
+    //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
+    //            return sectionTitle.name
+    //        } else {
+    //            let formatter = DateFormatter()
+    //            formatter.dateFormat = "yyyy年MM月dd日"
+    //            return formatter.string(from: Date())
+    //        }
+    //    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+            dataContext.delete(kotonoha)
+            //        } else if editingStyle == .insert {
+            //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+        do {
+            try dataContext.save()
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
+    }
+}
+
+// MARK: - kotonohaInputText
+
+extension KotonohaViewController : UITextFieldDelegate {
+    func initKotonohaInput() {
+        kotonohaInputText.delegate = self
+        kotonohaInputText.inputAccessoryView = getInputAccessoryView()
+    }
+    
+    func getInputAccessoryView() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .default
+        toolbar.sizeToFit()
+        let imageButton = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(pickImage))
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelInput))
+        toolbar.setItems([imageButton,spacer,cancelButton], animated: true)
+        return toolbar
+    }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -193,10 +296,65 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
         saveKotonoha()
     }
     
-    var editingKotonoha: IndexPath?
+    func cancelInput(sender: UIBarButtonItem) {
+        clearInputText()
+        kotonohaInputText.resignFirstResponder()
+    }
     
-    // MARK: - KotonohaTableViewCellDelegate
+    func clearInputText() {
+        editingKotonoha = nil
+        kotonohaInputText.text = ""
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension KotonohaViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func initImagePicker() {
+        imagePicker.delegate = self
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("info: \(info)")
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            print("image: \(image)")
+            saveKotonohaImage(image: image)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    func pickImage() {
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        if(UIImagePickerController .isSourceTypeAvailable(.camera))
+        {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+                self.openCamera()
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallary()
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
+    func openCamera() {
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+
+    func openGallary() {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+
+}
+
+// MARK: - KotonohaTableViewCellDelegate
+
+extension KotonohaViewController : KotonohaTableViewCellDelegate {
     func kotonohaTableViewCellEdit(cell: KotonohaTableViewCell) -> () {
         if let indexPath = tableView.indexPath(for: cell) {
             editingKotonoha = indexPath
@@ -204,55 +362,12 @@ class KotonohaViewController: UIViewController, NSFetchedResultsControllerDelega
             kotonohaInputText.becomeFirstResponder()
         }
     }
+}
 
-    // MARK: - Action
-    
-    @IBAction func unselectAll(_ sender: UIButton) {
-        self.tableView.indexPathsForSelectedRows?
-            .forEach { self.tableView.deselectRow(at: $0, animated: true) }
-    }
-    
-    @IBAction func saveText(_ sender: UIButton) {
-        saveKotonoha()
-        kotonohaInputText.resignFirstResponder()
-    }
-    
-    func cancelInput(sender: UIBarButtonItem) {
-        clearInputText()
-        kotonohaInputText.resignFirstResponder()
-    }
-    
-    // MARK: - Private
-    
-    func saveKotonoha() {
-        func getKotonoha() -> Kotonoha {
-            if let indexPath = editingKotonoha {
-                return self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-            } else {
-                return Kotonoha(context: dataContext)
-            }
-        }
-        if let text = kotonohaInputText.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            !text.isEmpty {
-            let kotonoha = getKotonoha();
-            kotonoha.text = text
-            try? dataContext.save()
-        }
-        clearInputText()
-    }
+// MARK: - KotonohaImageTableViewCellDelegate
 
-    func clearInputText() {
-        editingKotonoha = nil
-        kotonohaInputText.text = ""
-    }
-    
-    func getInputAccessoryView() -> UIToolbar {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .default
-        toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(KotonohaViewController.cancelInput))
-        toolbar.setItems([spacer,cancelButton], animated: true)
-        return toolbar
+extension KotonohaViewController : KotonohaImageTableViewCellDelegate {
+    func kotonohaImageTableViewCellShowImage(cell: KotonohaImageTableViewCell) {
+        performSegue(withIdentifier: "showKotonohaImage", sender: cell)
     }
 }

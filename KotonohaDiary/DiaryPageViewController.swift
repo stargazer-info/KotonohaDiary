@@ -13,6 +13,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     
     var pageViewController: UIPageViewController?
 
@@ -28,7 +29,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         }
         
         func initPageView() {
-            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
+            self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+//            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
             self.pageViewController!.delegate = self
             self.pageViewController!.dataSource = self
             self.addChildViewController(self.pageViewController!)
@@ -67,6 +69,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
             }
         case "EditDiaryFromDiaryView":
             if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController, let destVc = segue.destination as? DiaryEditViewController {
+                print("EditDiaryFromDiaryView \(String(describing: currentVc.diary))")
+                print("EditDiaryFromDiaryView.images \(String(describing: currentVc.diary?.images))")
                 destVc.editingDiary = currentVc.diary
             }
         default:
@@ -241,13 +245,22 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     }
     
     @IBAction func onClickShareBtn(_ sender: UIBarButtonItem) {
-        let currDiary = self.pageData[curIndex]
-        print("current diary \(String(describing: currDiary.text))")
-        let text = currDiary.text ?? ""
-        let items = [text]
-        
-        let activityVc = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        self.present(activityVc, animated: true, completion: nil)
+        if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController,
+            let currDiary = currentVc.diary
+        {
+            print("current diary \(String(describing: currDiary.text))")
+            var items : [Any] = []
+            if let text = currDiary.text {
+                items.append(text)
+            }
+            let images = currDiary.images?.array.flatMap { ($0 as? Image)?.image }
+            if let images = images {
+                items.append(contentsOf: images as [Any])
+            }
+            print("items: \(items)")
+            let activityVc = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.present(activityVc, animated: true, completion: nil)
+        }
     }
     
     // MARK: - private
@@ -256,9 +269,11 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         if pageData.isEmpty {
             editButton.isEnabled = false;
             deleteButton.isEnabled = false;
+            shareButton.isEnabled = false;
         } else {
             editButton.isEnabled = true;
             deleteButton.isEnabled = true;
+            shareButton.isEnabled = true;
         }
     }
     
