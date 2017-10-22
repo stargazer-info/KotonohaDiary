@@ -9,14 +9,12 @@
 import UIKit
 import CoreData
 
-class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, NSFetchedResultsControllerDelegate {
+class DiaryPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
-    var pageViewController: UIPageViewController?
-
     override func viewDidLoad() {
         print("DiaryPageViewController viewDidLoad")
         super.viewDidLoad()
@@ -29,18 +27,8 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
         }
         
         func initPageView() {
-            self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-//            self.pageViewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
-            self.pageViewController!.delegate = self
-            self.pageViewController!.dataSource = self
-            self.addChildViewController(self.pageViewController!)
-            self.view.addSubview(self.pageViewController!.view)
-            var pageViewRect = self.view.bounds
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                pageViewRect = pageViewRect.insetBy(dx: 40.0, dy: 40.0)
-            }
-            self.pageViewController!.view.frame = pageViewRect
-            self.pageViewController!.didMove(toParentViewController: self)
+            self.dataSource = self
+            self.delegate = self
         }
         
         initBackground()
@@ -53,7 +41,6 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Navigation
@@ -68,7 +55,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
                 destVc.text = "";
             }
         case "EditDiaryFromDiaryView":
-            if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController, let destVc = segue.destination as? DiaryEditViewController {
+            if let currentVc = self.viewControllers?.last as? DiaryViewController, let destVc = segue.destination as? DiaryEditViewController {
                 print("EditDiaryFromDiaryView \(String(describing: currentVc.diary))")
                 print("EditDiaryFromDiaryView.images \(String(describing: currentVc.diary?.images))")
                 destVc.editingDiary = currentVc.diary
@@ -231,7 +218,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     // MARK: - Action
     
     @IBAction func onClickDeleteBtn(_ sender: UIBarButtonItem) {
-        if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController {
+        if let currentVc = self.viewControllers?.last as? DiaryViewController {
             print("delete: \(String(describing: currentVc.diary))")
             
             showAlert(okHandler: { [unowned self]
@@ -245,7 +232,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     }
     
     @IBAction func onClickShareBtn(_ sender: UIBarButtonItem) {
-        if let currentVc = self.pageViewController?.viewControllers?.last as? DiaryViewController,
+        if let currentVc = self.viewControllers?.last as? DiaryViewController,
             let currDiary = currentVc.diary
         {
             print("current diary \(String(describing: currDiary.text))")
@@ -279,7 +266,7 @@ class DiaryPageViewController: UIViewController, UIPageViewControllerDataSource,
     
     private func updateViewControllers() {
         let viewControllers = [getCurrViewController()]
-        self.pageViewController!.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
+        self.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
     }
     
     private func getCurrViewController() -> DiaryViewController {
