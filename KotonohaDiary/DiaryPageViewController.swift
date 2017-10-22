@@ -276,13 +276,13 @@ extension DiaryPageViewController: UIPageViewControllerDataSource, UIPageViewCon
     
     // MARK: - UIPageViewController delegate methods
     
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return self.pageData.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
-    }
+//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+//        return self.pageData.count
+//    }
+//    
+//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+//        return 0
+//    }
     
     //    func pageViewController(_ pageViewController: UIPageViewController, spineLocationFor orientation: UIInterfaceOrientation) -> UIPageViewControllerSpineLocation {
     //        if (orientation == .portrait) || (orientation == .portraitUpsideDown) || (UIDevice.current.userInterfaceIdiom == .phone) {
