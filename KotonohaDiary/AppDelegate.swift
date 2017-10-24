@@ -8,15 +8,15 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        doAuth()
         return true
     }
 
@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        doAuth()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -97,5 +97,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    // MARK: - Local Authentication
+    
+    func doAuth() {
+        let authContext = LAContext()
+        var authError: NSError?
+        if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
+            authContext.evaluatePolicy(
+            .deviceOwnerAuthentication,
+            localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
+            ) { success, evaluateError in
+                if success {
+                    // User authenticated successfully, take appropriate action
+                } else {
+                    print("evaluateError \(String(describing: evaluateError))")
+                    UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                }
+            }
+        } else {
+            print("authError \(String(describing: authError))")
+//            return true
+        }
+    }
+    
 }
 

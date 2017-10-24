@@ -243,6 +243,17 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
     //        }
     //    }
     
+//    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+//        return fetchedResultsController?.sections?.map { $0.name }
+//    }
+    
+//    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+//        guard let sections = fetchedResultsController?.sections else {
+//            fatalError("No sections in fetchedResultsController")
+//        }
+//        let sectionInfo = sections[index]
+//    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
