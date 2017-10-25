@@ -100,30 +100,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Local Authentication
     
     func doAuth() {
-        let authContext = LAContext()
-        var authError: NSError?
-        if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
-//            if let vc = UIApplication.topViewController() {
-//                let ov = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "authOverlay")
-//                vc.present(ov, animated: true) {
-                    authContext.evaluatePolicy(
-                        .deviceOwnerAuthentication,
-                        localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
-                    ) { success, evaluateError in
-                        if success {
-//                            ov.dismiss(animated: true, completion: nil)
-                        } else {
-                            print("evaluateError \(String(describing: evaluateError))")
-//                            ov.dismiss(animated: true) {
-                                UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-//                            }
-                        }
+        let isLock = UserDefaults.standard.bool(forKey: "lock_preference")
+        print("isLock \(isLock)")
+        if (isLock) {
+            let authContext = LAContext()
+            var authError: NSError?
+            if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
+                authContext.evaluatePolicy(
+                    .deviceOwnerAuthentication,
+                    localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
+                ) { success, evaluateError in
+                    if success {
+                    } else {
+                        print("evaluateError \(String(describing: evaluateError))")
+                        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
                     }
-//                }
-//            }
-        } else {
-            print("authError \(String(describing: authError))")
-//            return true
+                }
+            } else {
+                print("authError \(String(describing: authError))")
+            }
         }
     }
     
