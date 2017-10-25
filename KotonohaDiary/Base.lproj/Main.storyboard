@@ -479,7 +479,7 @@
         <scene sceneID="yPJ-WM-9b6">
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="vla-GR-nQp" customClass="DiaryPageViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
                         <barButtonItem systemItem="trash" id="g6V-VI-mGE">
                             <color key="tintColor" red="0.058823529409999999" green="0.40000000000000002" blue="0.027450980390000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

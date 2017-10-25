@@ -103,22 +103,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authContext = LAContext()
         var authError: NSError?
         if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
-            authContext.evaluatePolicy(
-            .deviceOwnerAuthentication,
-            localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
-            ) { success, evaluateError in
-                if success {
-                    // User authenticated successfully, take appropriate action
-                } else {
-                    print("evaluateError \(String(describing: evaluateError))")
-                    UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-                }
-            }
+//            if let vc = UIApplication.topViewController() {
+//                let ov = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "authOverlay")
+//                vc.present(ov, animated: true) {
+                    authContext.evaluatePolicy(
+                        .deviceOwnerAuthentication,
+                        localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
+                    ) { success, evaluateError in
+                        if success {
+//                            ov.dismiss(animated: true, completion: nil)
+                        } else {
+                            print("evaluateError \(String(describing: evaluateError))")
+//                            ov.dismiss(animated: true) {
+                                UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+//                            }
+                        }
+                    }
+//                }
+//            }
         } else {
             print("authError \(String(describing: authError))")
 //            return true
         }
     }
     
+}
+
+extension UIApplication {
+    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
+    }
 }
 
