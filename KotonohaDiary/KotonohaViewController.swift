@@ -51,13 +51,7 @@ class KotonohaViewController: UIViewController
                         self.fetchedResultsController?.object(at: $0) as? Kotonoha
                 }
                 dest.text = kotonohas
-                    .map { kotonoha -> String in
-                        if let kotonoha = kotonoha {
-                            return kotonoha.text ?? ""
-                        } else {
-                            return ""
-                        }
-                    }
+                    .flatMap { $0?.text }
                     .joined(separator: "\n")
                 dest.images = kotonohas
                     .flatMap { $0?.image?.image }
