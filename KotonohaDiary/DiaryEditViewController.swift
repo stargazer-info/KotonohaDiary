@@ -23,6 +23,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        registerForKeyboardNotifications()
         if let diary = editingDiary {
             print("editingDiary \(diary)")
             text = diary.text ?? ""
@@ -165,6 +166,44 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
                 fatalError("Failed to save: \(error)")
             }
         }
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: .UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification) {
+        print("keyboardWasShown \(notification)")
+        func getContentInsets() -> UIEdgeInsets? {
+            print("userInfo \(String(describing: notification.userInfo))")
+            if let kbFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect {
+                print("kbFrame \(kbFrame)")
+                print("textView.bounds \(textView.bounds)")
+                let bottom = textView.bounds.origin.y + textView.bounds.height;
+                print("textView bottom \(bottom)")
+                let kbFrameInTextView = textView.convert(kbFrame, from: nil)
+                print("kbFrameInTextView \(kbFrameInTextView)")
+                let kbTop = kbFrameInTextView.origin.y
+                print("kbTop \(kbTop)")
+                let hiddenLength = bottom - kbTop
+                return hiddenLength > 0 ? UIEdgeInsetsMake(0.0, 0.0, hiddenLength, 0.0) : nil
+            } else {
+                return nil
+            }
+        }
+        if let contentInsets = getContentInsets() {
+            print("contentInsets \(contentInsets)")
+            textView.contentInset = contentInsets
+            textView.scrollIndicatorInsets = contentInsets
+        }
+    }
+
+    func keyboardWillBeHidden(notification: NSNotification) {
+        print("keyboardWillBeHidden \(notification)")
+        let contentInsets = UIEdgeInsets.zero;
+        textView.contentInset = contentInsets;
+        textView.scrollIndicatorInsets = contentInsets;
     }
 }
 
