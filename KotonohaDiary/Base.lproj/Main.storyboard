@@ -513,7 +513,7 @@
                     <connections>
                         <outlet property="deleteButton" destination="g6V-VI-mGE" id="h6O-KO-FgK"/>
                         <outlet property="editButton" destination="7eG-sQ-bMj" id="ymf-dF-Dno"/>
-                        <outlet property="shareButton" destination="a8Z-Cd-QyE" id="dI0-cK-RKr"/>
+                        <outlet property="shareButton" destination="aBF-7M-aRz" id="8AN-vj-S3d"/>
                     </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rLg-y3-AJ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
