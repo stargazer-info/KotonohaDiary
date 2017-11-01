@@ -108,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
                 authContext.evaluatePolicy(
                     .deviceOwnerAuthentication,
-                    localizedReason: NSLocalizedString("Authenticate to use this application.", comment: "")
+                    localizedReason: NSLocalizedString("Application is locked.", comment: "")
                 ) { success, evaluateError in
                     if success {
                     } else {
