@@ -8,15 +8,15 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        doAuth()
         return true
     }
 
@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        doAuth()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -97,5 +97,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    // MARK: - Local Authentication
+    
+    func doAuth() {
+        let isLock = UserDefaults.standard.bool(forKey: "lock_preference")
+        print("isLock \(isLock)")
+        if (isLock) {
+            let authContext = LAContext()
+            var authError: NSError?
+            if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
+                authContext.evaluatePolicy(
+                    .deviceOwnerAuthentication,
+                    localizedReason: NSLocalizedString("Application is locked.", comment: "")
+                ) { success, evaluateError in
+                    if success {
+                    } else {
+                        print("evaluateError \(String(describing: evaluateError))")
+                        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+                    }
+                }
+            } else {
+                print("authError \(String(describing: authError))")
+            }
+        }
+    }
+    
+}
+
+extension UIApplication {
+    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
+    }
 }
 
