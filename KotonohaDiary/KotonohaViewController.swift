@@ -18,7 +18,7 @@ class KotonohaViewController: UIViewController
     var editingKotonoha: IndexPath?
     var imagePicker = UIImagePickerController()
     
-    let dataContainer = AppDelegate.persistentContainer
+//    let dataContainer = AppDelegate.persistentContainer
     let dataContext = AppDelegate.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
