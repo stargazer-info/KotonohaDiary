@@ -7,14 +7,17 @@
 //
 
 import UIKit
-import CoreData
 
-class DiaryPageViewController: UIPageViewController,
-NSFetchedResultsControllerDelegate {
+class DiaryPageViewController: UIPageViewController {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
+    
+    var curIndex = 0
+    var pageData: [Diary] = []
+    
+    var dataController = DiaryPageDataContextController()
     
     override func viewDidLoad() {
         print("DiaryPageViewController viewDidLoad")
@@ -37,7 +40,8 @@ NSFetchedResultsControllerDelegate {
 
         initBackground()
         initPageView()
-        initializeFetchedResults()
+        dataController.delegate = self
+        updatePageData()
         initActionButtons()
         updateViewControllers()
         
@@ -68,77 +72,9 @@ NSFetchedResultsControllerDelegate {
         }
     }
     
-    var curIndex = 0
-    var pageData: [Diary] = []
-    
-    // MARK: - CoreData
-    
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    
-    func initializeFetchedResults() {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Diary")
-        let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
-        request.sortDescriptors = [createtimeSort]
-        fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: request,
-            managedObjectContext: dataContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
-        
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-        updatePageData()
-    }
-    
     func updatePageData() {
-        pageData = fetchedResultsController?.fetchedObjects as? [Diary] ?? []
+        pageData = dataController.getDiaries()
         print("updatePageData \(pageData)")
-    }
-    
-    // MARK: NSFetchedResultsControllerDelegate
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        tableView.beginUpdates()
-    }
-    
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-////        switch type {
-////        case .insert:
-////            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-////        case .delete:
-////            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-////        case .move:
-////            break
-////        case .update:
-////            break
-////        }
-//    }
-//    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            curIndex = newIndexPath!.row
-        case .delete:
-            let prevIndex = indexPath!.row - 1
-            curIndex = prevIndex < 0 ? 0 : prevIndex
-        case .update:
-            curIndex = indexPath!.row
-        case .move:
-            curIndex = newIndexPath!.row
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updatePageData()
-        initActionButtons()
-        updateViewControllers()
     }
     
     func viewControllerAtIndex(_ index: Int, storyboard: UIStoryboard) -> DiaryViewController? {
@@ -161,8 +97,7 @@ NSFetchedResultsControllerDelegate {
             
             showAlert(okHandler: { [unowned self]
                 (action: UIAlertAction!) -> Void in
-                self.dataContext.delete(currentVc.diary!)
-                try? self.dataContext.save()
+                try? self.dataController.deleteDiary(currentVc.diary)
                 },
                       cancelHandler: nil
             )
@@ -190,7 +125,7 @@ NSFetchedResultsControllerDelegate {
     
     // MARK: - private
     
-    private func initActionButtons() {
+    func initActionButtons() {
         if pageData.isEmpty {
             editButton.isEnabled = false;
             deleteButton.isEnabled = false;
@@ -202,7 +137,7 @@ NSFetchedResultsControllerDelegate {
         }
     }
     
-    private func updateViewControllers() {
+    func updateViewControllers() {
         let viewControllers = [getCurrViewController()]
         self.setViewControllers(viewControllers, direction: .forward, animated: false, completion: {done in })
     }
@@ -311,4 +246,33 @@ extension DiaryPageViewController: UIPageViewControllerDataSource, UIPageViewCon
     //
     //        return .mid
     //    }
+    
+}
+
+// MARK: - DiaryPageDataContextControllerDelegate
+
+extension DiaryPageViewController: DiaryPageDataContextControllerDelegate {
+    func DiaryPageDataContextControllerInsertRow(newIndexPath: IndexPath) {
+        curIndex = newIndexPath.row
+    }
+    
+    func DiaryPageDataContextControllerDeleteRow(indexPath: IndexPath) {
+        let prevIndex = indexPath.row - 1
+        curIndex = prevIndex < 0 ? 0 : prevIndex
+    }
+    
+    func DiaryPageDataContextControllerUpdateRow(indexPath: IndexPath) {
+        curIndex = indexPath.row
+    }
+    
+    func DiaryPageDataContextControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
+        curIndex = newIndexPath.row
+    }
+    
+    func DiaryPageDataContextControllerDidChangeContent() {
+        updatePageData()
+        initActionButtons()
+        updateViewControllers()
+    }
+    
 }

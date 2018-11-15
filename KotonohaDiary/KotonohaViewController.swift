@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class KotonohaViewController: UIViewController
 {
@@ -19,9 +18,6 @@ class KotonohaViewController: UIViewController
     var imagePicker = UIImagePickerController()
     
     var dataController = KotonohaDataContextController()
-//    let dataContainer = AppDelegate.persistentContainer
-//    let dataContext = AppDelegate.viewContext
-//    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
