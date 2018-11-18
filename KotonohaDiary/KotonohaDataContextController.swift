@@ -27,6 +27,8 @@ class KotonohaDataContextController: NSObject, NSFetchedResultsControllerDelegat
     let dataContext = AppDelegate.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
+    var imageController = ImageController()
+    
     override init() {
         super.init()
         initializeFetchedResultsController()
@@ -134,8 +136,7 @@ class KotonohaDataContextController: NSObject, NSFetchedResultsControllerDelegat
     
     func saveKotonohaImage(image: UIImage) {
         let kotonohaEntity = Kotonoha(context: dataContext)
-        let imageEntity = Image(context: dataContext)
-        imageEntity.image = image
+        let imageEntity = imageController.createImage(image)
         kotonohaEntity.image = imageEntity
         do {
             try dataContext.save()

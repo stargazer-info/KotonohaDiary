@@ -27,7 +27,8 @@ class DiaryPageDataContextController: NSObject, NSFetchedResultsControllerDelega
     let dataContainer = AppDelegate.persistentContainer
     let dataContext = AppDelegate.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    
+    var diaryController = DiaryController()
+
     override init() {
         super.init()
         initializeFetchedResults()
@@ -50,7 +51,6 @@ class DiaryPageDataContextController: NSObject, NSFetchedResultsControllerDelega
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
-//        updatePageData()
     }
     
     func getDiaries() -> [Diary] {
@@ -58,34 +58,23 @@ class DiaryPageDataContextController: NSObject, NSFetchedResultsControllerDelega
     }
 
     func deleteDiary(_ diary:Diary?) throws {
-        if let target = diary {
-            self.dataContext.delete(target)
-            try self.dataContext.save()
-        }
+        try diaryController.delete(diary)
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             delegate?.DiaryPageDataContextControllerInsertRow(newIndexPath: newIndexPath!)
-//            curIndex = newIndexPath!.row
         case .delete:
             delegate?.DiaryPageDataContextControllerDeleteRow(indexPath: indexPath!)
-//            let prevIndex = indexPath!.row - 1
-//            curIndex = prevIndex < 0 ? 0 : prevIndex
         case .update:
             delegate?.DiaryPageDataContextControllerUpdateRow(indexPath: indexPath!)
-//            curIndex = indexPath!.row
         case .move:
             delegate?.DiaryPageDataContextControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
-//            curIndex = newIndexPath!.row
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.DiaryPageDataContextControllerDidChangeContent()
-//        updatePageData()
-//        initActionButtons()
-//        updateViewControllers()
     }
 }

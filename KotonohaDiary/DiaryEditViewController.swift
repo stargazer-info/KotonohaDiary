@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreData
 
-class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class DiaryEditViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
@@ -17,6 +16,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     var text = ""
     var images : [UIImage] = []
     var editingDiary : Diary?
+    var diaryController = DiaryController()
     var imagePicker = UIImagePickerController()
 
     override func viewDidLoad() {
@@ -95,22 +95,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    // MARK: - CoreData
-    
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
-
     // MARK: - Private
-    
-    func getInputAccessoryView() -> UIToolbar {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .default
-        toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelInput))
-        toolbar.setItems([spacer,cancelButton], animated: true)
-        return toolbar
-    }
     
     func cancelInput(sender: UIBarButtonItem) {
         textView.resignFirstResponder()
@@ -127,45 +112,29 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
             }
             return true
         }
-        func getDiary() -> Diary {
-            if let diary = editingDiary {
-                return diary
-            } else {
-                return Diary(context: dataContext)
-            }
-        }
-        func removeAllImages(diary: Diary) {
-            if let images = diary.images?.array as? [Image] {
-                for image in images {
-                    dataContext.delete(image)
-                }
-            }
-        }
-        func createImageEntities() -> [Image] {
-            return images.enumerated()
-                .filter { $0.offset < images.indices.last! }
-                .map { (image) -> Image in
-                    let imageEntity = Image(context: dataContext)
-                    imageEntity.image = image.element
-                    return imageEntity
-            }
-        }
         if !isEmpty() {
-            let diary = getDiary()
-            if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                diary.text = text
-            }
-            removeAllImages(diary: diary)
-            diary.addToImages(
-                NSOrderedSet(array: createImageEntities())
-            )
-            print("updated diary \(diary)")
             do {
-                try dataContext.save()
+                try diaryController.save(
+                    editingDiary: editingDiary,
+                    text: textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                    images: images.enumerated()
+                        .filter { $0.offset < images.indices.last! }
+                        .map{ $0.element }
+                )
             } catch {
                 fatalError("Failed to save: \(error)")
             }
         }
+    }
+    
+    func getInputAccessoryView() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .default
+        toolbar.sizeToFit()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelInput))
+        toolbar.setItems([spacer,cancelButton], animated: true)
+        return toolbar
     }
     
     func registerForKeyboardNotifications() {
