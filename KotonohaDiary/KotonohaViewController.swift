@@ -17,7 +17,7 @@ class KotonohaViewController: UIViewController
     var editingKotonoha: IndexPath?
     var imagePicker = UIImagePickerController()
     
-    var dataController = KotonohaDataContextController()
+    var dataController = KotonohaController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,36 +93,36 @@ class KotonohaViewController: UIViewController
 
 // MARK: - CoreData
 
-extension KotonohaViewController : KotonohaDataContextControllerDelegate {
-    func KotonohaDataContextControllerWillChangeContent() {
+extension KotonohaViewController : KotonohaControllerDelegate {
+    func kotonohaControllerWillChangeContent() {
         tableView.beginUpdates()
     }
     
-    func KotonohaDataContextControllerInsertSection(sectionIndex: Int) {
+    func kotonohaControllerInsertSection(sectionIndex: Int) {
         tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
     }
     
-    func KotonohaDataContextControllerDeleteSection(sectionIndex: Int) {
+    func kotonohaControllerDeleteSection(sectionIndex: Int) {
         tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
     }
     
-    func KotonohaDataContextControllerInsertRow(newIndexPath: IndexPath) {
+    func kotonohaControllerInsertRow(newIndexPath: IndexPath) {
         tableView.insertRows(at: [newIndexPath], with: .fade)
     }
     
-    func KotonohaDataContextControllerDeleteRow(indexPath: IndexPath) {
+    func kotonohaControllerDeleteRow(indexPath: IndexPath) {
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
-    func KotonohaDataContextControllerUpdateRow(indexPath: IndexPath) {
+    func kotonohaControllerUpdateRow(indexPath: IndexPath) {
         tableView.reloadRows(at: [indexPath], with: .fade)
     }
     
-    func KotonohaDataContextControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
+    func kotonohaControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
         tableView.moveRow(at: indexPath, to: newIndexPath)
     }
     
-    func KotonohaDataContextControllerDidChangeContent() {
+    func kotonohaControllerDidChangeContent() {
         tableView.endUpdates()
     }
     

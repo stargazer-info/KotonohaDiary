@@ -9,20 +9,20 @@
 import UIKit
 import CoreData
 
-protocol KotonohaDataContextControllerDelegate {
-    func KotonohaDataContextControllerWillChangeContent()
-    func KotonohaDataContextControllerInsertSection(sectionIndex:Int)
-    func KotonohaDataContextControllerDeleteSection(sectionIndex:Int)
-    func KotonohaDataContextControllerInsertRow(newIndexPath:IndexPath)
-    func KotonohaDataContextControllerDeleteRow(indexPath:IndexPath)
-    func KotonohaDataContextControllerUpdateRow(indexPath:IndexPath)
-    func KotonohaDataContextControllerMoveRow(indexPath:IndexPath, newIndexPath:IndexPath)
-    func KotonohaDataContextControllerDidChangeContent()
+protocol KotonohaControllerDelegate {
+    func kotonohaControllerWillChangeContent()
+    func kotonohaControllerInsertSection(sectionIndex:Int)
+    func kotonohaControllerDeleteSection(sectionIndex:Int)
+    func kotonohaControllerInsertRow(newIndexPath:IndexPath)
+    func kotonohaControllerDeleteRow(indexPath:IndexPath)
+    func kotonohaControllerUpdateRow(indexPath:IndexPath)
+    func kotonohaControllerMoveRow(indexPath:IndexPath, newIndexPath:IndexPath)
+    func kotonohaControllerDidChangeContent()
 }
 
-class KotonohaDataContextController: NSObject, NSFetchedResultsControllerDelegate
+class KotonohaController: NSObject, NSFetchedResultsControllerDelegate
 {
-    var delegate:KotonohaDataContextControllerDelegate? = nil
+    var delegate:KotonohaControllerDelegate? = nil
     
     let dataContext = AppDelegate.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
@@ -82,15 +82,15 @@ class KotonohaDataContextController: NSObject, NSFetchedResultsControllerDelegat
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate!.KotonohaDataContextControllerWillChangeContent()
+        delegate!.kotonohaControllerWillChangeContent()
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
-            delegate?.KotonohaDataContextControllerInsertSection(sectionIndex: sectionIndex)
+            delegate?.kotonohaControllerInsertSection(sectionIndex: sectionIndex)
         case .delete:
-            delegate?.KotonohaDataContextControllerDeleteSection(sectionIndex: sectionIndex)
+            delegate?.kotonohaControllerDeleteSection(sectionIndex: sectionIndex)
         case .move:
             break
         case .update:
@@ -101,19 +101,20 @@ class KotonohaDataContextController: NSObject, NSFetchedResultsControllerDelegat
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            delegate?.KotonohaDataContextControllerInsertRow(newIndexPath: newIndexPath!)
+            delegate?.kotonohaControllerInsertRow(newIndexPath: newIndexPath!)
         case .delete:
-            delegate?.KotonohaDataContextControllerDeleteRow(indexPath: indexPath!)
+            delegate?.kotonohaControllerDeleteRow(indexPath: indexPath!)
         case .update:
-            delegate?.KotonohaDataContextControllerUpdateRow(indexPath: indexPath!)
+            delegate?.kotonohaControllerUpdateRow(indexPath: indexPath!)
         case .move:
-            delegate?.KotonohaDataContextControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
+            delegate?.kotonohaControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.KotonohaDataContextControllerDidChangeContent()
+        delegate?.kotonohaControllerDidChangeContent()
     }
+    
     func saveKotonoha(inputText:String?, editingKotonoha:IndexPath?) {
         func getKotonoha() -> Kotonoha {
             if let indexPath = editingKotonoha {
