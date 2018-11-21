@@ -1,22 +1,72 @@
 //
-//  DiaryController.swift
+//  DiaryPageDataContextController.swift
 //  KotonohaDiary
 //
-//  Created by 山口 伸行 on 2018/11/17.
+//  Created by 山口 伸行 on 2018/11/15.
 //  Copyright © 2018年 Stargazer Information. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class DiaryController: NSObject {
+protocol DiaryControllerDelegate {
+//    func DiaryPageDataContextControllerWillChangeContent()
+//    func DiaryPageDataContextControllerInsertSection(sectionIndex:Int)
+//    func DiaryPageDataContextControllerDeleteSection(sectionIndex:Int)
+    func diaryControllerInsertRow(newIndexPath:IndexPath)
+    func diaryControllerDeleteRow(indexPath:IndexPath)
+    func diaryControllerUpdateRow(indexPath:IndexPath)
+    func diaryControllerMoveRow(indexPath:IndexPath, newIndexPath:IndexPath)
+    func diaryControllerDidChangeContent()
+}
+
+extension DiaryControllerDelegate {
+    func diaryControllerInsertRow(newIndexPath:IndexPath) {}
+    func diaryControllerDeleteRow(indexPath:IndexPath) {}
+    func diaryControllerUpdateRow(indexPath:IndexPath) {}
+    func diaryControllerMoveRow(indexPath:IndexPath, newIndexPath:IndexPath) {}
+    func diaryControllerDidChangeContent() {}
+}
+
+class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
     
+    var delegate:DiaryControllerDelegate? = nil
+
     let dataContainer = AppDelegate.persistentContainer
     let dataContext = AppDelegate.viewContext
-
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+//    var diaryController = DiaryController()
     var imageController = ImageController()
     
-    func createDiary() -> Diary {
+    override init() {
+        super.init()
+        initializeFetchedResults()
+    }
+    
+    func initializeFetchedResults() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Diary")
+        let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [createtimeSort]
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: dataContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
+        
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+    }
+    
+    func getDiaries() -> [Diary] {
+        return fetchedResultsController?.fetchedObjects as? [Diary] ?? []
+    }
+
+    func create() -> Diary {
         return Diary(context: dataContext)
     }
     
@@ -27,6 +77,10 @@ class DiaryController: NSObject {
         }
     }
     
+//    func deleteDiary(_ diary:Diary?) throws {
+//        try diaryController.delete(diary)
+//    }
+    
     func removeAllImages(diary: Diary) {
         if let images = diary.images?.array as? [Image] {
             for image in images {
@@ -34,13 +88,13 @@ class DiaryController: NSObject {
             }
         }
     }
-
+    
     func save(editingDiary:Diary?, text:String?, images:[UIImage]) throws {
         func getDiary() -> Diary {
             if let diary = editingDiary {
                 return diary
             } else {
-                return createDiary()
+                return create()
             }
         }
         let diary = getDiary()
@@ -53,5 +107,22 @@ class DiaryController: NSObject {
         )
         print("updated diary \(diary)")
         try dataContext.save()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            delegate?.diaryControllerInsertRow(newIndexPath: newIndexPath!)
+        case .delete:
+            delegate?.diaryControllerDeleteRow(indexPath: indexPath!)
+        case .update:
+            delegate?.diaryControllerUpdateRow(indexPath: indexPath!)
+        case .move:
+            delegate?.diaryControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.diaryControllerDidChangeContent()
     }
 }

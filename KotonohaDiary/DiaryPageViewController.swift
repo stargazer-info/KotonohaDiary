@@ -17,7 +17,7 @@ class DiaryPageViewController: UIPageViewController {
     var curIndex = 0
     var pageData: [Diary] = []
     
-    var dataController = DiaryPageDataContextController()
+    var diaryController = DiaryController()
     
     override func viewDidLoad() {
         print("DiaryPageViewController viewDidLoad")
@@ -40,7 +40,7 @@ class DiaryPageViewController: UIPageViewController {
 
         initBackground()
         initPageView()
-        dataController.delegate = self
+        diaryController.delegate = self
         updatePageData()
         initActionButtons()
         updateViewControllers()
@@ -73,7 +73,7 @@ class DiaryPageViewController: UIPageViewController {
     }
     
     func updatePageData() {
-        pageData = dataController.getDiaries()
+        pageData = diaryController.getDiaries()
         print("updatePageData \(pageData)")
     }
     
@@ -97,7 +97,7 @@ class DiaryPageViewController: UIPageViewController {
             
             showAlert(okHandler: { [unowned self]
                 (action: UIAlertAction!) -> Void in
-                try? self.dataController.deleteDiary(currentVc.diary)
+                try? self.diaryController.delete(currentVc.diary)
                 },
                       cancelHandler: nil
             )
@@ -251,25 +251,25 @@ extension DiaryPageViewController: UIPageViewControllerDataSource, UIPageViewCon
 
 // MARK: - DiaryPageDataContextControllerDelegate
 
-extension DiaryPageViewController: DiaryPageDataContextControllerDelegate {
-    func DiaryPageDataContextControllerInsertRow(newIndexPath: IndexPath) {
+extension DiaryPageViewController: DiaryControllerDelegate {
+    func diaryControllerInsertRow(newIndexPath: IndexPath) {
         curIndex = newIndexPath.row
     }
     
-    func DiaryPageDataContextControllerDeleteRow(indexPath: IndexPath) {
+    func diaryControllerDeleteRow(indexPath: IndexPath) {
         let prevIndex = indexPath.row - 1
         curIndex = prevIndex < 0 ? 0 : prevIndex
     }
     
-    func DiaryPageDataContextControllerUpdateRow(indexPath: IndexPath) {
+    func diaryControllerUpdateRow(indexPath: IndexPath) {
         curIndex = indexPath.row
     }
     
-    func DiaryPageDataContextControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
+    func diaryControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
         curIndex = newIndexPath.row
     }
     
-    func DiaryPageDataContextControllerDidChangeContent() {
+    func diaryControllerDidChangeContent() {
         updatePageData()
         initActionButtons()
         updateViewControllers()

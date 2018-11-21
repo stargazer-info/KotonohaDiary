@@ -16,6 +16,7 @@ class DiaryEditViewController: UIViewController {
     var text = ""
     var images : [UIImage] = []
     var editingDiary : Diary?
+//    var diaryController = DiaryController()
     var diaryController = DiaryController()
     var imagePicker = UIImagePickerController()
 
