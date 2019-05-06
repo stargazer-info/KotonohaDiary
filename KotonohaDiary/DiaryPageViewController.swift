@@ -88,7 +88,7 @@ class DiaryPageViewController: UIPageViewController {
     }
     
     func indexOfViewController(_ viewController: DiaryViewController) -> Int {
-        return pageData.index(of: viewController.diary!) ?? NSNotFound
+        return pageData.firstIndex(of: viewController.diary!) ?? NSNotFound
     }
 
     @IBAction func onClickDeleteBtn(_ sender: UIBarButtonItem) {
@@ -113,7 +113,7 @@ class DiaryPageViewController: UIPageViewController {
             if let text = currDiary.text {
                 items.append(text)
             }
-            let images = currDiary.images?.array.flatMap { ($0 as? Image)?.image }
+            let images = currDiary.images?.array.compactMap { ($0 as? Image)?.image }
             if let images = images {
                 items.append(contentsOf: images as [Any])
             }

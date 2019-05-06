@@ -98,7 +98,7 @@ class DiaryEditViewController: UIViewController {
     
     // MARK: - Private
     
-    func cancelInput(sender: UIBarButtonItem) {
+    @objc func cancelInput(sender: UIBarButtonItem) {
         textView.resignFirstResponder()
     }
     
@@ -139,15 +139,15 @@ class DiaryEditViewController: UIViewController {
     }
     
     func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: .UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func keyboardWasShown(notification: NSNotification) {
+    @objc func keyboardWasShown(notification: NSNotification) {
         print("keyboardWasShown \(notification)")
         func getContentInsets() -> UIEdgeInsets? {
             print("userInfo \(String(describing: notification.userInfo))")
-            if let kbFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect {
+            if let kbFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                 print("kbFrame \(kbFrame)")
                 print("textView.bounds \(textView.bounds)")
                 let bottom = textView.bounds.origin.y + textView.bounds.height;
@@ -157,7 +157,7 @@ class DiaryEditViewController: UIViewController {
                 let kbTop = kbFrameInTextView.origin.y
                 print("kbTop \(kbTop)")
                 let hiddenLength = bottom - kbTop
-                return hiddenLength > 0 ? UIEdgeInsetsMake(0.0, 0.0, hiddenLength, 0.0) : nil
+                return hiddenLength > 0 ? UIEdgeInsets.init(top: 0.0, left: 0.0, bottom: hiddenLength, right: 0.0) : nil
             } else {
                 return nil
             }
@@ -169,7 +169,7 @@ class DiaryEditViewController: UIViewController {
         }
     }
 
-    func keyboardWillBeHidden(notification: NSNotification) {
+    @objc func keyboardWillBeHidden(notification: NSNotification) {
         print("keyboardWillBeHidden \(notification)")
         let contentInsets = UIEdgeInsets.zero;
         textView.contentInset = contentInsets;
@@ -184,9 +184,12 @@ extension DiaryEditViewController : UIImagePickerControllerDelegate, UINavigatio
         imagePicker.delegate = self
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         print("info: \(info)")
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             print("image: \(image)")
             let newIndexPath = IndexPath(row: images.indices.last!, section: 0)
             images.insert(image, at: newIndexPath.row)
@@ -239,16 +242,16 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
         imageCollectionView.addGestureRecognizer(longPressGesture)
     }
     
-    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch(gesture.state) {
-        case UIGestureRecognizerState.began:
+        case UIGestureRecognizer.State.began:
             guard let selectedIndexPath = imageCollectionView.indexPathForItem(at: gesture.location(in: imageCollectionView)) else {
                 break
             }
             imageCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
+        case UIGestureRecognizer.State.changed:
             imageCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case UIGestureRecognizerState.ended:
+        case UIGestureRecognizer.State.ended:
             imageCollectionView.endInteractiveMovement()
         default:
             imageCollectionView.cancelInteractiveMovement()
@@ -299,4 +302,14 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
             at: destinationIndexPath.row
         )
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

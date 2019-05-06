@@ -48,10 +48,10 @@ class KotonohaViewController: UIViewController
                         self.dataController.getKotonoha($0)
                 }
                 dest.text = kotonohas
-                    .flatMap { $0?.text }
+                    .compactMap { $0?.text }
                     .joined(separator: "\n")
                 dest.images = kotonohas
-                    .flatMap { $0?.image?.image }
+                    .compactMap { $0?.image?.image }
             }
         case "showKotonohaImage":
             if let dest = segue.destination as? ImageViewController, let cell = sender as? KotonohaImageTableViewCell, let image = cell.photo.image {
@@ -209,7 +209,7 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         do {
             if editingStyle == .delete {
                 try self.dataController.deleteKotonoha(indexPath)
@@ -248,7 +248,7 @@ extension KotonohaViewController : UITextFieldDelegate {
         saveKotonoha()
     }
     
-    func cancelInput(sender: UIBarButtonItem) {
+    @objc func cancelInput(sender: UIBarButtonItem) {
         clearInputText()
         kotonohaInputText.resignFirstResponder()
     }
@@ -266,16 +266,19 @@ extension KotonohaViewController : UIImagePickerControllerDelegate, UINavigation
         imagePicker.delegate = self
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         print("info: \(info)")
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             print("image: \(image)")
             saveKotonohaImage(image: image)
         }
         self.dismiss(animated: true, completion: nil)
     }
 
-    func pickImage() {
+    @objc func pickImage() {
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
         if(UIImagePickerController .isSourceTypeAvailable(.camera))
         {
@@ -322,4 +325,14 @@ extension KotonohaViewController : KotonohaImageTableViewCellDelegate {
     func kotonohaImageTableViewCellShowImage(cell: KotonohaImageTableViewCell) {
         performSegue(withIdentifier: "showKotonohaImage", sender: cell)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

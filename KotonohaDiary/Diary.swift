@@ -14,6 +14,6 @@ public class Diary: NSManagedObject {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         id = NSUUID().uuidString
-        createdAt = Date() as NSDate
+        createdAt = Date()
     }
 }

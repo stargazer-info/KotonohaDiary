@@ -16,14 +16,14 @@ public class Image: NSManagedObject {
             return UIImage(data: data! as Data)!
         }
         set {
-            data = getSaveData(image: newValue)! as NSData
+            data = getSaveData(image: newValue)!
         }
     }
     
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         id = NSUUID().uuidString
-        createdAt = Date() as NSDate
+        createdAt = Date()
     }
     
     let SHORT_SIDE_SIZE = CGFloat(640)
@@ -49,7 +49,7 @@ public class Image: NSManagedObject {
     private func getSaveData(image: UIImage) -> Data? {
         let resizedImage = resize(image: image)
         print("resizedImage: \(String(describing: resizedImage))")
-        if let imageData = UIImageJPEGRepresentation(resizedImage!, JPEG_QUALITY) {
+        if let imageData = resizedImage!.jpegData(compressionQuality: JPEG_QUALITY) {
             print("imageData: \(imageData)")
             return imageData
         } else {
