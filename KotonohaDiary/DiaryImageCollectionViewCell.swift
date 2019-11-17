@@ -30,8 +30,6 @@ class DiaryImageCollectionViewCell: UICollectionViewCell {
 //    }
     
     func setImage(image: UIImage) {
-        print("imageView \(imageView)")
-        print("image size \(image.size)")
         imageView.image = image
     }
 }

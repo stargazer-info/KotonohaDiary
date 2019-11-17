@@ -29,13 +29,9 @@ class DiaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("DiaryViewController viewDidLoad")
         if let diary = diary {
-            print("diary \(diary)")
             dateTitle.text = DateFormatUtil.format(date: diary.createdAt! as Date)
             dairyText.text = diary.text
-            print("dateTitle \(String(describing: dateTitle.text))")
-            print("dairyText \(dairyText.text)")
         } else {
             dateTitle.text = DateFormatUtil.format(date: Date())
             dairyText.text = NSLocalizedString("There is no diary.", comment: "The message shown when there is no diary.")
@@ -45,13 +41,11 @@ class DiaryViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("prepare for segue:")
         super.prepare(for: segue, sender: sender)
         switch segue.identifier ?? "" {
         case "showDiaryImage":
             print("showDiaryImage: \(String(describing: sender))")
             if let dest = segue.destination as? ImageViewController, let image = sender as? Image {
-                print("image: \(image)")
                 dest.image = image.image
              }
         default:
