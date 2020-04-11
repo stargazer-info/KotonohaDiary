@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        doAuth()
         return true
     }
 
@@ -31,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-//        doAuth()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -96,32 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    // MARK: - Local Authentication
-    
-//    func doAuth() {
-//        let isLock = UserDefaults.standard.bool(forKey: "lock_preference")
-//        print("isLock \(isLock)")
-//        if (isLock) {
-//            let authContext = LAContext()
-//            var authError: NSError?
-//            if authContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
-//                authContext.evaluatePolicy(
-//                    .deviceOwnerAuthentication,
-//                    localizedReason: NSLocalizedString("Application is locked.", comment: "")
-//                ) { success, evaluateError in
-//                    if success {
-//                    } else {
-//                        print("evaluateError \(String(describing: evaluateError))")
-//                        UIControl().sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
-//                    }
-//                }
-//            } else {
-//                print("authError \(String(describing: authError))")
-//            }
-//        }
-//    }
-    
 }
 
 extension UIApplication {
