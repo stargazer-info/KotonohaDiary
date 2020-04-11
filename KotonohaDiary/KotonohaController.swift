@@ -95,6 +95,8 @@ class KotonohaController: NSObject, NSFetchedResultsControllerDelegate
             break
         case .update:
             break
+        @unknown default:
+            break
         }
     }
     
@@ -108,6 +110,8 @@ class KotonohaController: NSObject, NSFetchedResultsControllerDelegate
             delegate?.kotonohaControllerUpdateRow(indexPath: indexPath!)
         case .move:
             delegate?.kotonohaControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
+        @unknown default:
+            break
         }
     }
     

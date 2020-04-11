@@ -119,6 +119,8 @@ class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
             delegate?.diaryControllerUpdateRow(indexPath: indexPath!)
         case .move:
             delegate?.diaryControllerMoveRow(indexPath: indexPath!, newIndexPath: newIndexPath!)
+        @unknown default:
+            break
         }
     }
     

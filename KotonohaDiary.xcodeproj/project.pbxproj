@@ -23,7 +23,6 @@
 		085F80DB1F26214E0045908E /* DiaryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80DA1F26214E0045908E /* DiaryPageViewController.swift */; };
 		087B28891F910A8C00394F6F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B28881F910A8C00394F6F /* Image.swift */; };
 		087B288D1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */; };
-		087B28941FA0D63600394F6F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 087B28931FA0D63600394F6F /* Settings.bundle */; };
 		08920F951F839EB800E16E99 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920F941F839EB800E16E99 /* ImageViewController.swift */; };
 		08920FA31F8A530900E16E99 /* DiaryImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920FA21F8A530900E16E99 /* DiaryImageCollectionViewCell.swift */; };
 		08920FAA1F8FC59500E16E99 /* KotonohaImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920FA91F8FC59500E16E99 /* KotonohaImageTableViewCell.swift */; };
@@ -70,7 +69,6 @@
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
 		087B28881F910A8C00394F6F /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryImageCollectionViewCell.xib; sourceTree = "<group>"; };
-		087B28931FA0D63600394F6F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		08920F941F839EB800E16E99 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		08920FA21F8A530900E16E99 /* DiaryImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		08920FA91F8FC59500E16E99 /* KotonohaImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KotonohaImageTableViewCell.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 				08C4B2D21F5E97AF00D99FBB /* Localizable.strings */,
 				0816A2C71F1AFE5D000FA96F /* Assets.xcassets */,
 				0816A2C91F1AFE5D000FA96F /* LaunchScreen.storyboard */,
-				087B28931FA0D63600394F6F /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -270,7 +267,6 @@
 				081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */,
 				0816A2C81F1AFE5D000FA96F /* Assets.xcassets in Resources */,
 				0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */,
-				087B28941FA0D63600394F6F /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,16 +485,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
-				BUNDLE_ID_SUFFIX = "";
-				"BUNDLE_ID_SUFFIX[arch=*]" = _debug;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N23N6CW46N;
 				INFOPLIST_FILE = KotonohaDiary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary-debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -508,8 +502,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID_SUFFIX = "";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = N23N6CW46N;
 				INFOPLIST_FILE = KotonohaDiary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
