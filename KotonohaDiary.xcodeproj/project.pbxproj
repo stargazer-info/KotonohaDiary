@@ -485,8 +485,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
-				BUNDLE_ID_SUFFIX = "";
-				"BUNDLE_ID_SUFFIX[arch=*]" = _debug;
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N23N6CW46N;
@@ -494,7 +492,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary-debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -504,7 +502,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID_SUFFIX = "";
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = N23N6CW46N;
 				INFOPLIST_FILE = KotonohaDiary/Info.plist;
