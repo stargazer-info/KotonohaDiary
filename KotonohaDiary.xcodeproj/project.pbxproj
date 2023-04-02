@@ -29,6 +29,11 @@
 		08A4028221996D7500978DA1 /* KotonohaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A4028121996D7500978DA1 /* KotonohaController.swift */; };
 		08A40284219D594A00978DA1 /* DiaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A40283219D594A00978DA1 /* DiaryController.swift */; };
 		08A4028821A04A8300978DA1 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A4028721A04A8300978DA1 /* ImageController.swift */; };
+		08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */; };
+		08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C629D96C1D00DDDC63 /* ContentView.swift */; };
+		08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */; };
+		08BA21D029D96E7400DDDC63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C71F1AFE5D000FA96F /* Assets.xcassets */; };
+		08BA21D129D96E7E00DDDC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D21F5E97AF00D99FBB /* Localizable.strings */; };
 		08C4B2CD1F5E823700D99FBB /* DateFormatUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */; };
 		08C4B2D01F5E97AF00D99FBB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D21F5E97AF00D99FBB /* Localizable.strings */; };
 		08C4B2D51F5E97B000D99FBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D71F5E97B000D99FBB /* InfoPlist.strings */; };
@@ -75,6 +80,10 @@
 		08A4028121996D7500978DA1 /* KotonohaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaController.swift; sourceTree = "<group>"; };
 		08A40283219D594A00978DA1 /* DiaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryController.swift; sourceTree = "<group>"; };
 		08A4028721A04A8300978DA1 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KotonohaDiary SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDiary_SwiftUIApp.swift; sourceTree = "<group>"; };
+		08BA21C629D96C1D00DDDC63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatUtil.swift; sourceTree = "<group>"; };
 		08C4B2D11F5E97AF00D99FBB /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		08C4B2D61F5E97B000D99FBB /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -95,6 +104,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		08BA21BF29D96C1D00DDDC63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -104,6 +120,7 @@
 				081DB0AC1F496B150003312A /* InfoPlist.strings */,
 				0816A2BC1F1AFE5D000FA96F /* KotonohaDiary */,
 				0816A2D41F1AFE5D000FA96F /* KotonohaDiaryTests */,
+				08BA21C329D96C1D00DDDC63 /* KotonohaDiary SwiftUI */,
 				0816A2BB1F1AFE5D000FA96F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,6 +130,7 @@
 			children = (
 				0816A2BA1F1AFE5D000FA96F /* KotonohaDiary.app */,
 				0816A2D11F1AFE5D000FA96F /* KotonohaDiaryTests.xctest */,
+				08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -173,6 +191,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		08BA21C329D96C1D00DDDC63 /* KotonohaDiary SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */,
+				08BA21C629D96C1D00DDDC63 /* ContentView.swift */,
+				08BA21CA29D96C1E00DDDC63 /* Preview Content */,
+			);
+			path = "KotonohaDiary SwiftUI";
+			sourceTree = "<group>";
+		};
+		08BA21CA29D96C1E00DDDC63 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,13 +247,30 @@
 			productReference = 0816A2D11F1AFE5D000FA96F /* KotonohaDiaryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		08BA21C129D96C1D00DDDC63 /* KotonohaDiary SwiftUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08BA21CF29D96C1E00DDDC63 /* Build configuration list for PBXNativeTarget "KotonohaDiary SwiftUI" */;
+			buildPhases = (
+				08BA21BE29D96C1D00DDDC63 /* Sources */,
+				08BA21BF29D96C1D00DDDC63 /* Frameworks */,
+				08BA21C029D96C1D00DDDC63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KotonohaDiary SwiftUI";
+			productName = "KotonohaDiary SwiftUI";
+			productReference = 08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		0816A2B21F1AFE5D000FA96F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = "Stargazer Information";
 				TargetAttributes = {
@@ -233,6 +286,11 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0816A2B91F1AFE5D000FA96F;
+					};
+					08BA21C129D96C1D00DDDC63 = {
+						CreatedOnToolsVersion = 14.2;
+						DevelopmentTeam = N23N6CW46N;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -252,6 +310,7 @@
 			targets = (
 				0816A2B91F1AFE5D000FA96F /* KotonohaDiary */,
 				0816A2D01F1AFE5D000FA96F /* KotonohaDiaryTests */,
+				08BA21C129D96C1D00DDDC63 /* KotonohaDiary SwiftUI */,
 			);
 		};
 /* End PBXProject section */
@@ -275,6 +334,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				08C4B2D51F5E97B000D99FBB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BA21C029D96C1D00DDDC63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */,
+				08BA21D129D96E7E00DDDC63 /* Localizable.strings in Resources */,
+				08BA21D029D96E7400DDDC63 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +379,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0816A2D61F1AFE5D000FA96F /* KotonohaDiaryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BA21BE29D96C1D00DDDC63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */,
+				08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +622,79 @@
 			};
 			name = Release;
 		};
+		08BA21CD29D96C1E00DDDC63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = N23N6CW46N;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary-debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		08BA21CE29D96C1E00DDDC63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = N23N6CW46N;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.5;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stargazer-info.KotonohaDiary";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -570,6 +721,15 @@
 			buildConfigurations = (
 				0816A2DE1F1AFE5D000FA96F /* Debug */,
 				0816A2DF1F1AFE5D000FA96F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08BA21CF29D96C1E00DDDC63 /* Build configuration list for PBXNativeTarget "KotonohaDiary SwiftUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BA21CD29D96C1E00DDDC63 /* Debug */,
+				08BA21CE29D96C1E00DDDC63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
