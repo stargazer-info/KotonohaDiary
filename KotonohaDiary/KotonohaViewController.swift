@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class KotonohaViewController: UIViewController
 {
@@ -18,16 +17,14 @@ class KotonohaViewController: UIViewController
     var editingKotonoha: IndexPath?
     var imagePicker = UIImagePickerController()
     
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    var dataController = KotonohaController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.navigationController?.navigationBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.tabBarController?.tabBar.barTintColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
-        initializeFetchedResultsController()
+        dataController.delegate = self
         initTableView()
         initImagePicker()
         initKotonohaInput()
@@ -48,13 +45,13 @@ class KotonohaViewController: UIViewController
                 let rows = self.tableView.indexPathsForSelectedRows {
                 let kotonohas = rows
                     .map {
-                        self.fetchedResultsController?.object(at: $0) as? Kotonoha
+                        self.dataController.getKotonoha($0)
                 }
                 dest.text = kotonohas
-                    .flatMap { $0?.text }
+                    .compactMap { $0?.text }
                     .joined(separator: "\n")
                 dest.images = kotonohas
-                    .flatMap { $0?.image?.image }
+                    .compactMap { $0?.image?.image }
             }
         case "showKotonohaImage":
             if let dest = segue.destination as? ImageViewController, let cell = sender as? KotonohaImageTableViewCell, let image = cell.photo.image {
@@ -80,36 +77,15 @@ class KotonohaViewController: UIViewController
     // MARK: - Private
     
     func saveKotonoha() {
-        func getKotonoha() -> Kotonoha {
-            if let indexPath = editingKotonoha {
-                return self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-            } else {
-                return Kotonoha(context: dataContext)
-            }
-        }
         if let text = kotonohaInputText.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             !text.isEmpty {
-            let kotonoha = getKotonoha();
-            kotonoha.text = text
-            do {
-                try dataContext.save()
-            } catch {
-                fatalError("Failed to save: \(error)")
-            }
+            self.dataController.saveKotonoha(inputText: text, editingKotonoha: editingKotonoha)
         }
         clearInputText()
     }
 
     func saveKotonohaImage(image: UIImage) {
-        let kotonohaEntity = Kotonoha(context: dataContext)
-        let imageEntity = Image(context: dataContext)
-        imageEntity.image = image
-        kotonohaEntity.image = imageEntity
-        do {
-            try dataContext.save()
-        } catch {
-            fatalError("Failed to save: \(error)")
-        }
+        self.dataController.saveKotonohaImage(image: image)
         clearInputText()
     }
     
@@ -117,60 +93,39 @@ class KotonohaViewController: UIViewController
 
 // MARK: - CoreData
 
-extension KotonohaViewController : NSFetchedResultsControllerDelegate {
-    func initializeFetchedResultsController() {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Kotonoha")
-        let createtimeSort = NSSortDescriptor(key: "createdAt", ascending: false)
-        request.sortDescriptors = [createtimeSort]
-        
-        fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: request,
-            managedObjectContext: dataContext,
-            sectionNameKeyPath: "section",
-            cacheName: nil
-        )
-        fetchedResultsController?.delegate = (self as NSFetchedResultsControllerDelegate)
-        
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-    }
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+extension KotonohaViewController : KotonohaControllerDelegate {
+    func kotonohaControllerWillChangeContent() {
         tableView.beginUpdates()
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
+    func kotonohaControllerInsertSection(sectionIndex: Int) {
+        tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        }
+    func kotonohaControllerDeleteSection(sectionIndex: Int) {
+        tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
     }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func kotonohaControllerInsertRow(newIndexPath: IndexPath) {
+        tableView.insertRows(at: [newIndexPath], with: .fade)
+    }
+    
+    func kotonohaControllerDeleteRow(indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    func kotonohaControllerUpdateRow(indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    func kotonohaControllerMoveRow(indexPath: IndexPath, newIndexPath: IndexPath) {
+        tableView.moveRow(at: indexPath, to: newIndexPath)
+    }
+    
+    func kotonohaControllerDidChangeContent() {
         tableView.endUpdates()
     }
+    
 }
 
 // MARK: - UITableView
@@ -183,20 +138,16 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController!.sections!.count
+        return self.dataController.numberOfSection()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController?.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        return self.dataController.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("cellForRowAt \(indexPath)")
-        let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
+        let kotonoha = dataController.getKotonoha(indexPath)!
         print("kotonoha \(kotonoha)")
         if let image = kotonoha.image {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "kotonohaImage") as? KotonohaImageTableViewCell else {
@@ -225,7 +176,7 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
         let label : UILabel = UILabel()
         label.backgroundColor = .clear
         label.textColor = .black
-        if let sectionTitle = self.fetchedResultsController?.sections?[section] {
+        if let sectionTitle = self.dataController.getSection(section) {
             label.text = sectionTitle.name
         } else {
             label.text = DateFormatUtil.format(date: Date())
@@ -258,15 +209,11 @@ extension KotonohaViewController : UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let kotonoha = self.fetchedResultsController?.object(at: indexPath) as! Kotonoha
-            dataContext.delete(kotonoha)
-            //        } else if editingStyle == .insert {
-            //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         do {
-            try dataContext.save()
+            if editingStyle == .delete {
+                try self.dataController.deleteKotonoha(indexPath)
+            }
         } catch {
             fatalError("Failed to save: \(error)")
         }
@@ -301,7 +248,7 @@ extension KotonohaViewController : UITextFieldDelegate {
         saveKotonoha()
     }
     
-    func cancelInput(sender: UIBarButtonItem) {
+    @objc func cancelInput(sender: UIBarButtonItem) {
         clearInputText()
         kotonohaInputText.resignFirstResponder()
     }
@@ -319,16 +266,19 @@ extension KotonohaViewController : UIImagePickerControllerDelegate, UINavigation
         imagePicker.delegate = self
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         print("info: \(info)")
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             print("image: \(image)")
             saveKotonohaImage(image: image)
         }
         self.dismiss(animated: true, completion: nil)
     }
 
-    func pickImage() {
+    @objc func pickImage() {
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
         if(UIImagePickerController .isSourceTypeAvailable(.camera))
         {
@@ -375,4 +325,14 @@ extension KotonohaViewController : KotonohaImageTableViewCellDelegate {
     func kotonohaImageTableViewCellShowImage(cell: KotonohaImageTableViewCell) {
         performSegue(withIdentifier: "showKotonohaImage", sender: cell)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

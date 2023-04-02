@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreData
 
-class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class DiaryEditViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
@@ -17,6 +16,8 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
     var text = ""
     var images : [UIImage] = []
     var editingDiary : Diary?
+//    var diaryController = DiaryController()
+    var diaryController = DiaryController()
     var imagePicker = UIImagePickerController()
 
     override func viewDidLoad() {
@@ -95,24 +96,9 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         }
     }
     
-    // MARK: - CoreData
-    
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
-
     // MARK: - Private
     
-    func getInputAccessoryView() -> UIToolbar {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .default
-        toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelInput))
-        toolbar.setItems([spacer,cancelButton], animated: true)
-        return toolbar
-    }
-    
-    func cancelInput(sender: UIBarButtonItem) {
+    @objc func cancelInput(sender: UIBarButtonItem) {
         textView.resignFirstResponder()
     }
     
@@ -127,57 +113,41 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
             }
             return true
         }
-        func getDiary() -> Diary {
-            if let diary = editingDiary {
-                return diary
-            } else {
-                return Diary(context: dataContext)
-            }
-        }
-        func removeAllImages(diary: Diary) {
-            if let images = diary.images?.array as? [Image] {
-                for image in images {
-                    dataContext.delete(image)
-                }
-            }
-        }
-        func createImageEntities() -> [Image] {
-            return images.enumerated()
-                .filter { $0.offset < images.indices.last! }
-                .map { (image) -> Image in
-                    let imageEntity = Image(context: dataContext)
-                    imageEntity.image = image.element
-                    return imageEntity
-            }
-        }
         if !isEmpty() {
-            let diary = getDiary()
-            if let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                diary.text = text
-            }
-            removeAllImages(diary: diary)
-            diary.addToImages(
-                NSOrderedSet(array: createImageEntities())
-            )
-            print("updated diary \(diary)")
             do {
-                try dataContext.save()
+                try diaryController.save(
+                    editingDiary: editingDiary,
+                    text: textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                    images: images.enumerated()
+                        .filter { $0.offset < images.indices.last! }
+                        .map{ $0.element }
+                )
             } catch {
                 fatalError("Failed to save: \(error)")
             }
         }
     }
     
-    func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: .UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: .UIKeyboardWillHide, object: nil)
+    func getInputAccessoryView() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .default
+        toolbar.sizeToFit()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(cancelInput))
+        toolbar.setItems([spacer,cancelButton], animated: true)
+        return toolbar
     }
     
-    func keyboardWasShown(notification: NSNotification) {
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWasShown(notification: NSNotification) {
         print("keyboardWasShown \(notification)")
         func getContentInsets() -> UIEdgeInsets? {
             print("userInfo \(String(describing: notification.userInfo))")
-            if let kbFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect {
+            if let kbFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                 print("kbFrame \(kbFrame)")
                 print("textView.bounds \(textView.bounds)")
                 let bottom = textView.bounds.origin.y + textView.bounds.height;
@@ -187,7 +157,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
                 let kbTop = kbFrameInTextView.origin.y
                 print("kbTop \(kbTop)")
                 let hiddenLength = bottom - kbTop
-                return hiddenLength > 0 ? UIEdgeInsetsMake(0.0, 0.0, hiddenLength, 0.0) : nil
+                return hiddenLength > 0 ? UIEdgeInsets.init(top: 0.0, left: 0.0, bottom: hiddenLength, right: 0.0) : nil
             } else {
                 return nil
             }
@@ -199,7 +169,7 @@ class DiaryEditViewController: UIViewController, NSFetchedResultsControllerDeleg
         }
     }
 
-    func keyboardWillBeHidden(notification: NSNotification) {
+    @objc func keyboardWillBeHidden(notification: NSNotification) {
         print("keyboardWillBeHidden \(notification)")
         let contentInsets = UIEdgeInsets.zero;
         textView.contentInset = contentInsets;
@@ -214,9 +184,12 @@ extension DiaryEditViewController : UIImagePickerControllerDelegate, UINavigatio
         imagePicker.delegate = self
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         print("info: \(info)")
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
             print("image: \(image)")
             let newIndexPath = IndexPath(row: images.indices.last!, section: 0)
             images.insert(image, at: newIndexPath.row)
@@ -269,16 +242,16 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
         imageCollectionView.addGestureRecognizer(longPressGesture)
     }
     
-    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch(gesture.state) {
-        case UIGestureRecognizerState.began:
+        case UIGestureRecognizer.State.began:
             guard let selectedIndexPath = imageCollectionView.indexPathForItem(at: gesture.location(in: imageCollectionView)) else {
                 break
             }
             imageCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
+        case UIGestureRecognizer.State.changed:
             imageCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case UIGestureRecognizerState.ended:
+        case UIGestureRecognizer.State.ended:
             imageCollectionView.endInteractiveMovement()
         default:
             imageCollectionView.cancelInteractiveMovement()
@@ -329,4 +302,14 @@ extension DiaryEditViewController : UICollectionViewDataSource, UICollectionView
             at: destinationIndexPath.row
         )
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }
