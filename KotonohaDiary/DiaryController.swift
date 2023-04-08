@@ -32,8 +32,8 @@ class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
     
     var delegate:DiaryControllerDelegate? = nil
 
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
+    let dataContainer = CoreDataManager.shared.persistentContainer
+    let dataContext = CoreDataManager.shared.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
 //    var diaryController = DiaryController()
     var imageController = ImageController()
