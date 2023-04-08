@@ -29,6 +29,7 @@
 		08A4028221996D7500978DA1 /* KotonohaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A4028121996D7500978DA1 /* KotonohaController.swift */; };
 		08A40284219D594A00978DA1 /* DiaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A40283219D594A00978DA1 /* DiaryController.swift */; };
 		08A4028821A04A8300978DA1 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A4028721A04A8300978DA1 /* ImageController.swift */; };
+		08ABCC3529E146680098E154 /* KotonohaRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC3429E146680098E154 /* KotonohaRow.swift */; };
 		08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */; };
 		08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C629D96C1D00DDDC63 /* ContentView.swift */; };
 		08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */; };
@@ -80,6 +81,7 @@
 		08A4028121996D7500978DA1 /* KotonohaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaController.swift; sourceTree = "<group>"; };
 		08A40283219D594A00978DA1 /* DiaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryController.swift; sourceTree = "<group>"; };
 		08A4028721A04A8300978DA1 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		08ABCC3429E146680098E154 /* KotonohaRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaRow.swift; sourceTree = "<group>"; };
 		08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KotonohaDiary SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDiary_SwiftUIApp.swift; sourceTree = "<group>"; };
 		08BA21C629D96C1D00DDDC63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */,
 				08BA21C629D96C1D00DDDC63 /* ContentView.swift */,
+				08ABCC3429E146680098E154 /* KotonohaRow.swift */,
 				08BA21CA29D96C1E00DDDC63 /* Preview Content */,
 			);
 			path = "KotonohaDiary SwiftUI";
@@ -386,6 +389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08ABCC3529E146680098E154 /* KotonohaRow.swift in Sources */,
 				08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */,
 				08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */,
 			);
