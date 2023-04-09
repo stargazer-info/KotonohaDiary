@@ -14,8 +14,8 @@ class ImageController: NSObject {
     let dataContainer = CoreDataManager.shared.persistentContainer
     let dataContext = CoreDataManager.shared.viewContext
     
-    func createImage(_ image:UIImage) -> Image {
-        let imageEntity = Image(context: dataContext)
+    func createImage(_ image:UIImage) -> ImageData {
+        let imageEntity = ImageData(context: dataContext)
         imageEntity.image = image
         return imageEntity
     }

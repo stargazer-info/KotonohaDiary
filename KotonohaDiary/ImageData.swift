@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-public class Image: NSManagedObject {
+public class ImageData: NSManagedObject {
 
     var image : UIImage {
         get {

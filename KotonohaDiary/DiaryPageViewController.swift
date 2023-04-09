@@ -113,7 +113,7 @@ class DiaryPageViewController: UIPageViewController {
             if let text = currDiary.text {
                 items.append(text)
             }
-            let images = currDiary.images?.array.compactMap { ($0 as? Image)?.image }
+            let images = currDiary.images?.array.compactMap { ($0 as? ImageData)?.image }
             if let images = images {
                 items.append(contentsOf: images as [Any])
             }
