@@ -9,14 +9,6 @@
 import SwiftUI
 
 struct KotonohaRow: View {
-//    @Environment(\.managedObjectContext) private var viewContext
-//
-//    @FetchRequest(
-//        sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: true)],
-//        animation: .default)
-//    private var kotonohaList: FetchedResults<Kotonoha>
-    
-//    var text: String
     var kotonoha: Kotonoha
     @State var isSelected: Bool
     
@@ -28,23 +20,21 @@ struct KotonohaRow: View {
                 Label("Toggle Selected", image: isSelected ? "selected" : "unselected")
                     .labelStyle(.iconOnly)
             }
+            .buttonStyle(.borderless)
             Text(kotonoha.text ?? "")
             Spacer()
-            EditButton()
+            Button {
+                print("Edit")
+            } label: {
+                Text("Edit")
+            }
+            .buttonStyle(.borderless)
         }
-        .padding()
     }
 }
 
 struct KotonohaRow_Previews: PreviewProvider {
-//    static let context = PersistenceController.preview.container.viewContext
-////    @FetchRequest(
-////        sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: true)],
-////        animation: .default)
-//    private var kotonohaList: FetchedResults<Kotonoha>
-
     static var previews: some View {
         KotonohaRow(kotonoha: SampleData().kotonoha, isSelected: true)
-//            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

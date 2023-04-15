@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 import CoreData
 import Combine
 
@@ -15,6 +16,11 @@ class SampleData: ObservableObject {
     
     var kotonoha: Kotonoha
     var kotonohaImage: Kotonoha
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: true)],
+        animation: .default)
+    var kotonohaList: FetchedResults<Kotonoha>
 
     init() {
         let kotonoha = Kotonoha(context: context)

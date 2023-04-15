@@ -20,6 +20,7 @@ struct KotonohaImageRow: View {
                 Label("Toggle Selected", image: isSelected ? "selected" : "unselected")
                     .labelStyle(.iconOnly)
             }
+            .buttonStyle(.borderless)
             Spacer()
             if let image = kotonoha.image?.image {
                 Image(uiImage: image)
@@ -28,9 +29,13 @@ struct KotonohaImageRow: View {
                     .frame(height: 60)
             }
             Spacer()
-            EditButton()
+            Button {
+                print("Edit")
+            } label: {
+                Text("Edit")
+            }
+            .buttonStyle(.borderless)
         }
-        .padding()
     }
 }
 
