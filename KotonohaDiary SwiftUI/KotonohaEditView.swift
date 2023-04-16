@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct KotonohaEditView: View {
-    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FocusState var isInputActive: Bool
     @State var text: String = ""
     @State var image: Image?
     
@@ -23,20 +24,49 @@ struct KotonohaEditView: View {
             .buttonStyle(.borderless)
             TextField("ことのは", text: $text)
                 .border(.gray)
-                .onSubmit {
-                    
+                .focused($isInputActive)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("Cancel") {
+                            isInputActive = false
+                        }
+                    }
                 }
-            Spacer()
+                .onSubmit {
+                    createOrUpdateKotonoha()
+                }
             Button("Save") {
-                
+                createOrUpdateKotonoha()
             }
             .buttonStyle(.borderless)
         }
+    }
+    
+    private func createOrUpdateKotonoha() {
+        do {
+            if !text.isEmpty {
+                let newItem = Kotonoha(context: viewContext)
+                newItem.text = text
+            }
+            clear()
+            isInputActive = false
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    private func clear() {
+        text = ""
+        image = nil
     }
 }
 
 struct KotonohaEditView_Previews: PreviewProvider {
     static var previews: some View {
         KotonohaEditView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

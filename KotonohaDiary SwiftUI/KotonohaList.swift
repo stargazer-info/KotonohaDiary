@@ -11,7 +11,7 @@ import SwiftUI
 struct KotonohaList: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: true)])
+    @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: false)])
     private var kotonohaSections: SectionedFetchResults<String?,Kotonoha>
 
     var body: some View {
