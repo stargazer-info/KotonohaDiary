@@ -14,7 +14,9 @@ struct KotonohaEditView: View {
     @State var text: String = ""
     @State var image: UIImage?
     @State private var isChooseImageConfirming = false
-    @State private var showCameraPickerView = false
+    @State private var showCameraPicker = false
+    @State private var showPhotoLibraryPicker = false
+    
 
     var body: some View {
         HStack {
@@ -38,11 +40,10 @@ struct KotonohaEditView: View {
                         }
                         .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
                             Button("Camera") {
-                                print("Show Camera.")
-                                showCameraPickerView = true
+                                showCameraPicker = true
                             }
                             Button("Gallery") {
-                                print("Show Gallery.")
+                                showPhotoLibraryPicker = true
                             }
                             Button("Cancel", role: .cancel) {
                                 
@@ -62,8 +63,11 @@ struct KotonohaEditView: View {
             }
             .buttonStyle(.borderless)
         }
-        .fullScreenCover(isPresented: $showCameraPickerView) {
+        .fullScreenCover(isPresented: $showCameraPicker) {
             CameraPicker(image: $image)
+        }
+        .fullScreenCover(isPresented: $showPhotoLibraryPicker) {
+            PhotoLibraryPicker(image: $image)
         }
         .onChange(of: image) { newValue in
             createOrUpdateKotonoha()

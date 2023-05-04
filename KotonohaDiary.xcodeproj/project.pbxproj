@@ -42,6 +42,7 @@
 		08ABCC7A29EA7BDF0098E154 /* KotonohaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC7929EA7BDF0098E154 /* KotonohaList.swift */; };
 		08ABCC7C29EA99B70098E154 /* KotonohaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC7B29EA99B70098E154 /* KotonohaEditView.swift */; };
 		08ABCC7E2A0231340098E154 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC7D2A0231340098E154 /* CameraPicker.swift */; };
+		08ABCC802A03A1180098E154 /* PhotoLibraryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC7F2A03A1180098E154 /* PhotoLibraryPicker.swift */; };
 		08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */; };
 		08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C629D96C1D00DDDC63 /* ContentView.swift */; };
 		08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */; };
@@ -101,6 +102,7 @@
 		08ABCC7929EA7BDF0098E154 /* KotonohaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaList.swift; sourceTree = "<group>"; };
 		08ABCC7B29EA99B70098E154 /* KotonohaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaEditView.swift; sourceTree = "<group>"; };
 		08ABCC7D2A0231340098E154 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		08ABCC7F2A03A1180098E154 /* PhotoLibraryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPicker.swift; sourceTree = "<group>"; };
 		08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KotonohaDiary SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDiary_SwiftUIApp.swift; sourceTree = "<group>"; };
 		08BA21C629D96C1D00DDDC63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				08ABCC7929EA7BDF0098E154 /* KotonohaList.swift */,
 				08ABCC7B29EA99B70098E154 /* KotonohaEditView.swift */,
 				08ABCC7D2A0231340098E154 /* CameraPicker.swift */,
+				08ABCC7F2A03A1180098E154 /* PhotoLibraryPicker.swift */,
 				08ABCC7729EA63360098E154 /* KotonohaImageRow.swift */,
 				08ABCC7429E2B2A80098E154 /* SampleData.swift */,
 				08BA21CA29D96C1E00DDDC63 /* Preview Content */,
@@ -425,6 +428,7 @@
 				08ABCC6B29E270A60098E154 /* Kotonoha.swift in Sources */,
 				08ABCC7829EA63360098E154 /* KotonohaImageRow.swift in Sources */,
 				08ABCC7629E2B3C80098E154 /* DateFormatUtil.swift in Sources */,
+				08ABCC802A03A1180098E154 /* PhotoLibraryPicker.swift in Sources */,
 				08ABCC7A29EA7BDF0098E154 /* KotonohaList.swift in Sources */,
 				08ABCC6C29E270A60098E154 /* Diary.swift in Sources */,
 				08ABCC7529E2B2A80098E154 /* SampleData.swift in Sources */,

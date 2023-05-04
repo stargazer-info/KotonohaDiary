@@ -12,9 +12,7 @@ import SwiftUI
 struct KotonohaDiary_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            KotonohaList()
-                .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-//            ContentView()
+            ContentView()
         }
     }
 }
