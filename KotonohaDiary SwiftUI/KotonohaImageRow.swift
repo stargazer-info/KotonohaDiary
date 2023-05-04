@@ -29,12 +29,12 @@ struct KotonohaImageRow: View {
                     .frame(height: 60)
             }
             Spacer()
-            Button {
-                print("Edit")
-            } label: {
-                Text("Edit")
-            }
-            .buttonStyle(.borderless)
+//            Button {
+//                print("Edit")
+//            } label: {
+//                Text("Edit")
+//            }
+//            .buttonStyle(.borderless)
         }
     }
 }

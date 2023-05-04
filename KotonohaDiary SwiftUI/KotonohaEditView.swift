@@ -12,8 +12,10 @@ struct KotonohaEditView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FocusState var isInputActive: Bool
     @State var text: String = ""
-    @State var image: Image?
-    
+    @State var image: UIImage?
+    @State private var isChooseImageConfirming = false
+    @State private var showCameraPickerView = false
+
     var body: some View {
         HStack {
             Button {
@@ -27,6 +29,25 @@ struct KotonohaEditView: View {
                 .focused($isInputActive)
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
+                        Button {
+                            isInputActive = false
+                            isChooseImageConfirming = true
+                        } label: {
+                            Label("", systemImage: "camera")
+                                .labelStyle(.iconOnly)
+                        }
+                        .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
+                            Button("Camera") {
+                                print("Show Camera.")
+                                showCameraPickerView = true
+                            }
+                            Button("Gallery") {
+                                print("Show Gallery.")
+                            }
+                            Button("Cancel", role: .cancel) {
+                                
+                            }
+                        }
                         Spacer()
                         Button("Cancel") {
                             isInputActive = false
@@ -41,6 +62,12 @@ struct KotonohaEditView: View {
             }
             .buttonStyle(.borderless)
         }
+        .fullScreenCover(isPresented: $showCameraPickerView) {
+            CameraPicker(image: $image)
+        }
+        .onChange(of: image) { newValue in
+            createOrUpdateKotonoha()
+        }
     }
     
     private func createOrUpdateKotonoha() {
@@ -49,8 +76,13 @@ struct KotonohaEditView: View {
                 let newItem = Kotonoha(context: viewContext)
                 newItem.text = text
             }
+            if let image = self.image {
+                let newImageItem = Kotonoha(context: viewContext)
+                let imageEntity = ImageData(context: viewContext)
+                imageEntity.image = image
+                newImageItem.image = imageEntity
+            }
             clear()
-            isInputActive = false
             try viewContext.save()
         } catch {
             let nsError = error as NSError
