@@ -17,7 +17,6 @@ struct KotonohaEditView: View {
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
     
-
     var body: some View {
         HStack {
             Button {
@@ -75,19 +74,16 @@ struct KotonohaEditView: View {
     }
     
     private func createOrUpdateKotonoha() {
+        let kotonohaController = KotonohaController(context: viewContext)
         do {
             if !text.isEmpty {
-                let newItem = Kotonoha(context: viewContext)
-                newItem.text = text
+                kotonohaController.create(text: text)
             }
             if let image = self.image {
-                let newImageItem = Kotonoha(context: viewContext)
-                let imageEntity = ImageData(context: viewContext)
-                imageEntity.image = image
-                newImageItem.image = imageEntity
+                kotonohaController.create(image: image)
             }
             clear()
-            try viewContext.save()
+            try kotonohaController.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")

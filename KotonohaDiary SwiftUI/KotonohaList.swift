@@ -29,11 +29,27 @@ struct KotonohaList: View {
                                     KotonohaRow(kotonoha: kotonoha, isSelected: false)
                                 }
                             }
+                            .onDelete(perform: { indexSet in
+                                indexSet
+                                    .map({ section[$0] })
+                                    .forEach({ delete(kotonoha: $0) })
+                            })
                         }
                     }
                 }.listStyle(.plain)
             }
             .navigationTitle("ことのは")
+        }
+    }
+    
+    private func delete(kotonoha: Kotonoha) {
+        do {
+            let kotonohaController = KotonohaController(context: viewContext)
+            kotonohaController.delete(kotonoha: kotonoha)
+            try kotonohaController.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }
