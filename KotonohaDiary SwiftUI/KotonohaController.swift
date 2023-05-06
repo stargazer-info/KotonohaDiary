@@ -29,6 +29,11 @@ struct KotonohaController {
         newItem.image = imageEntity
     }
     
+    func update(text: String, kotonoha: Kotonoha) {
+        kotonoha.text = text
+        kotonoha.image = nil
+    }
+    
     func delete(kotonoha: Kotonoha) {
         context.delete(kotonoha)
     }

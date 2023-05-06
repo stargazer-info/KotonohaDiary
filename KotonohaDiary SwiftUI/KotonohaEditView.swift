@@ -11,6 +11,7 @@ import SwiftUI
 struct KotonohaEditView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FocusState var isInputActive: Bool
+    @Binding var kotonoha: Kotonoha?
     @State var text: String = ""
     @State var image: UIImage?
     @State private var isChooseImageConfirming = false
@@ -50,15 +51,18 @@ struct KotonohaEditView: View {
                         }
                         Spacer()
                         Button("Cancel") {
+                            clear()
                             isInputActive = false
                         }
                     }
                 }
                 .onSubmit {
                     createOrUpdateKotonoha()
+                    clear()
                 }
             Button("Save") {
                 createOrUpdateKotonoha()
+                clear()
             }
             .buttonStyle(.borderless)
         }
@@ -70,6 +74,11 @@ struct KotonohaEditView: View {
         }
         .onChange(of: image) { newValue in
             createOrUpdateKotonoha()
+            clear()
+        }
+        .onChange(of: kotonoha) {newValue in
+            text = newValue?.text ?? ""
+            isInputActive = !text.isEmpty
         }
     }
     
@@ -77,12 +86,15 @@ struct KotonohaEditView: View {
         let kotonohaController = KotonohaController(context: viewContext)
         do {
             if !text.isEmpty {
-                kotonohaController.create(text: text)
+                if let kotonoha = kotonoha, kotonoha.text != text {
+                    kotonohaController.update(text: text, kotonoha: kotonoha)
+                } else {
+                    kotonohaController.create(text: text)
+                }
             }
             if let image = self.image {
                 kotonohaController.create(image: image)
             }
-            clear()
             try kotonohaController.save()
         } catch {
             let nsError = error as NSError
@@ -91,14 +103,17 @@ struct KotonohaEditView: View {
     }
     
     private func clear() {
+        kotonoha = nil
         text = ""
         image = nil
     }
 }
 
 struct KotonohaEditView_Previews: PreviewProvider {
+    @State static var kotonoha: Kotonoha?
+    
     static var previews: some View {
-        KotonohaEditView()
+        KotonohaEditView(kotonoha: $kotonoha)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

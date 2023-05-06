@@ -14,19 +14,21 @@ struct KotonohaList: View {
     @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: false)])
     private var kotonohaSections: SectionedFetchResults<String?,Kotonoha>
 
+    @State private var editing: Kotonoha?
+    
     var body: some View {
         NavigationStack {
             VStack {
-                KotonohaEditView()
+                KotonohaEditView(kotonoha: $editing)
                     .padding(.horizontal)
-                List {
+                List() {
                     ForEach(kotonohaSections) { section in
                         Section(header: Text(section.id ?? "")) {
-                            ForEach(section) { kotonoha in
+                            ForEach(section, id: \.self) { kotonoha in
                                 if let _ = kotonoha.image {
                                     KotonohaImageRow(kotonoha: kotonoha, isSelected: false)
                                 } else {
-                                    KotonohaRow(kotonoha: kotonoha, isSelected: false)
+                                    KotonohaRow(kotonoha: kotonoha, isSelected: false, editing: $editing)
                                 }
                             }
                             .onDelete(perform: { indexSet in

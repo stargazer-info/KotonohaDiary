@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct KotonohaRow: View {
-    var kotonoha: Kotonoha
+    @ObservedObject var kotonoha: Kotonoha
     @State var isSelected: Bool
-    
+    @Binding var editing: Kotonoha?
+
     var body: some View {
         HStack {
             Button {
@@ -24,7 +25,7 @@ struct KotonohaRow: View {
             Text(kotonoha.text ?? "")
             Spacer()
             Button {
-                print("Edit")
+                editing = kotonoha
             } label: {
                 Text("Edit")
             }
@@ -34,7 +35,9 @@ struct KotonohaRow: View {
 }
 
 struct KotonohaRow_Previews: PreviewProvider {
+    @State static var editing: Kotonoha?
+
     static var previews: some View {
-        KotonohaRow(kotonoha: SampleData().kotonoha, isSelected: true)
+        KotonohaRow(kotonoha: SampleData().kotonoha, isSelected: true, editing: $editing)
     }
 }
