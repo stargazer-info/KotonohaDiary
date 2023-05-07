@@ -9,14 +9,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     var body: some View {
-        KotonohaList()
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+        TabView {
+            KotonohaList()
+                .tabItem {
+                    Label("Words", image: "kotonohaTab")
+                }
+            DiaryPageView()
+                .tabItem {
+                    Label("Diary", image: "diaryTab")
+                }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.locale, Locale(identifier: "ja_JP"))
     }
 }

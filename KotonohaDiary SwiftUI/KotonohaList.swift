@@ -40,7 +40,7 @@ struct KotonohaList: View {
                     }
                 }.listStyle(.plain)
             }
-            .navigationTitle("ことのは")
+            .navigationTitle("Words")
         }
     }
     
