@@ -14,13 +14,13 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        let newItem = Kotonoha(context: viewContext)
-        newItem.text = "テスト"
+        let kotonohaController = KotonohaController(context: viewContext)
+        let diaryController = DiaryController(context: viewContext)
+        kotonohaController.create(text: "テスト")
+        diaryController.create(text: "日記テスト1\n複数行", images: nil)
         if let image = UIImage(named: "AppIconDebug") {
-            let imageEntity = ImageData(context: viewContext)
-            imageEntity.image = image
-            let newItem2 = Kotonoha(context: viewContext)
-            newItem2.image = imageEntity
+            kotonohaController.create(image: image)
+            diaryController.create(text: "日記テスト2", images: [image])
         }
         do {
             try viewContext.save()

@@ -19,8 +19,8 @@ struct DiaryPageView: View {
     var body: some View {
         NavigationStack {
             TabView {
-                ForEach(0..<testTexts.count) { index in
-                    Text(testTexts[index])
+                ForEach(diaries) { diary in
+                    DiaryView(diary: diary)
                 }
             }
             .tabViewStyle(.page)
