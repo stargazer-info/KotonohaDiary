@@ -17,7 +17,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Words", image: "kotonohaTab")
                 }
-            DiaryPageView()
+            DiaryViewer()
                 .tabItem {
                     Label("Diary", image: "diaryTab")
                 }

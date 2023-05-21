@@ -1,5 +1,5 @@
 //
-//  DiaryPageView.swift
+//  DiaryViewer.swift
 //  KotonohaDiary SwiftUI
 //
 //  Created by 山口 伸行 on 2023/05/07.
@@ -8,30 +8,41 @@
 
 import SwiftUI
 
-struct DiaryPageView: View {
+struct DiaryViewer: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Diary.createdAt, ascending: false)])
     private var diaries: FetchedResults<Diary>
     
-    private let testTexts = ["Hello, World!1", "Hello, World!2"]
+    @State private var editing: Diary?
     
     var body: some View {
         NavigationStack {
-            TabView {
-                ForEach(diaries) { diary in
-                    DiaryView(diary: diary)
+            VStack {
+                TabView {
+                    ForEach(diaries) { diary in
+                        DiaryView(diary: diary, editing: $editing)
+                    }
+                }
+                .tabViewStyle(.page)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Diary")
+            .fullScreenCover(item: $editing, onDismiss: {
+                editing = nil
+            }) { _ in
+                NavigationStack {
+                    DiaryEditView(diary: $editing)
                 }
             }
-            .tabViewStyle(.page)
-            .navigationTitle("Diary")
         }
     }
+    
 }
 
-struct DiaryPageView_Previews: PreviewProvider {
+struct DiaryViewer_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryPageView()
+        DiaryViewer()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .environment(\.locale, Locale(identifier: "ja_JP"))
     }

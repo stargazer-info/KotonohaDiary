@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct DiaryView: View {
-    var diary: Diary
+    @ObservedObject var diary: Diary
+    @Binding var editing: Diary?
     
     var body: some View {
         VStack {
@@ -39,13 +40,22 @@ struct DiaryView: View {
             }
         }
         .frame(maxWidth: .infinity)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Edit") {
+                    editing = diary
+                }
+            }
+        }
     }
 }
 
 struct DiaryView_Previews: PreviewProvider {
+    @State static var editing: Diary?
+    
     static var previews: some View {
         if let diary = SampleData().diary {
-            DiaryView(diary: diary)
+            DiaryView(diary: diary, editing: $editing)
         }
     }
 }

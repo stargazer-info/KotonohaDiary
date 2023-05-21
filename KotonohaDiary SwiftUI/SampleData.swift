@@ -95,7 +95,8 @@ class SampleData: ObservableObject {
 えええええええええええええええええええええええええええ
 おおおおおおおおおおおおおおおおおおおおおおおおおおお
 """
-        for i in 0..<10 {
+//        for i in 0..<10 {
+        for i in 0..<2 {
             let imageEntity = ImageData(context: context)
             imageEntity.image = UIImage(named: "AppIconDebug")!
             diary.addToImages(imageEntity)
