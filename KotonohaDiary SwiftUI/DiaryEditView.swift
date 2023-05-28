@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 import UniformTypeIdentifiers
 
 struct DiaryEditView: View {
@@ -21,6 +22,7 @@ struct DiaryEditView: View {
     @State private var isChooseImageConfirming = false
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
+    @State var selectedPhotos: PhotosPickerItem?
 
     var body: some View {
         VStack {
@@ -94,26 +96,23 @@ struct DiaryEditView: View {
             }
         }
         .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
-            Button("Camera") {
-                showCameraPicker = true
-            }
-            Button("Gallery") {
-                showPhotoLibraryPicker = true
-            }
-            Button("Cancel", role: .cancel) {
-                
-            }
+            ImageSelectConfirmationDialog(showCameraPicker: $showCameraPicker, showPhotoLibraryPicker: $showPhotoLibraryPicker)
         }
         .fullScreenCover(isPresented: $showCameraPicker) {
             CameraPicker(image: $newImage)
         }
-        .fullScreenCover(isPresented: $showPhotoLibraryPicker) {
-            PhotoLibraryPicker(image: $newImage)
+        .photosPicker(isPresented: $showPhotoLibraryPicker, selection: $selectedPhotos, matching: .images)
+        .onChange(of: selectedPhotos) { newValue in
+            Task {
+                if let imageData = try? await newValue?.loadTransferable(type: Data.self) {
+                    newImage = UIImage(data: imageData)
+                }
+                selectedPhotos = nil
+            }
         }
         .onChange(of: newImage) { newValue in
-            print("onChange: \(newValue)")
             if let image = newValue {
-                var newImageData = ImageData(context: viewContext)
+                let newImageData = ImageData(context: viewContext)
                 newImageData.image = image
                 images.append(newImageData)
                 newImage = nil

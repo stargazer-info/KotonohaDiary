@@ -48,6 +48,7 @@
 		08ABCC882A0768F10098E154 /* DiaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC872A0768F10098E154 /* DiaryController.swift */; };
 		08ABCC8A2A0778E70098E154 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC892A0778E70098E154 /* DiaryView.swift */; };
 		08ABCC8C2A109C1B0098E154 /* DiaryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC8B2A109C1B0098E154 /* DiaryEditView.swift */; };
+		08ABCC902A23123A0098E154 /* ImageSelectConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ABCC8F2A23123A0098E154 /* ImageSelectConfirmationDialog.swift */; };
 		08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */; };
 		08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C629D96C1D00DDDC63 /* ContentView.swift */; };
 		08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */; };
@@ -113,6 +114,7 @@
 		08ABCC872A0768F10098E154 /* DiaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryController.swift; sourceTree = "<group>"; };
 		08ABCC892A0778E70098E154 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		08ABCC8B2A109C1B0098E154 /* DiaryEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditView.swift; sourceTree = "<group>"; };
+		08ABCC8F2A23123A0098E154 /* ImageSelectConfirmationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectConfirmationDialog.swift; sourceTree = "<group>"; };
 		08BA21C229D96C1D00DDDC63 /* KotonohaDiary SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KotonohaDiary SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDiary_SwiftUIApp.swift; sourceTree = "<group>"; };
 		08BA21C629D96C1D00DDDC63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				08ABCC852A0757220098E154 /* DiaryViewer.swift */,
 				08ABCC892A0778E70098E154 /* DiaryView.swift */,
 				08ABCC8B2A109C1B0098E154 /* DiaryEditView.swift */,
+				08ABCC8F2A23123A0098E154 /* ImageSelectConfirmationDialog.swift */,
 			);
 			path = "KotonohaDiary SwiftUI";
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				08ABCC8C2A109C1B0098E154 /* DiaryEditView.swift in Sources */,
 				08ABCC3529E146680098E154 /* KotonohaRow.swift in Sources */,
 				08ABCC822A04F6060098E154 /* KotonohaController.swift in Sources */,
+				08ABCC902A23123A0098E154 /* ImageSelectConfirmationDialog.swift in Sources */,
 				08ABCC7E2A0231340098E154 /* CameraPicker.swift in Sources */,
 				08ABCC7329E272990098E154 /* Persistence.swift in Sources */,
 				08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */,

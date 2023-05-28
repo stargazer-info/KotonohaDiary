@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct KotonohaEditView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -17,6 +18,7 @@ struct KotonohaEditView: View {
     @State private var isChooseImageConfirming = false
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
+    @State private var selectedPhotos: PhotosPickerItem?
     
     var body: some View {
         HStack {
@@ -39,15 +41,7 @@ struct KotonohaEditView: View {
                                 .labelStyle(.iconOnly)
                         }
                         .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
-                            Button("Camera") {
-                                showCameraPicker = true
-                            }
-                            Button("Gallery") {
-                                showPhotoLibraryPicker = true
-                            }
-                            Button("Cancel", role: .cancel) {
-                                
-                            }
+                            ImageSelectConfirmationDialog(showCameraPicker: $showCameraPicker, showPhotoLibraryPicker: $showPhotoLibraryPicker)
                         }
                         Spacer()
                         Button("Cancel") {
@@ -69,8 +63,14 @@ struct KotonohaEditView: View {
         .fullScreenCover(isPresented: $showCameraPicker) {
             CameraPicker(image: $image)
         }
-        .fullScreenCover(isPresented: $showPhotoLibraryPicker) {
-            PhotoLibraryPicker(image: $image)
+        .photosPicker(isPresented: $showPhotoLibraryPicker, selection: $selectedPhotos, matching: .images)
+        .onChange(of: selectedPhotos) { newValue in
+            Task {
+                if let imageData = try? await newValue?.loadTransferable(type: Data.self) {
+                    image = UIImage(data: imageData)
+                }
+                selectedPhotos = nil
+            }
         }
         .onChange(of: image) { newValue in
             createOrUpdateKotonoha()
