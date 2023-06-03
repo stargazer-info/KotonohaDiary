@@ -12,7 +12,6 @@ import UniformTypeIdentifiers
 
 struct DiaryEditView: View {
     @Environment(\.dismiss) var dismiss
-//    @Environment(\.editMode) var editMode
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var diary: Diary?
     @State var editingText: String = ""
@@ -23,7 +22,8 @@ struct DiaryEditView: View {
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
     @State var selectedPhotos: PhotosPickerItem?
-
+    @State var isTargeted: Bool = false
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -43,11 +43,11 @@ struct DiaryEditView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 100)
-//                                .onDrag {
-//                                    self.draggingImage = imageData
-//                                    return NSItemProvider(object: imageData.id! as NSString)
-//                                }
-//                                .onDrop(of: [UTType.text], delegate: DragRelocateDelegate(item: imageData, listData: $images, current: $draggingImage))
+                                .onDrag {
+                                    self.draggingImage = imageData
+                                    return NSItemProvider(object: imageData.id! as NSString)
+                                }
+                                .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
                         }
                         Image("addImage")
                             .resizable()
@@ -70,9 +70,6 @@ struct DiaryEditView: View {
             }
         }
         .frame(maxWidth: .infinity)
-//        .onAppear {
-//            self.editMode?.wrappedValue = .active
-//        }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("Cancel") {
@@ -135,15 +132,13 @@ struct DiaryEditView: View {
         }
     }
 
-    struct DragRelocateDelegate: DropDelegate {
+    struct DragImageReorderDelegate: DropDelegate {
         let item: ImageData
         @Binding var listData: [ImageData]
         @Binding var current: ImageData?
 
         func dropEntered(info: DropInfo) {
-            if item != current {
-                let from = listData.firstIndex(of: current!)!
-                let to = listData.firstIndex(of: item)!
+            if item != current, let from = listData.firstIndex(of: current!), let to = listData.firstIndex(of: item) {
                 if listData[to].id != current!.id {
                     listData.move(fromOffsets: IndexSet(integer: from),
                         toOffset: to > from ? to + 1 : to)
