@@ -10,8 +10,9 @@ import SwiftUI
 
 struct DiaryView: View {
     @ObservedObject var diary: Diary
-    @Binding var editing: Diary?
-    
+    @State private var editing: Diary?
+    @State var showingImage: ImageData?
+
     var body: some View {
         VStack {
             Text(diary.createdAt!, style: .date)
@@ -31,6 +32,9 @@ struct DiaryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 100)
+                                .onTapGesture {
+                                    showingImage = imageData
+                                }
                         }
                         Spacer()
                     }
@@ -47,6 +51,18 @@ struct DiaryView: View {
                 }
             }
         }
+        .fullScreenCover(item: $editing, onDismiss: {
+            editing = nil
+        }) { _ in
+            NavigationStack {
+                DiaryEditView(diary: $editing)
+            }
+        }
+        .sheet(item: $showingImage, onDismiss: {
+            showingImage = nil
+        }) { imageData in
+            ImageView(imageData: imageData)
+        }
     }
 }
 
@@ -55,7 +71,7 @@ struct DiaryView_Previews: PreviewProvider {
     
     static var previews: some View {
         if let diary = SampleData().diary {
-            DiaryView(diary: diary, editing: $editing)
+            DiaryView(diary: diary)
         }
     }
 }

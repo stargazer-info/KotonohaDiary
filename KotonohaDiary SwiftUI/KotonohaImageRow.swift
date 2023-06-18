@@ -11,6 +11,7 @@ import SwiftUI
 struct KotonohaImageRow: View {
     var kotonoha: Kotonoha
     @State var isSelected: Bool
+    @State var showingImage: ImageData?
     
     var body: some View {
         HStack {
@@ -22,19 +23,22 @@ struct KotonohaImageRow: View {
             }
             .buttonStyle(.borderless)
             Spacer()
-            if let image = kotonoha.image?.image {
+            if let imageData = kotonoha.image {
+                let image = imageData.image
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(height: 60)
+                    .onTapGesture {
+                        showingImage = imageData
+                    }
             }
             Spacer()
-//            Button {
-//                print("Edit")
-//            } label: {
-//                Text("Edit")
-//            }
-//            .buttonStyle(.borderless)
+        }
+        .sheet(item: $showingImage, onDismiss: {
+            showingImage = nil
+        }) {imageData in
+            ImageView(imageData: imageData)
         }
     }
 }

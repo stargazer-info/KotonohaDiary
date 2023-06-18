@@ -14,27 +14,18 @@ struct DiaryViewer: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Diary.createdAt, ascending: false)])
     private var diaries: FetchedResults<Diary>
     
-    @State private var editing: Diary?
-    
     var body: some View {
         NavigationStack {
             VStack {
                 TabView {
                     ForEach(diaries) { diary in
-                        DiaryView(diary: diary, editing: $editing)
+                        DiaryView(diary: diary)
                     }
                 }
                 .tabViewStyle(.page)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Diary")
-            .fullScreenCover(item: $editing, onDismiss: {
-                editing = nil
-            }) { _ in
-                NavigationStack {
-                    DiaryEditView(diary: $editing)
-                }
-            }
         }
     }
     

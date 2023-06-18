@@ -21,6 +21,7 @@
 		081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 081DB0AC1F496B150003312A /* InfoPlist.strings */; };
 		085F80D91F244EE80045908E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80D81F244EE80045908E /* Diary.swift */; };
 		085F80DB1F26214E0045908E /* DiaryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80DA1F26214E0045908E /* DiaryPageViewController.swift */; };
+		086498C82A3EDE58000BEBA7 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086498C72A3EDE58000BEBA7 /* ImageView.swift */; };
 		087B28891F910A8C00394F6F /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B28881F910A8C00394F6F /* ImageData.swift */; };
 		087B288D1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */; };
 		08920F951F839EB800E16E99 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08920F941F839EB800E16E99 /* ImageViewController.swift */; };
@@ -92,6 +93,7 @@
 		084140C21F77704A002EB27A /* KotonohaDiary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KotonohaDiary 2.xcdatamodel"; sourceTree = "<group>"; };
 		085F80D81F244EE80045908E /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
+		086498C72A3EDE58000BEBA7 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		087B28881F910A8C00394F6F /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		087B288C1F94F6C800394F6F /* DiaryImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		08920F941F839EB800E16E99 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				08ABCC852A0757220098E154 /* DiaryViewer.swift */,
 				08ABCC892A0778E70098E154 /* DiaryView.swift */,
 				08ABCC8B2A109C1B0098E154 /* DiaryEditView.swift */,
+				086498C72A3EDE58000BEBA7 /* ImageView.swift */,
 				08ABCC8F2A23123A0098E154 /* ImageSelectConfirmationDialog.swift */,
 			);
 			path = "KotonohaDiary SwiftUI";
@@ -441,6 +444,7 @@
 				08ABCC3529E146680098E154 /* KotonohaRow.swift in Sources */,
 				08ABCC822A04F6060098E154 /* KotonohaController.swift in Sources */,
 				08ABCC902A23123A0098E154 /* ImageSelectConfirmationDialog.swift in Sources */,
+				086498C82A3EDE58000BEBA7 /* ImageView.swift in Sources */,
 				08ABCC7E2A0231340098E154 /* CameraPicker.swift in Sources */,
 				08ABCC7329E272990098E154 /* Persistence.swift in Sources */,
 				08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */,
