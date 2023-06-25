@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct DiaryViewer: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Diary.createdAt, ascending: false)])
     private var diaries: FetchedResults<Diary>
     

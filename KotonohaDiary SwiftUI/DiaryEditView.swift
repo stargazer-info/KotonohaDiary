@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 struct DiaryEditView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var diaryController: DiaryController
     @Binding var diary: Diary?
     @State var editingText: String = ""
     @State var images: [ImageData] = []
@@ -93,9 +93,8 @@ struct DiaryEditView: View {
                 Button("Save") {
                     do {
                         if let diary = diary {
-                            diary.text = editingText
-                            addAllImages(diary: diary)
-                            try viewContext.save()
+                            diaryController.update(diary, text: editingText, images: images.map({ $0.image }))
+                            try diaryController.save()
                         }
                     } catch {
                         let nsError = error as NSError
@@ -122,8 +121,7 @@ struct DiaryEditView: View {
         }
         .onChange(of: newImage) { newValue in
             if let image = newValue {
-                let newImageData = ImageData(context: viewContext)
-                newImageData.image = image
+                let newImageData = diaryController.createImageData(image)
                 images.append(newImageData)
                 newImage = nil
             }
@@ -175,5 +173,6 @@ struct DiaryEditView_Previews: PreviewProvider {
     
     static var previews: some View {
         DiaryEditView(diary: $diary)
+            .environmentObject(DiaryController(context: PersistenceController.preview.container.viewContext))
     }
 }

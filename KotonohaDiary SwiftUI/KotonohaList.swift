@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct KotonohaList: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var kotonohaController: KotonohaController
     
     @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: false)])
     private var kotonohaSections: SectionedFetchResults<String?,Kotonoha>
@@ -46,7 +46,6 @@ struct KotonohaList: View {
     
     private func delete(kotonoha: Kotonoha) {
         do {
-            let kotonohaController = KotonohaController(context: viewContext)
             kotonohaController.delete(kotonoha: kotonoha)
             try kotonohaController.save()
         } catch {

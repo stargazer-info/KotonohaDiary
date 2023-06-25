@@ -14,6 +14,8 @@ struct KotonohaDiary_SwiftUIApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+                .environmentObject(DiaryController(context: PersistenceController.shared.container.viewContext))
+                .environmentObject(KotonohaController(context: PersistenceController.shared.container.viewContext))
         }
     }
 }

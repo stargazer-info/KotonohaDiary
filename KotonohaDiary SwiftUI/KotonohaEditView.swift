@@ -10,7 +10,7 @@ import SwiftUI
 import PhotosUI
 
 struct KotonohaEditView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var kotonohaController: KotonohaController
     @FocusState var isInputActive: Bool
     @Binding var kotonoha: Kotonoha?
     @State var text: String = ""
@@ -83,7 +83,6 @@ struct KotonohaEditView: View {
     }
     
     private func createOrUpdateKotonoha() {
-        let kotonohaController = KotonohaController(context: viewContext)
         do {
             if !text.isEmpty {
                 if let kotonoha = kotonoha, kotonoha.text != text {
@@ -114,6 +113,6 @@ struct KotonohaEditView_Previews: PreviewProvider {
     
     static var previews: some View {
         KotonohaEditView(kotonoha: $kotonoha)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(KotonohaController(context: PersistenceController.preview.container.viewContext))
     }
 }

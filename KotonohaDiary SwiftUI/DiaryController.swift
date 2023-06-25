@@ -9,12 +9,14 @@
 import CoreData
 import UIKit
 
-struct DiaryController {
+class DiaryController: ObservableObject {
     
     let context: NSManagedObjectContext
-
+    let imageController: ImageController
+    
     init(context: NSManagedObjectContext) {
         self.context = context
+        self.imageController = ImageController(context: context)
     }
     
     func create(text: String?, images: [UIImage]?) {
@@ -23,16 +25,24 @@ struct DiaryController {
         newItem.addToImages(createImageData(images))
     }
 
+    func createImageData(_ image: UIImage) -> ImageData {
+        return imageController.create(image)
+    }
+    
     func update(_ diary: Diary, text: String?, images: [UIImage]?) {
         diary.text = text
         removeAllImages(diary: diary)
         diary.addToImages(createImageData(images))
     }
     
-    func delete(_ diary:Diary?) throws {
+    func delete(_ diary: Diary?) {
         if let target = diary {
             context.delete(target)
         }
+    }
+    
+    func save() throws {
+        try context.save()
     }
     
     private func removeAllImages(diary: Diary) {
@@ -45,9 +55,7 @@ struct DiaryController {
     
     private func createImageData(_ images: [UIImage]?) -> NSOrderedSet {
         return NSOrderedSet(array: images?.map({ image in
-            let imageData = ImageData(context: context)
-            imageData.image = image
-            return imageData
+            return imageController.create(image)
         }) ?? [])
     }
 }

@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-struct KotonohaController {
+class KotonohaController: ObservableObject {
 
     let context: NSManagedObjectContext
 
