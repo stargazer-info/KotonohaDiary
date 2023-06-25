@@ -12,6 +12,7 @@ struct DiaryView: View {
     @ObservedObject var diary: Diary
     @State private var editing: Diary?
     @State var showingImage: ImageData?
+    @State private var deletedImage: ImageData?
 
     var body: some View {
         VStack {
@@ -61,7 +62,7 @@ struct DiaryView: View {
         .sheet(item: $showingImage, onDismiss: {
             showingImage = nil
         }) { imageData in
-            ImageView(imageData: imageData)
+            ImageView(imageData: imageData, deletedImage: $deletedImage)
         }
     }
 }

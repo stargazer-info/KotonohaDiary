@@ -9,19 +9,43 @@
 import SwiftUI
 
 struct ImageView: View {
+    @Environment(\.dismiss) var dismiss
     var imageData: ImageData?
+    var showDeleteButton: Bool = false
+    @Binding var deletedImage: ImageData?
     
     var body: some View {
         if let image = imageData?.image {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
+            ZStack {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                Spacer()
+                if showDeleteButton {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                print("Delete:")
+                                deletedImage = imageData
+                                dismiss()
+                            }, label: {
+                                Label("Delete", systemImage: "trash")
+                                    .labelStyle(.iconOnly)
+                            })
+                        }
+                    }
+                    .padding()
+                }
+            }
         }
     }
 }
 
 struct ImageView_Previews: PreviewProvider {
+    @State static var deletedImage: ImageData? = nil
     static var previews: some View {
-        ImageView(imageData: SampleData().kotonohaImage.image)
+        ImageView(imageData: SampleData().kotonohaImage.image, deletedImage: $deletedImage)
     }
 }

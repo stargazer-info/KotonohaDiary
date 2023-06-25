@@ -12,7 +12,8 @@ struct KotonohaImageRow: View {
     var kotonoha: Kotonoha
     @State var isSelected: Bool
     @State var showingImage: ImageData?
-    
+    @State private var deletedImage: ImageData?
+
     var body: some View {
         HStack {
             Button {
@@ -38,7 +39,7 @@ struct KotonohaImageRow: View {
         .sheet(item: $showingImage, onDismiss: {
             showingImage = nil
         }) {imageData in
-            ImageView(imageData: imageData)
+            ImageView(imageData: imageData, deletedImage: $deletedImage)
         }
     }
 }

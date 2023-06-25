@@ -23,7 +23,9 @@ struct DiaryEditView: View {
     @State private var showPhotoLibraryPicker = false
     @State var selectedPhotos: PhotosPickerItem?
     @State var isTargeted: Bool = false
-    
+    @State var showingImage: ImageData?
+    @State var deletedImage: ImageData?
+
     var body: some View {
         VStack {
             ScrollView {
@@ -48,6 +50,9 @@ struct DiaryEditView: View {
                                     return NSItemProvider(object: imageData.id! as NSString)
                                 }
                                 .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
+                                .onTapGesture {
+                                    showingImage = imageData
+                                }
                         }
                         Image("addImage")
                             .resizable()
@@ -66,6 +71,14 @@ struct DiaryEditView: View {
                     if let imageDataList = images.array as? [ImageData] {
                         self.images = imageDataList
                     }
+                }
+                .sheet(item: $showingImage, onDismiss: {
+                    if let deletedImage = self.deletedImage {
+                        self.images = self.images.filter({ $0 != deletedImage })
+                        self.deletedImage = nil
+                    }
+                }) { imageData in
+                    ImageView(imageData: imageData, showDeleteButton: true, deletedImage: $deletedImage)
                 }
             }
         }
