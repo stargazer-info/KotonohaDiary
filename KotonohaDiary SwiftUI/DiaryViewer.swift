@@ -34,16 +34,16 @@ struct DiaryViewer: View {
                 }
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: {
-                        print("new diary")
+                        showAddDiary = true
                     }) {
                         Image(systemName: "plus")
                     }
                 }
             }
             .fullScreenCover(isPresented: $showAddDiary) {
-//                NavigationStack {
-//                    DiaryEditView(diary: Binding(nil))
-//                }
+                NavigationStack {
+                    DiaryEditView(diary: nil)
+                }
             }
         }
     }

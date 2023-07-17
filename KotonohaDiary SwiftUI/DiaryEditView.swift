@@ -28,12 +28,10 @@ struct DiaryEditView: View {
 
     var body: some View {
         VStack {
-            ScrollView {
-                TextEditor(text: $editingText)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            TextEditor(text: $editingText)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .border(.gray, width: 1)
                 .padding()
-            }
-            Spacer()
             ScrollView([.horizontal]) {
                 HStack {
                     ForEach(self.images) { imageData in
@@ -82,8 +80,10 @@ struct DiaryEditView: View {
                     do {
                         if let diary = diary {
                             diaryController.update(diary, text: editingText, images: images.map({ $0.image }))
-                            try diaryController.save()
+                        } else {
+                            diaryController.create(text: editingText, images: images.map({ $0.image }))
                         }
+                        try diaryController.save()
                     } catch {
                         let nsError = error as NSError
                         fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
