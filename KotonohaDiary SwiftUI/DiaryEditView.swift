@@ -13,7 +13,7 @@ import UniformTypeIdentifiers
 struct DiaryEditView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var diaryController: DiaryController
-    @Binding var diary: Diary?
+    var diary: Diary?
     @State var editingText: String = ""
     @State var images: [ImageData] = []
     @State var newImage: UIImage?
@@ -32,55 +32,43 @@ struct DiaryEditView: View {
                 TextEditor(text: $editingText)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-                .onAppear {
-                    self.editingText = self.diary?.text ?? ""
-                }
             }
             Spacer()
-            if let images = diary?.images {
-                ScrollView([.horizontal]) {
-                    HStack {
-                        ForEach(self.images) { imageData in
-                            Image(uiImage: imageData.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 100)
-                                .onDrag {
-                                    self.draggingImage = imageData
-                                    return NSItemProvider(object: imageData.id! as NSString)
-                                }
-                                .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
-                                .onTapGesture {
-                                    showingImage = imageData
-                                }
-                        }
-                        Image("addImage")
+            ScrollView([.horizontal]) {
+                HStack {
+                    ForEach(self.images) { imageData in
+                        Image(uiImage: imageData.image)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
-                            .onTapGesture {
-                                print("onTapGesture")
-                                isChooseImageConfirming = true
+                            .onDrag {
+                                self.draggingImage = imageData
+                                return NSItemProvider(object: imageData.id! as NSString)
                             }
-                        Spacer()
+                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
+                            .onTapGesture {
+                                showingImage = imageData
+                            }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                    Image("addImage")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 100)
+                        .onTapGesture {
+                            print("onTapGesture")
+                            isChooseImageConfirming = true
+                        }
+                    Spacer()
                 }
-                .onAppear {
-                    if let imageDataList = images.array as? [ImageData] {
-                        self.images = imageDataList
-                    }
-                }
-                .sheet(item: $showingImage, onDismiss: {
-                    if let deletedImage = self.deletedImage {
-                        self.images = self.images.filter({ $0 != deletedImage })
-                        self.deletedImage = nil
-                    }
-                }) { imageData in
-                    ImageView(imageData: imageData, showDeleteButton: true, deletedImage: $deletedImage)
-                }
+                .frame(maxWidth: .infinity)
+                .padding()
             }
+            .sheet(item: $showingImage) { imageData in
+                ImageView(imageData: imageData, showDeleteButton: true, deletedImage: $deletedImage)
+            }
+        }
+        .onAppear {
+            update(diary: diary)
         }
         .frame(maxWidth: .infinity)
         .toolbar {
@@ -100,6 +88,7 @@ struct DiaryEditView: View {
                         let nsError = error as NSError
                         fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                     }
+                    update(diary: diary)
                     dismiss()
                 }
             }
@@ -126,23 +115,21 @@ struct DiaryEditView: View {
                 newImage = nil
             }
         }
-    }
-    
-    private func addAllImages(diary: Diary) {
-        removeAllImages(diary: diary)
-        for image in images {
-            diary.addToImages(image)
-        }
-    }
-
-    private func removeAllImages(diary: Diary) {
-        if let images = diary.images?.array as? [ImageData] {
-            for image in images {
-                diary.removeFromImages(image)
+        .onChange(of: deletedImage) { newValue in
+            if let image = newValue {
+                self.images = self.images.filter({ $0 != image })
+                deletedImage = nil
             }
         }
     }
-
+    
+    private func update(diary: Diary?) {
+        if let diary = diary {
+            self.images = (diary.images?.array as? [ImageData]) ?? []
+            self.editingText = diary.text ?? ""
+        }
+    }
+    
     struct DragImageReorderDelegate: DropDelegate {
         let item: ImageData
         @Binding var listData: [ImageData]
@@ -169,10 +156,9 @@ struct DiaryEditView: View {
 }
 
 struct DiaryEditView_Previews: PreviewProvider {
-    @State static var diary = SampleData().diary
     
     static var previews: some View {
-        DiaryEditView(diary: $diary)
+        DiaryEditView(diary: SampleData().diary)
             .environmentObject(DiaryController(context: PersistenceController.preview.container.viewContext))
     }
 }

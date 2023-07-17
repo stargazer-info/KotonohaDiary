@@ -10,10 +10,12 @@ import SwiftUI
 
 struct DiaryView: View {
     @ObservedObject var diary: Diary
-    @State private var editing: Diary?
+    @Binding var showEditViewCommand: Bool
+    @State var showEditView: Bool = false
     @State var showingImage: ImageData?
     @State private var deletedImage: ImageData?
-
+    @State var isAppeared: Bool = false
+    
     var body: some View {
         VStack {
             Text(diary.createdAt!, style: .date)
@@ -45,18 +47,22 @@ struct DiaryView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    editing = diary
-                }
+        .onAppear {
+            isAppeared = true
+        }
+        .onDisappear {
+            isAppeared = false
+        }
+        .onChange(of: showEditViewCommand) { newValue in
+            if newValue && isAppeared {
+                showEditView = true
             }
         }
-        .fullScreenCover(item: $editing, onDismiss: {
-            editing = nil
-        }) { _ in
+        .fullScreenCover(isPresented: $showEditView, onDismiss: {
+            showEditViewCommand = false
+        }) {
             NavigationStack {
-                DiaryEditView(diary: $editing)
+                DiaryEditView(diary: diary)
             }
         }
         .sheet(item: $showingImage, onDismiss: {
@@ -68,11 +74,11 @@ struct DiaryView: View {
 }
 
 struct DiaryView_Previews: PreviewProvider {
-    @State static var editing: Diary?
+    @State static var showEditView = false
     
     static var previews: some View {
         if let diary = SampleData().diary {
-            DiaryView(diary: diary)
+            DiaryView(diary: diary, showEditViewCommand: $showEditView)
         }
     }
 }
