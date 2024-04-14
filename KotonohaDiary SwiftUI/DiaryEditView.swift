@@ -69,6 +69,7 @@ struct DiaryEditView: View {
             update(diary: diary)
         }
         .frame(maxWidth: .infinity)
+        .background(Image("background"))
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("Cancel") {

@@ -26,6 +26,7 @@ struct DiaryViewer: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Diary")
+            .background(Image("background"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {

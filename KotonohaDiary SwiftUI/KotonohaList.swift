@@ -38,9 +38,12 @@ struct KotonohaList: View {
                             })
                         }
                     }
-                }.listStyle(.plain)
+                    .listRowBackground(Color.clear)
+                }
+                .listStyle(.plain)
             }
             .navigationTitle("Words")
+            .background(Image("background"))
         }
     }
     
