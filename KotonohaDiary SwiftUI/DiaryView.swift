@@ -18,7 +18,7 @@ struct DiaryView: View {
     
     var body: some View {
         VStack {
-            Text(diary.createdAt!, style: .date)
+            Text(diary.createdAt ?? Date(), style: .date)
                 .font(.headline)
                 .padding()
             ScrollView {

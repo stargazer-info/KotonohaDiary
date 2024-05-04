@@ -9,16 +9,18 @@
 import SwiftUI
 
 struct DiaryViewer: View {
+    @EnvironmentObject var diaryController: DiaryController
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Diary.createdAt, ascending: false)])
     private var diaries: FetchedResults<Diary>
+    @State var selected: String?
     @State var showAddDiary: Bool = false
     @State var showEditView: Bool = false
-
+    @State var showDeleteView: Bool = false
     var body: some View {
         NavigationStack {
             VStack {
-                TabView {
-                    ForEach(diaries) { diary in
+                TabView(selection: $selected) {
+                    ForEach(diaries, id: \.id) { diary in
                         DiaryView(diary: diary, showEditViewCommand: $showEditView)
                     }
                 }
@@ -33,7 +35,19 @@ struct DiaryViewer: View {
                         showEditView = true
                     }
                 }
-                ToolbarItem(placement: .bottomBar) {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button(action: {
+                        showDeleteView = true
+                    }) {
+                        Image(systemName: "trash")
+                    }
+                    Spacer()
+                    Button(action: {
+//                        showAddDiary = true
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    Spacer()
                     Button(action: {
                         showAddDiary = true
                     }) {
@@ -46,6 +60,30 @@ struct DiaryViewer: View {
                     DiaryEditView(diary: nil)
                 }
             }
+        }
+        .alert("削除", isPresented: $showDeleteView) {
+            Button(role: .destructive) {
+                do {
+                    if let current = diaries.first(where: { diary in
+                        diary.id == self.selected
+                    }) {
+                        print("削除: \(String(describing: current))")
+                        self.selected = nil
+                        diaryController.delete(current)
+                        try diaryController.save()
+                    }
+                } catch {
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                }
+             } label: {
+                 Text("削除")
+             }
+        } message: {
+            Text("この日記を削除しますか？")
+        }
+        .onAppear {
+            selected = diaries.first?.id
         }
     }
     
