@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0802CCA52EF6A28900DB7831 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */; };
 		0816A2BE1F1AFE5D000FA96F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */; };
 		0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C11F1AFE5D000FA96F /* Main.storyboard */; };
 		0816A2C61F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */; };
@@ -55,7 +56,6 @@
 		08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA21C629D96C1D00DDDC63 /* ContentView.swift */; };
 		08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BA21CB29D96C1E00DDDC63 /* Preview Assets.xcassets */; };
 		08BA21D029D96E7400DDDC63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C71F1AFE5D000FA96F /* Assets.xcassets */; };
-		08BA21D129D96E7E00DDDC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D21F5E97AF00D99FBB /* Localizable.strings */; };
 		08C4B2CD1F5E823700D99FBB /* DateFormatUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C4B2CC1F5E823700D99FBB /* DateFormatUtil.swift */; };
 		08C4B2D01F5E97AF00D99FBB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D21F5E97AF00D99FBB /* Localizable.strings */; };
 		08C4B2D51F5E97B000D99FBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08C4B2D71F5E97B000D99FBB /* InfoPlist.strings */; };
@@ -72,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		0816A2BA1F1AFE5D000FA96F /* KotonohaDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotonohaDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0816A2C21F1AFE5D000FA96F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -153,6 +154,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0802CCA32EF6A27100DB7831 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		0816A2B11F1AFE5D000FA96F = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +243,7 @@
 		08BA21C329D96C1D00DDDC63 /* KotonohaDiary SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				0802CCA32EF6A27100DB7831 /* Resources */,
 				08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */,
 				08ABCC7229E272990098E154 /* Persistence.swift */,
 				08BA21C629D96C1D00DDDC63 /* ContentView.swift */,
@@ -398,7 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */,
-				08BA21D129D96E7E00DDDC63 /* Localizable.strings in Resources */,
+				0802CCA52EF6A28900DB7831 /* Localizable.xcstrings in Resources */,
 				08BA21D029D96E7400DDDC63 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,6 +591,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -632,6 +643,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};

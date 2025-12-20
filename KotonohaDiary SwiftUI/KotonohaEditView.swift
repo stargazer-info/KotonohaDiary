@@ -24,11 +24,11 @@ struct KotonohaEditView: View {
         HStack {
             Button {
             } label: {
-                Label("Toggle Selected", image: "unselected")
+                Label(String(""), image: "unselected")
                     .labelStyle(.iconOnly)
             }
             .buttonStyle(.borderless)
-            TextField("ことのは", text: $text)
+            TextField("Words", text: $text)
                 .border(.gray)
                 .focused($isInputActive)
                 .toolbar {
@@ -37,7 +37,7 @@ struct KotonohaEditView: View {
                             isInputActive = false
                             isChooseImageConfirming = true
                         } label: {
-                            Label("", systemImage: "camera")
+                            Label(String(""), systemImage: "camera")
                                 .labelStyle(.iconOnly)
                         }
                         .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {

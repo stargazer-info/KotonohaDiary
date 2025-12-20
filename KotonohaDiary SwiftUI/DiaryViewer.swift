@@ -61,13 +61,13 @@ struct DiaryViewer: View {
                 }
             }
         }
-        .alert("削除", isPresented: $showDeleteView) {
+        .alert("Delete", isPresented: $showDeleteView) {
             Button(role: .destructive) {
                 do {
                     if let current = diaries.first(where: { diary in
                         diary.id == self.selected
                     }) {
-                        print("削除: \(String(describing: current))")
+//                        print("削除: \(String(describing: current))")
                         self.selected = nil
                         diaryController.delete(current)
                         try diaryController.save()
@@ -77,10 +77,10 @@ struct DiaryViewer: View {
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
              } label: {
-                 Text("削除")
+                 Text("Delete")
              }
         } message: {
-            Text("この日記を削除しますか？")
+            Text("Delete this diary?")
         }
         .onAppear {
             selected = diaries.first?.id

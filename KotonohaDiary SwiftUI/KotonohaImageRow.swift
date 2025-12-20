@@ -19,7 +19,7 @@ struct KotonohaImageRow: View {
             Button {
                 isSelected.toggle()
             } label: {
-                Label("Toggle Selected", image: isSelected ? "selected" : "unselected")
+                Label(String(""), image: isSelected ? "selected" : "unselected")
                     .labelStyle(.iconOnly)
             }
             .buttonStyle(.borderless)
