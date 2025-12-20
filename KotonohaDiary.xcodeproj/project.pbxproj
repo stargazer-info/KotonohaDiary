@@ -345,7 +345,7 @@
 					};
 					08BA21C129D96C1D00DDDC63 = {
 						CreatedOnToolsVersion = 14.2;
-						DevelopmentTeam = N23N6CW46N;
+						DevelopmentTeam = LTC332GLSD;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -712,7 +712,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = N23N6CW46N;
+				DEVELOPMENT_TEAM = LTC332GLSD;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -751,7 +751,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = N23N6CW46N;
+				DEVELOPMENT_TEAM = LTC332GLSD;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
