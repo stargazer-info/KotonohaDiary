@@ -43,12 +43,6 @@ struct DiaryViewer: View {
                     }
                     Spacer()
                     Button(action: {
-//                        showAddDiary = true
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    Spacer()
-                    Button(action: {
                         showAddDiary = true
                     }) {
                         Image(systemName: "plus")
