@@ -24,7 +24,7 @@ struct DiaryEditView: View {
     @State var selectedPhotos: PhotosPickerItem?
     @State var isTargeted: Bool = false
     @State var showingImage: ImageData?
-    @State var deletedImage: ImageData?
+    @State var isImageDeleted: Bool = false
 
     var body: some View {
         VStack {
@@ -62,7 +62,7 @@ struct DiaryEditView: View {
                 .padding()
             }
             .sheet(item: $showingImage) { imageData in
-                ImageView(imageData: imageData, showDeleteButton: true, deletedImage: $deletedImage)
+                ImageView(image: imageData.image, showDeleteButton: true, isDeleted: $isImageDeleted)
             }
         }
         .onAppear {
@@ -116,10 +116,11 @@ struct DiaryEditView: View {
                 newImage = nil
             }
         }
-        .onChange(of: deletedImage) { newValue in
-            if let image = newValue {
+        .onChange(of: isImageDeleted) { newValue in
+            if newValue, let image = showingImage {
+                self.isImageDeleted = false
+                self.showingImage = nil
                 self.images = self.images.filter({ $0 != image })
-                deletedImage = nil
             }
         }
     }

@@ -10,34 +10,31 @@ import SwiftUI
 
 struct ImageView: View {
     @Environment(\.dismiss) var dismiss
-    var imageData: ImageData?
+    var image: UIImage
     var showDeleteButton: Bool = false
-    @Binding var deletedImage: ImageData?
+    @Binding var isDeleted: Bool
     
     var body: some View {
-        if let image = imageData?.image {
-            ZStack {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                Spacer()
-                if showDeleteButton {
-                    VStack {
+        ZStack {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+            Spacer()
+            if showDeleteButton {
+                VStack {
+                    Spacer()
+                    HStack {
                         Spacer()
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                print("Delete:")
-                                deletedImage = imageData
-                                dismiss()
-                            }, label: {
-                                Label("Delete", systemImage: "trash")
-                                    .labelStyle(.iconOnly)
-                            })
-                        }
+                        Button(action: {
+                            print("Delete:")
+                            isDeleted = true
+                        }, label: {
+                            Label("Delete", systemImage: "trash")
+                                .labelStyle(.iconOnly)
+                        })
                     }
-                    .padding()
                 }
+                .padding()
             }
         }
     }
@@ -46,6 +43,8 @@ struct ImageView: View {
 struct ImageView_Previews: PreviewProvider {
     @State static var deletedImage: ImageData? = nil
     static var previews: some View {
-        ImageView(imageData: SampleData().kotonohaImage.image, deletedImage: $deletedImage)
+        if let image = SampleData().kotonohaImage.image?.image {
+            ImageView(image: image, isDeleted: .constant(false))
+        }
     }
 }

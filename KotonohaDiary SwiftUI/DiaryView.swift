@@ -13,7 +13,6 @@ struct DiaryView: View {
     @Binding var showEditViewCommand: Bool
     @State var showEditView: Bool = false
     @State var showingImage: ImageData?
-    @State private var deletedImage: ImageData?
     @State var isAppeared: Bool = false
     
     var body: some View {
@@ -68,7 +67,7 @@ struct DiaryView: View {
         .sheet(item: $showingImage, onDismiss: {
             showingImage = nil
         }) { imageData in
-            ImageView(imageData: imageData, deletedImage: $deletedImage)
+            ImageView(image: imageData.image, isDeleted: .constant(false))
         }
     }
 }
