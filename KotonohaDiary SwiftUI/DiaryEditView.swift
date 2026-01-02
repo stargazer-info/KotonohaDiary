@@ -15,17 +15,31 @@ struct DiaryEditView: View {
     @EnvironmentObject var diaryController: DiaryController
     var diary: Diary?
     @State var editingText: String = ""
-    @State var images: [ImageData] = []
+    @State var images: [EditableImageData] = []
+    struct EditableImageData: Identifiable, Equatable {
+        var id: UUID = UUID()
+        var image: UIImage
+    }
     @State var newImage: UIImage?
-    @State private var draggingImage: ImageData?
+    @State private var draggingImage: EditableImageData?
     @State private var isChooseImageConfirming = false
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
     @State var selectedPhotos: PhotosPickerItem?
     @State var isTargeted: Bool = false
-    @State var showingImage: ImageData?
+    @State var showingImage: EditableImageData?
     @State var isImageDeleted: Bool = false
 
+    init(diary: Diary) {
+        self.diary = diary
+        self.update(diary: diary)
+    }
+    
+    init (text: String, images: [UIImage]) {
+        self._editingText = State(initialValue: text)
+        self._images = State(initialValue: images.map { EditableImageData(image: $0) })
+    }
+    
     var body: some View {
         VStack {
             TextEditor(text: $editingText)
@@ -34,18 +48,21 @@ struct DiaryEditView: View {
                 .padding()
             ScrollView([.horizontal]) {
                 HStack {
-                    ForEach(self.images) { imageData in
-                        Image(uiImage: imageData.image)
+                    ForEach(self.images) { image in
+                        Image(uiImage: image.image)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
-                            .onDrag {
-                                self.draggingImage = imageData
-                                return NSItemProvider(object: imageData.id! as NSString)
-                            }
-                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
+//                            .onDrag {
+////                                self.draggingImage = imageData
+////                                return NSItemProvider(object: imageData.id! as NSString)
+//                                self.draggingImage = image
+//                                return NSItemProvider(object: image.id!.uuidString)
+//                            }
+//                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: image, listData: $images, current: $draggingImage))
+////                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
                             .onTapGesture {
-                                showingImage = imageData
+                                showingImage = image
                             }
                     }
                     Image("addImage")
@@ -111,8 +128,7 @@ struct DiaryEditView: View {
         }
         .onChange(of: newImage) { newValue in
             if let image = newValue {
-                let newImageData = diaryController.createImageData(image)
-                images.append(newImageData)
+                images.append(EditableImageData(image: image))
                 newImage = nil
             }
         }
@@ -127,7 +143,8 @@ struct DiaryEditView: View {
     
     private func update(diary: Diary?) {
         if let diary = diary {
-            self.images = (diary.images?.array as? [ImageData]) ?? []
+            self.images = ((diary.images?.array as? [ImageData]) ?? [])
+                .map({ EditableImageData(image: $0.image) })
             self.editingText = diary.text ?? ""
         }
     }
@@ -160,7 +177,7 @@ struct DiaryEditView: View {
 struct DiaryEditView_Previews: PreviewProvider {
     
     static var previews: some View {
-        DiaryEditView(diary: SampleData().diary)
+        DiaryEditView(diary: SampleData().diary!)
             .environmentObject(DiaryController(context: PersistenceController.preview.container.viewContext))
     }
 }

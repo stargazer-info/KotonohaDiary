@@ -19,10 +19,11 @@ class DiaryController: ObservableObject {
         self.imageController = ImageController(context: context)
     }
     
-    func create(text: String?, images: [UIImage]?) {
+    func create(text: String?, images: [UIImage]?) -> Diary {
         let newItem = Diary(context: context)
         newItem.text = text
         newItem.addToImages(createImageData(images))
+        return newItem
     }
 
     func createImageData(_ image: UIImage) -> ImageData {

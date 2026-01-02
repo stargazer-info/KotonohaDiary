@@ -10,10 +10,17 @@ import SwiftUI
 
 struct KotonohaList: View {
     @EnvironmentObject var kotonohaController: KotonohaController
-    
+    @EnvironmentObject var diaryController: DiaryController
+
     @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: false)])
     private var kotonohaSections: SectionedFetchResults<String?,Kotonoha>
-
+    @State var selected: Set<Kotonoha> = []
+    @State var newDiaryData: DiaryData?
+    struct DiaryData: Identifiable {
+        let id: UUID = UUID()
+        var text: String
+        var images: [UIImage]
+    }
     @State private var editing: Kotonoha?
     
     var body: some View {
@@ -26,9 +33,15 @@ struct KotonohaList: View {
                         Section(header: Text(section.id ?? "")) {
                             ForEach(section, id: \.self) { kotonoha in
                                 if let _ = kotonoha.image {
-                                    KotonohaImageRow(kotonoha: kotonoha, isSelected: false)
+                                    KotonohaImageRow(
+                                        kotonoha: kotonoha,
+                                        selected: $selected
+                                    )
                                 } else {
-                                    KotonohaRow(kotonoha: kotonoha, isSelected: false, editing: $editing)
+                                    KotonohaRow(
+                                        kotonoha: kotonoha,
+                                        selected: $selected,
+                                        editing: $editing)
                                 }
                             }
                             .onDelete(perform: { indexSet in
@@ -42,11 +55,42 @@ struct KotonohaList: View {
                 }
                 .listStyle(.plain)
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Words")
             .background(Image("background"))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        print("selected: \(selected)")
+                        self.newDiaryData = makeDiaryData(kotonohaList: selected)
+                    }) {
+                        Image(systemName: "square.and.pencil")
+                    }
+                }
+            }
+            .fullScreenCover(item: $newDiaryData) { data in
+                NavigationStack {
+                    DiaryEditView(text: data.text, images: data.images)
+                }
+            }
         }
     }
     
+    private func makeDiaryData(kotonohaList: Set<Kotonoha>) -> DiaryData {
+        var texts: [String] = []
+        var images: [UIImage] = []
+        for kotonoha in kotonohaList {
+            if let image = kotonoha.image {
+                images.append(image.image)
+            } else {
+                if let text = kotonoha.text, !text.isEmpty {
+                    texts.append(text)
+                }
+            }
+        }
+        return DiaryData(text: texts.joined(separator: "\n"), images: images)
+    }
+
     private func delete(kotonoha: Kotonoha) {
         do {
             kotonohaController.delete(kotonoha: kotonoha)

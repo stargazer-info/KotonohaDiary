@@ -51,7 +51,7 @@ struct DiaryViewer: View {
             }
             .fullScreenCover(isPresented: $showAddDiary) {
                 NavigationStack {
-                    DiaryEditView(diary: nil)
+                    DiaryEditView(text: "", images: [])
                 }
             }
         }
@@ -61,7 +61,6 @@ struct DiaryViewer: View {
                     if let current = diaries.first(where: { diary in
                         diary.id == self.selected
                     }) {
-//                        print("削除: \(String(describing: current))")
                         self.selected = nil
                         diaryController.delete(current)
                         try diaryController.save()

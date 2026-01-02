@@ -10,8 +10,9 @@ import SwiftUI
 
 struct KotonohaRow: View {
     @ObservedObject var kotonoha: Kotonoha
-    @State var isSelected: Bool
+    @Binding var selected: Set<Kotonoha>
     @Binding var editing: Kotonoha?
+    @State private var isSelected: Bool = false
 
     var body: some View {
         HStack {
@@ -31,6 +32,20 @@ struct KotonohaRow: View {
             }
             .buttonStyle(.borderless)
         }
+        .onAppear {
+            self.isSelected = selected.contains(where: { $0.id == kotonoha.id })
+        }
+        .onChange(of: isSelected) { oldValue, newValue in
+            if newValue {
+                if !selected.contains(kotonoha) {
+                    selected.insert(kotonoha)
+                }
+            } else {
+                if selected.contains(kotonoha) {
+                    selected.remove(kotonoha)
+                }
+            }
+        }
     }
 }
 
@@ -38,6 +53,10 @@ struct KotonohaRow_Previews: PreviewProvider {
     @State static var editing: Kotonoha?
 
     static var previews: some View {
-        KotonohaRow(kotonoha: SampleData().kotonoha, isSelected: true, editing: $editing)
+        KotonohaRow(
+            kotonoha: SampleData().kotonoha,
+            selected: .constant(Set<Kotonoha>()),
+            editing: $editing
+        )
     }
 }

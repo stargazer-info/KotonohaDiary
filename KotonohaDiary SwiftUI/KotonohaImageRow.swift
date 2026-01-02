@@ -10,8 +10,9 @@ import SwiftUI
 
 struct KotonohaImageRow: View {
     var kotonoha: Kotonoha
-    @State var isSelected: Bool
+    @Binding var selected: Set<Kotonoha>
     @State var showingImage: ImageData?
+    @State private var isSelected: Bool = false
 
     var body: some View {
         HStack {
@@ -35,6 +36,20 @@ struct KotonohaImageRow: View {
             }
             Spacer()
         }
+        .onAppear {
+            self.isSelected = selected.contains(where: { $0.id == kotonoha.id })
+        }
+        .onChange(of: isSelected) { oldValue, newValue in
+            if newValue {
+                if !selected.contains(kotonoha) {
+                    selected.insert(kotonoha)
+                }
+            } else {
+                if selected.contains(kotonoha) {
+                    selected.remove(kotonoha)
+                }
+            }
+        }
         .sheet(item: $showingImage, onDismiss: {
             showingImage = nil
         }) { imageData in
@@ -45,6 +60,9 @@ struct KotonohaImageRow: View {
 
 struct KotonohaImageRow_Previews: PreviewProvider {
     static var previews: some View {
-        KotonohaImageRow(kotonoha: SampleData().kotonohaImage, isSelected: true)
+        KotonohaImageRow(
+            kotonoha: SampleData().kotonohaImage,
+            selected: .constant(Set<Kotonoha>())
+        )
     }
 }
