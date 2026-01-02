@@ -47,20 +47,18 @@ struct DiaryEditView: View {
                 .border(.gray, width: 1)
                 .padding()
             ScrollView([.horizontal]) {
-                HStack {
+                LazyHStack {
                     ForEach(self.images) { image in
                         Image(uiImage: image.image)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
-//                            .onDrag {
-////                                self.draggingImage = imageData
-////                                return NSItemProvider(object: imageData.id! as NSString)
-//                                self.draggingImage = image
-//                                return NSItemProvider(object: image.id!.uuidString)
-//                            }
-//                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: image, listData: $images, current: $draggingImage))
-////                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: imageData, listData: $images, current: $draggingImage))
+                            .onDrag {
+                                self.draggingImage = image
+                                return NSItemProvider(object: image.id.uuidString as NSString)
+                            }
+                            .onDrop(of: [.text], delegate: DragImageReorderDelegate(item: image, listData: $images, current: $draggingImage)
+                            )
                             .onTapGesture {
                                 showingImage = image
                             }
@@ -78,6 +76,7 @@ struct DiaryEditView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
             }
+            .scrollDisabled(draggingImage != nil)
             .sheet(item: $showingImage) { imageData in
                 ImageView(image: imageData.image, showDeleteButton: true, isDeleted: $isImageDeleted)
             }
@@ -150,9 +149,9 @@ struct DiaryEditView: View {
     }
     
     struct DragImageReorderDelegate: DropDelegate {
-        let item: ImageData
-        @Binding var listData: [ImageData]
-        @Binding var current: ImageData?
+        let item: EditableImageData
+        @Binding var listData: [EditableImageData]
+        @Binding var current: EditableImageData?
 
         func dropEntered(info: DropInfo) {
             if item != current, let from = listData.firstIndex(of: current!), let to = listData.firstIndex(of: item) {
