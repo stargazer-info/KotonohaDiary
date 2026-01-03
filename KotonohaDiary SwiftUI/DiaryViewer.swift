@@ -14,14 +14,14 @@ struct DiaryViewer: View {
     private var diaries: FetchedResults<Diary>
     @State var selected: String?
     @State var showAddDiary: Bool = false
-    @State var showEditView: Bool = false
+    @State var editingDiary: Diary? = nil
     @State var showDeleteView: Bool = false
     var body: some View {
         NavigationStack {
             VStack {
                 TabView(selection: $selected) {
                     ForEach(diaries, id: \.id) { diary in
-                        DiaryView(diary: diary, showEditViewCommand: $showEditView)
+                        DiaryView(diary: diary)
                     }
                 }
                 .tabViewStyle(.page)
@@ -32,7 +32,7 @@ struct DiaryViewer: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
-                        showEditView = true
+                        showEditView(self.selected)
                     }
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -55,13 +55,15 @@ struct DiaryViewer: View {
                 }
             }
         }
+        .fullScreenCover(item: $editingDiary) { diary in
+            NavigationStack {
+                DiaryEditView(diary: diary)
+            }
+        }
         .alert("Delete", isPresented: $showDeleteView) {
             Button(role: .destructive) {
                 do {
-                    if let current = diaries.first(where: { diary in
-                        diary.id == self.selected
-                    }) {
-                        self.selected = nil
+                    if let current = getSelectedDiary(selected) {
                         diaryController.delete(current)
                         try diaryController.save()
                     }
@@ -69,9 +71,9 @@ struct DiaryViewer: View {
                     let nsError = error as NSError
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
-             } label: {
-                 Text("Delete")
-             }
+            } label: {
+                Text("Delete")
+            }
         } message: {
             Text("Delete this diary?")
         }
@@ -80,6 +82,22 @@ struct DiaryViewer: View {
         }
     }
     
+    private func showEditView(_ selected: String?) {
+        if let current = getSelectedDiary(selected) {
+            self.editingDiary = current
+        }
+    }
+    
+    private func getSelectedDiary(_ selectedId: String?) -> Diary? {
+        if let selected = selectedId,
+            let current = diaries.first(where: { diary in
+            diary.id == selected
+        }) {
+            return current
+        } else {
+            return nil
+        }
+    }
 }
 
 struct DiaryViewer_Previews: PreviewProvider {

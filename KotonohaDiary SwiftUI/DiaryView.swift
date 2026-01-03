@@ -10,10 +10,7 @@ import SwiftUI
 
 struct DiaryView: View {
     @ObservedObject var diary: Diary
-    @Binding var showEditViewCommand: Bool
-    @State var showEditView: Bool = false
     @State var showingImage: ImageData?
-    @State var isAppeared: Bool = false
     
     var body: some View {
         VStack {
@@ -46,24 +43,6 @@ struct DiaryView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .onAppear {
-            isAppeared = true
-        }
-        .onDisappear {
-            isAppeared = false
-        }
-        .onChange(of: showEditViewCommand) { newValue in
-            if newValue && isAppeared {
-                showEditView = true
-            }
-        }
-        .fullScreenCover(isPresented: $showEditView, onDismiss: {
-            showEditViewCommand = false
-        }) {
-            NavigationStack {
-                DiaryEditView(diary: diary)
-            }
-        }
         .sheet(item: $showingImage, onDismiss: {
             showingImage = nil
         }) { imageData in
@@ -77,7 +56,9 @@ struct DiaryView_Previews: PreviewProvider {
     
     static var previews: some View {
         if let diary = SampleData().diary {
-            DiaryView(diary: diary, showEditViewCommand: $showEditView)
+            DiaryView(
+                diary: diary
+            )
         }
     }
 }
