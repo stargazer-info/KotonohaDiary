@@ -32,8 +32,8 @@ class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
     
     var delegate:DiaryControllerDelegate? = nil
 
-    let dataContainer = AppDelegate.persistentContainer
-    let dataContext = AppDelegate.viewContext
+    let dataContainer = CoreDataManager.shared.persistentContainer
+    let dataContext = CoreDataManager.shared.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
 //    var diaryController = DiaryController()
     var imageController = ImageController()
@@ -82,7 +82,7 @@ class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
 //    }
     
     func removeAllImages(diary: Diary) {
-        if let images = diary.images?.array as? [Image] {
+        if let images = diary.images?.array as? [ImageData] {
             for image in images {
                 dataContext.delete(image)
             }
@@ -101,7 +101,7 @@ class DiaryController: NSObject, NSFetchedResultsControllerDelegate {
         diary.text = text
         removeAllImages(diary: diary)
         diary.addToImages(
-            NSOrderedSet(array: images.map { (image) -> Image in
+            NSOrderedSet(array: images.map { (image) -> ImageData in
                 return imageController.createImage(image)
             })
         )

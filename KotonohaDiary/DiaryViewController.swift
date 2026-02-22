@@ -45,7 +45,7 @@ class DiaryViewController: UIViewController {
         switch segue.identifier ?? "" {
         case "showDiaryImage":
             print("showDiaryImage: \(String(describing: sender))")
-            if let dest = segue.destination as? ImageViewController, let image = sender as? Image {
+            if let dest = segue.destination as? ImageViewController, let image = sender as? ImageData {
                 dest.image = image.image
              }
         default:
@@ -73,7 +73,7 @@ extension DiaryViewController : UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("diaryImage: \(indexPath)")
-        if let image = diary?.images?[indexPath.row] as? Image {
+        if let image = diary?.images?[indexPath.row] as? ImageData {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "diaryImage", for: indexPath) as? DiaryImageCollectionViewCell else {
                 fatalError("The dequeued cell is not an instance of UICollectionViewCell.")
             }
@@ -87,7 +87,7 @@ extension DiaryViewController : UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("didSelectedItemAt: \(indexPath)")
-        if let image = diary?.images?[indexPath.row] as? Image {
+        if let image = diary?.images?[indexPath.row] as? ImageData {
             print("image: \(image)")
             performSegue(withIdentifier: "showDiaryImage", sender: image)
         }

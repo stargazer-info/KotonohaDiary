@@ -30,7 +30,7 @@ class DiaryEditViewController: UIViewController {
             text = diary.text ?? ""
             print("editingDiary.images \(String(describing: diary.images))")
             if let diaryImages = diary.images,
-                let imageArr = diaryImages.array as? [Image] {
+                let imageArr = diaryImages.array as? [ImageData] {
                 images = imageArr.map { UIImage(data:$0.data! as Data)! }
             }
         }
