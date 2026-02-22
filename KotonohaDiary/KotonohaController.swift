@@ -24,7 +24,7 @@ class KotonohaController: NSObject, NSFetchedResultsControllerDelegate
 {
     var delegate:KotonohaControllerDelegate? = nil
     
-    let dataContext = AppDelegate.viewContext
+    let dataContext = CoreDataManager.shared.viewContext
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
     var imageController = ImageController()

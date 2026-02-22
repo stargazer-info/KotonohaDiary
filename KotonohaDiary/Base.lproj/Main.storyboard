@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="73T-hD-gxH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="73T-hD-gxH">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,16 +12,12 @@
         <scene sceneID="PNb-8e-PT9">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="Ck1-NF-Aca" customClass="ImageViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eiZ-zV-EVY"/>
-                        <viewControllerLayoutGuide type="bottom" id="ftb-0B-xeS"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pWx-e3-hkw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rXm-tX-4CL">
-                                <rect key="frame" x="20" y="8" width="335" height="631"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="ols-0b-PcJ" appends="YES" id="5wn-VR-efu"/>
@@ -30,7 +27,7 @@
                                 </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="buu-bb-Pc3">
-                                <rect key="frame" x="328" y="601.5" width="27" height="37.5"/>
+                                <rect key="frame" x="328" y="609.5" width="27" height="37.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="buu-bb-Pc3" secondAttribute="height" multiplier="18:25" id="VO9-7x-UWA"/>
                                     <constraint firstAttribute="width" constant="27" id="f99-ct-DnX"/>
@@ -43,14 +40,15 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="mcU-XM-uCF"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="rXm-tX-4CL" secondAttribute="trailing" constant="20" symbolic="YES" id="IdJ-y7-opL"/>
-                            <constraint firstItem="ftb-0B-xeS" firstAttribute="top" secondItem="buu-bb-Pc3" secondAttribute="bottom" constant="8" symbolic="YES" id="Ljc-oC-nwm"/>
-                            <constraint firstItem="rXm-tX-4CL" firstAttribute="leading" secondItem="pWx-e3-hkw" secondAttribute="leading" constant="20" symbolic="YES" id="WnA-t6-LR4"/>
+                            <constraint firstItem="mcU-XM-uCF" firstAttribute="trailing" secondItem="rXm-tX-4CL" secondAttribute="trailing" constant="20" symbolic="YES" id="IdJ-y7-opL"/>
+                            <constraint firstItem="mcU-XM-uCF" firstAttribute="bottom" secondItem="buu-bb-Pc3" secondAttribute="bottom" constant="8" symbolic="YES" id="Ljc-oC-nwm"/>
+                            <constraint firstItem="rXm-tX-4CL" firstAttribute="leading" secondItem="mcU-XM-uCF" secondAttribute="leading" constant="20" symbolic="YES" id="WnA-t6-LR4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="buu-bb-Pc3" secondAttribute="trailing" constant="4" id="djA-E9-782"/>
-                            <constraint firstItem="ftb-0B-xeS" firstAttribute="top" secondItem="rXm-tX-4CL" secondAttribute="bottom" constant="8" symbolic="YES" id="g4l-fc-QZ5"/>
-                            <constraint firstItem="rXm-tX-4CL" firstAttribute="top" secondItem="eiZ-zV-EVY" secondAttribute="bottom" constant="8" symbolic="YES" id="o2i-Ie-j9n"/>
+                            <constraint firstItem="mcU-XM-uCF" firstAttribute="bottom" secondItem="rXm-tX-4CL" secondAttribute="bottom" constant="8" symbolic="YES" id="g4l-fc-QZ5"/>
+                            <constraint firstItem="rXm-tX-4CL" firstAttribute="top" secondItem="mcU-XM-uCF" secondAttribute="top" constant="8" symbolic="YES" id="o2i-Ie-j9n"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -88,22 +86,18 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="KotonohaViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mdJ-sH-lSM">
-                                <rect key="frame" x="16" y="8" width="343" height="558"/>
+                                <rect key="frame" x="16" y="0.0" width="343" height="554"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7zR-Bq-JDH">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="52"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5B5-AW-zGv">
-                                                <rect key="frame" x="0.0" y="11" width="30" height="30"/>
+                                                <rect key="frame" x="0.0" y="9" width="30" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="G3s-aZ-fBr"/>
                                                     <constraint firstAttribute="height" constant="30" id="sXX-XX-vNh"/>
@@ -115,15 +109,15 @@
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input words" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-q2-kMZ">
-                                                <rect key="frame" x="38" y="10" width="251" height="32"/>
+                                                <rect key="frame" x="38" y="8" width="251" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="32" id="vk6-dm-6zT"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnw-Em-iVs">
-                                                <rect key="frame" x="297" y="11" width="46" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnw-Em-iVs">
+                                                <rect key="frame" x="297" y="9" width="46" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="46" id="2JB-FW-mGt"/>
                                                 </constraints>
@@ -137,11 +131,11 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VzS-5h-JMX">
-                                        <rect key="frame" x="0.0" y="60" width="343" height="498"/>
+                                        <rect key="frame" x="0.0" y="56" width="343" height="498"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kotonoha" rowHeight="40" id="RCa-BT-01K" customClass="KotonohaTableViewCell" customModule="KotonohaDiary" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="343" height="40"/>
+                                                <rect key="frame" x="0.0" y="50" width="343" height="40"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RCa-BT-01K" id="MKS-vu-PPL">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="40"/>
@@ -163,7 +157,7 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7h2-L7-slL" customClass="KotonohaTableViewCellButton" customModule="KotonohaDiary" customModuleProvider="target">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7h2-L7-slL" customClass="KotonohaTableViewCellButton" customModule="KotonohaDiary" customModuleProvider="target">
                                                                     <rect key="frame" x="297" y="0.0" width="46" height="32"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="46" id="BqE-eJ-B6s"/>
@@ -194,14 +188,14 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kotonohaImage" rowHeight="44" id="fej-BR-Q6i" customClass="KotonohaImageTableViewCell" customModule="KotonohaDiary" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="68" width="343" height="44"/>
+                                                <rect key="frame" x="0.0" y="90" width="343" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fej-BR-Q6i" id="ffR-Ea-iaa">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="center" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eyi-lT-X72">
-                                                            <rect key="frame" x="0.0" y="2" width="324" height="39"/>
+                                                            <rect key="frame" x="0.0" y="2" width="323" height="39"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unselected" translatesAutoresizingMaskIntoConstraints="NO" id="rg0-UK-HNx">
                                                                     <rect key="frame" x="0.0" y="4.5" width="30" height="30"/>
@@ -211,7 +205,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vEi-eX-3lV">
-                                                                    <rect key="frame" x="38" y="0.5" width="286" height="38.5"/>
+                                                                    <rect key="frame" x="38" y="0.5" width="285" height="38.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="38.5" id="AWD-Wv-St0"/>
                                                                     </constraints>
@@ -243,12 +237,13 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Npn-gt-GeQ"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="mdJ-sH-lSM" secondAttribute="trailing" id="Ggw-r8-2be"/>
                             <constraint firstItem="mdJ-sH-lSM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="KIh-Da-ySR"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mdJ-sH-lSM" secondAttribute="bottom" constant="8" symbolic="YES" id="Y0e-V9-qwj"/>
-                            <constraint firstItem="mdJ-sH-lSM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="qLG-hu-pdw"/>
+                            <constraint firstItem="Npn-gt-GeQ" firstAttribute="bottom" secondItem="mdJ-sH-lSM" secondAttribute="bottom" symbolic="YES" id="Y0e-V9-qwj"/>
+                            <constraint firstItem="mdJ-sH-lSM" firstAttribute="top" secondItem="Npn-gt-GeQ" secondAttribute="top" symbolic="YES" id="qLG-hu-pdw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Words" id="P1Y-ke-9VJ">
@@ -273,16 +268,12 @@
         <scene sceneID="sdt-El-l5N">
             <objects>
                 <viewController storyboardIdentifier="DiaryViewController" id="Veq-m9-12W" customClass="DiaryViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tK0-sC-vsx"/>
-                        <viewControllerLayoutGuide type="bottom" id="6RG-vt-gHN"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Rxz-Y6-vm3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BLF-bl-rcJ">
-                                <rect key="frame" x="16" y="8" width="343" height="651"/>
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxS-RD-SzP">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
@@ -294,13 +285,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="x6w-Ig-f6X">
-                                        <rect key="frame" x="0.0" y="28.5" width="343" height="526.5"/>
+                                        <rect key="frame" x="0.0" y="28.5" width="343" height="522.5"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ydh-kC-2i1">
-                                        <rect key="frame" x="0.0" y="563" width="343" height="88"/>
+                                        <rect key="frame" x="0.0" y="559" width="343" height="88"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="88" id="EE1-Dp-I9V"/>
@@ -324,11 +315,12 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="LJf-c2-gl8"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="BLF-bl-rcJ" secondAttribute="trailing" id="AE4-ZO-Ls5"/>
-                            <constraint firstItem="6RG-vt-gHN" firstAttribute="top" secondItem="BLF-bl-rcJ" secondAttribute="bottom" constant="8" symbolic="YES" id="AJ7-fh-0do"/>
-                            <constraint firstItem="BLF-bl-rcJ" firstAttribute="top" secondItem="tK0-sC-vsx" secondAttribute="bottom" constant="8" symbolic="YES" id="D5K-ez-g3D"/>
+                            <constraint firstItem="LJf-c2-gl8" firstAttribute="bottom" secondItem="BLF-bl-rcJ" secondAttribute="bottom" constant="8" symbolic="YES" id="AJ7-fh-0do"/>
+                            <constraint firstItem="BLF-bl-rcJ" firstAttribute="top" secondItem="LJf-c2-gl8" secondAttribute="top" constant="8" symbolic="YES" id="D5K-ez-g3D"/>
                             <constraint firstItem="BLF-bl-rcJ" firstAttribute="leading" secondItem="Rxz-Y6-vm3" secondAttribute="leadingMargin" id="yVt-cV-W4A"/>
                         </constraints>
                     </view>
@@ -347,23 +339,19 @@
         <scene sceneID="AdS-a7-VoQ">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="sgC-dS-38J" customClass="DiaryEditViewController" customModule="KotonohaDiary" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0O1-j5-n2Q"/>
-                        <viewControllerLayoutGuide type="bottom" id="1B5-Uy-Nss"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wP6-8T-tCH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZXa-U4-Uzx">
-                                <rect key="frame" x="16" y="52" width="343" height="413"/>
+                                <rect key="frame" x="16" y="64" width="343" height="409"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xmk-VG-WCB">
-                                <rect key="frame" x="20" y="473" width="335" height="88"/>
+                                <rect key="frame" x="0.0" y="481" width="375" height="88"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" id="cBc-Pi-jBc"/>
@@ -377,16 +365,17 @@
                                 <cells/>
                             </collectionView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="MAk-Xy-csd"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Xmk-VG-WCB" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leading" constant="20" symbolic="YES" id="1Ri-Zl-5eW"/>
-                            <constraint firstItem="ZXa-U4-Uzx" firstAttribute="top" secondItem="0O1-j5-n2Q" secondAttribute="bottom" constant="8" symbolic="YES" id="8HD-dj-AUl"/>
+                            <constraint firstItem="Xmk-VG-WCB" firstAttribute="leading" secondItem="MAk-Xy-csd" secondAttribute="leading" constant="20" symbolic="YES" id="1Ri-Zl-5eW"/>
+                            <constraint firstItem="ZXa-U4-Uzx" firstAttribute="top" secondItem="MAk-Xy-csd" secondAttribute="top" constant="8" symbolic="YES" id="8HD-dj-AUl"/>
                             <constraint firstItem="Xmk-VG-WCB" firstAttribute="top" secondItem="ZXa-U4-Uzx" secondAttribute="bottom" constant="8" symbolic="YES" id="Rx4-rU-P7O"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="trailing" secondItem="wP6-8T-tCH" secondAttribute="trailingMargin" id="TLE-9K-ke9"/>
                             <constraint firstItem="ZXa-U4-Uzx" firstAttribute="leading" secondItem="wP6-8T-tCH" secondAttribute="leadingMargin" id="VP3-Xx-jJO"/>
-                            <constraint firstItem="1B5-Uy-Nss" firstAttribute="top" secondItem="Xmk-VG-WCB" secondAttribute="bottom" constant="8" symbolic="YES" id="m4Z-xo-ctP"/>
-                            <constraint firstAttribute="trailing" secondItem="Xmk-VG-WCB" secondAttribute="trailing" constant="20" symbolic="YES" id="qrZ-LV-Yvr"/>
+                            <constraint firstItem="MAk-Xy-csd" firstAttribute="bottom" secondItem="Xmk-VG-WCB" secondAttribute="bottom" constant="8" symbolic="YES" id="m4Z-xo-ctP"/>
+                            <constraint firstItem="MAk-Xy-csd" firstAttribute="trailing" secondItem="Xmk-VG-WCB" secondAttribute="trailing" constant="20" symbolic="YES" id="qrZ-LV-Yvr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Diary" id="E3y-WV-lb9">
@@ -420,7 +409,7 @@
                     <tabBarItem key="tabBarItem" title="Words" image="kotonohaTab" id="ev9-JG-5td"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="rcG-K5-Sx9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -522,7 +511,7 @@
                     <tabBarItem key="tabBarItem" title="Diary" image="diaryTab" id="tyg-YD-bS9"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MPK-Nn-0fB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -539,15 +528,15 @@
             <point key="canvasLocation" x="1076" y="1084"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="TF6-Pg-znJ"/>
+        <segue reference="jBr-UO-H6S"/>
+        <segue reference="gcQ-UW-fGu"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="diaryTab" width="31" height="25"/>
         <image name="kotonohaTab" width="23" height="23"/>
         <image name="trash" width="18" height="25"/>
         <image name="unselected" width="25" height="25"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="TF6-Pg-znJ"/>
-        <segue reference="jBr-UO-H6S"/>
-        <segue reference="ha6-eL-xtu"/>
-    </inferredMetricsTieBreakers>
 </document>
