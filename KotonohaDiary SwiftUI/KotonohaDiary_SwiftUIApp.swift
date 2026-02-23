@@ -10,12 +10,17 @@ import SwiftUI
 
 @main
 struct KotonohaDiary_SwiftUIApp: App {
+    @StateObject private var diaryStore = DiaryStore()
+    @StateObject private var kotonohaStore = KotonohaStore()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-                .environmentObject(DiaryController(context: PersistenceController.shared.container.viewContext))
-                .environmentObject(KotonohaController(context: PersistenceController.shared.container.viewContext))
+                .environmentObject(diaryStore)
+                .environmentObject(kotonohaStore)
+                .onAppear {
+                    CoreDataMigrator.migrateIfNeeded(diaryStore: diaryStore, kotonohaStore: kotonohaStore)
+                }
         }
     }
 }

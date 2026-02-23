@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct KotonohaRow: View {
-    @ObservedObject var kotonoha: Kotonoha
-    @Binding var selected: Set<Kotonoha>
-    @Binding var editing: Kotonoha?
+    var kotonoha: KotonohaDocument
+    @Binding var selected: Set<String>
+    @Binding var editing: KotonohaDocument?
     @State private var isSelected: Bool = false
 
     var body: some View {
@@ -33,29 +33,25 @@ struct KotonohaRow: View {
             .buttonStyle(.borderless)
         }
         .onAppear {
-            self.isSelected = selected.contains(where: { $0.id == kotonoha.id })
+            self.isSelected = selected.contains(kotonoha.id)
         }
         .onChange(of: isSelected) { oldValue, newValue in
             if newValue {
-                if !selected.contains(kotonoha) {
-                    selected.insert(kotonoha)
-                }
+                selected.insert(kotonoha.id)
             } else {
-                if selected.contains(kotonoha) {
-                    selected.remove(kotonoha)
-                }
+                selected.remove(kotonoha.id)
             }
         }
     }
 }
 
 struct KotonohaRow_Previews: PreviewProvider {
-    @State static var editing: Kotonoha?
+    @State static var editing: KotonohaDocument?
 
     static var previews: some View {
         KotonohaRow(
-            kotonoha: SampleData().kotonoha,
-            selected: .constant(Set<Kotonoha>()),
+            kotonoha: KotonohaDocument(text: "テスト", createdAt: Date()),
+            selected: .constant(Set<String>()),
             editing: $editing
         )
     }

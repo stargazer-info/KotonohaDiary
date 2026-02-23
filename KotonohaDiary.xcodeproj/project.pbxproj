@@ -20,6 +20,13 @@
 		0816A2E91F1F98C6000FA96F /* DiaryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2E81F1F98C6000FA96F /* DiaryEditViewController.swift */; };
 		081DB0851F262C2B0003312A /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081DB0841F262C2B0003312A /* DiaryViewController.swift */; };
 		081DB0AE1F496B150003312A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 081DB0AC1F496B150003312A /* InfoPlist.strings */; };
+		08342B0E2F4C1A9900FF3672 /* ImageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B0D2F4C1A9900FF3672 /* ImageUtility.swift */; };
+		08342B102F4C1A9C00FF3672 /* DiaryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B0F2F4C1A9C00FF3672 /* DiaryDocument.swift */; };
+		08342B122F4C1A9E00FF3672 /* KotonohaDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B112F4C1A9E00FF3672 /* KotonohaDocument.swift */; };
+		08342B142F4C1AA100FF3672 /* DocumentStoreBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B132F4C1AA100FF3672 /* DocumentStoreBase.swift */; };
+		08342B162F4C1AAF00FF3672 /* DiaryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B152F4C1AAF00FF3672 /* DiaryStore.swift */; };
+		08342B182F4C1ABB00FF3672 /* KotonohaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B172F4C1ABB00FF3672 /* KotonohaStore.swift */; };
+		08342B1A2F4C1AC800FF3672 /* CoreDataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08342B192F4C1AC800FF3672 /* CoreDataMigrator.swift */; };
 		085F80D91F244EE80045908E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80D81F244EE80045908E /* Diary.swift */; };
 		085F80DB1F26214E0045908E /* DiaryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085F80DA1F26214E0045908E /* DiaryPageViewController.swift */; };
 		086498C82A3EDE58000BEBA7 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086498C72A3EDE58000BEBA7 /* ImageView.swift */; };
@@ -92,6 +99,14 @@
 		081DB0A71F4878560003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		081DB0AD1F496B150003312A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = KotonohaDiary/Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		081DB0AF1F496B730003312A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = KotonohaDiary/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		08342B0D2F4C1A9900FF3672 /* ImageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtility.swift; sourceTree = "<group>"; };
+		08342B0F2F4C1A9C00FF3672 /* DiaryDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDocument.swift; sourceTree = "<group>"; };
+		08342B112F4C1A9E00FF3672 /* KotonohaDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaDocument.swift; sourceTree = "<group>"; };
+		08342B132F4C1AA100FF3672 /* DocumentStoreBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStoreBase.swift; sourceTree = "<group>"; };
+		08342B152F4C1AAF00FF3672 /* DiaryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryStore.swift; sourceTree = "<group>"; };
+		08342B172F4C1ABB00FF3672 /* KotonohaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotonohaStore.swift; sourceTree = "<group>"; };
+		08342B192F4C1AC800FF3672 /* CoreDataMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrator.swift; sourceTree = "<group>"; };
+		08342B1B2F4C1BD900FF3672 /* KotonohaDiary SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "KotonohaDiary SwiftUI.entitlements"; sourceTree = "<group>"; };
 		084140C21F77704A002EB27A /* KotonohaDiary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KotonohaDiary 2.xcdatamodel"; sourceTree = "<group>"; };
 		085F80D81F244EE80045908E /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		085F80DA1F26214E0045908E /* DiaryPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryPageViewController.swift; sourceTree = "<group>"; };
@@ -243,6 +258,7 @@
 		08BA21C329D96C1D00DDDC63 /* KotonohaDiary SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				08342B1B2F4C1BD900FF3672 /* KotonohaDiary SwiftUI.entitlements */,
 				0802CCA32EF6A27100DB7831 /* Resources */,
 				08BA21C429D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift */,
 				08ABCC7229E272990098E154 /* Persistence.swift */,
@@ -263,6 +279,13 @@
 				08ABCC8B2A109C1B0098E154 /* DiaryEditView.swift */,
 				086498C72A3EDE58000BEBA7 /* ImageView.swift */,
 				08ABCC8F2A23123A0098E154 /* ImageSelectConfirmationDialog.swift */,
+				08342B0D2F4C1A9900FF3672 /* ImageUtility.swift */,
+				08342B0F2F4C1A9C00FF3672 /* DiaryDocument.swift */,
+				08342B112F4C1A9E00FF3672 /* KotonohaDocument.swift */,
+				08342B132F4C1AA100FF3672 /* DocumentStoreBase.swift */,
+				08342B152F4C1AAF00FF3672 /* DiaryStore.swift */,
+				08342B172F4C1ABB00FF3672 /* KotonohaStore.swift */,
+				08342B192F4C1AC800FF3672 /* CoreDataMigrator.swift */,
 			);
 			path = "KotonohaDiary SwiftUI";
 			sourceTree = "<group>";
@@ -458,21 +481,28 @@
 				08ABCC822A04F6060098E154 /* KotonohaController.swift in Sources */,
 				08ABCC902A23123A0098E154 /* ImageSelectConfirmationDialog.swift in Sources */,
 				086498C82A3EDE58000BEBA7 /* ImageView.swift in Sources */,
+				08342B162F4C1AAF00FF3672 /* DiaryStore.swift in Sources */,
+				08342B182F4C1ABB00FF3672 /* KotonohaStore.swift in Sources */,
 				08ABCC7E2A0231340098E154 /* CameraPicker.swift in Sources */,
 				08ABCC7329E272990098E154 /* Persistence.swift in Sources */,
 				08BA21C729D96C1D00DDDC63 /* ContentView.swift in Sources */,
 				08ABCC6A29E270A00098E154 /* KotonohaDiary.xcdatamodeld in Sources */,
 				08BA21C529D96C1D00DDDC63 /* KotonohaDiary_SwiftUIApp.swift in Sources */,
 				08ABCC862A0757220098E154 /* DiaryViewer.swift in Sources */,
+				08342B102F4C1A9C00FF3672 /* DiaryDocument.swift in Sources */,
 				08ABCC6B29E270A60098E154 /* Kotonoha.swift in Sources */,
 				08ABCC7829EA63360098E154 /* KotonohaImageRow.swift in Sources */,
 				086498CA2A4836D2000BEBA7 /* ImageController.swift in Sources */,
+				08342B1A2F4C1AC800FF3672 /* CoreDataMigrator.swift in Sources */,
+				08342B142F4C1AA100FF3672 /* DocumentStoreBase.swift in Sources */,
 				08ABCC8A2A0778E70098E154 /* DiaryView.swift in Sources */,
 				08ABCC7629E2B3C80098E154 /* DateFormatUtil.swift in Sources */,
 				08ABCC802A03A1180098E154 /* PhotoLibraryPicker.swift in Sources */,
 				08ABCC7A29EA7BDF0098E154 /* KotonohaList.swift in Sources */,
 				08ABCC6C29E270A60098E154 /* Diary.swift in Sources */,
 				08ABCC7529E2B2A80098E154 /* SampleData.swift in Sources */,
+				08342B122F4C1A9E00FF3672 /* KotonohaDocument.swift in Sources */,
+				08342B0E2F4C1A9900FF3672 /* ImageUtility.swift in Sources */,
 				08ABCC882A0768F10098E154 /* DiaryController.swift in Sources */,
 				08ABCC7C29EA99B70098E154 /* KotonohaEditView.swift in Sources */,
 				08ABCC6D29E270A60098E154 /* ImageData.swift in Sources */,
@@ -721,6 +751,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "KotonohaDiary SwiftUI/KotonohaDiary SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";
@@ -760,6 +791,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "KotonohaDiary SwiftUI/KotonohaDiary SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"KotonohaDiary SwiftUI/Preview Content\"";

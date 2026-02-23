@@ -9,10 +9,17 @@
 import SwiftUI
 
 struct KotonohaImageRow: View {
-    var kotonoha: Kotonoha
-    @Binding var selected: Set<Kotonoha>
-    @State var showingImage: ImageData?
+    @EnvironmentObject var kotonohaStore: KotonohaStore
+    var kotonoha: KotonohaDocument
+    @Binding var selected: Set<String>
+    @State var showingImage: IdentifiableImage?
     @State private var isSelected: Bool = false
+    @State private var loadedImage: UIImage?
+
+    struct IdentifiableImage: Identifiable {
+        let id = UUID()
+        let image: UIImage
+    }
 
     var body: some View {
         HStack {
@@ -24,35 +31,29 @@ struct KotonohaImageRow: View {
             }
             .buttonStyle(.borderless)
             Spacer()
-            if let imageData = kotonoha.image {
-                let image = imageData.image
+            if let image = loadedImage {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(height: 60)
                     .onTapGesture {
-                        showingImage = imageData
+                        showingImage = IdentifiableImage(image: image)
                     }
             }
             Spacer()
         }
         .onAppear {
-            self.isSelected = selected.contains(where: { $0.id == kotonoha.id })
+            self.isSelected = selected.contains(kotonoha.id)
+            self.loadedImage = kotonohaStore.loadImage(for: kotonoha)
         }
         .onChange(of: isSelected) { oldValue, newValue in
             if newValue {
-                if !selected.contains(kotonoha) {
-                    selected.insert(kotonoha)
-                }
+                selected.insert(kotonoha.id)
             } else {
-                if selected.contains(kotonoha) {
-                    selected.remove(kotonoha)
-                }
+                selected.remove(kotonoha.id)
             }
         }
-        .sheet(item: $showingImage, onDismiss: {
-            showingImage = nil
-        }) { imageData in
+        .sheet(item: $showingImage) { imageData in
             ImageView(image: imageData.image, isDeleted: .constant(false))
         }
     }
@@ -61,8 +62,9 @@ struct KotonohaImageRow: View {
 struct KotonohaImageRow_Previews: PreviewProvider {
     static var previews: some View {
         KotonohaImageRow(
-            kotonoha: SampleData().kotonohaImage,
-            selected: .constant(Set<Kotonoha>())
+            kotonoha: KotonohaDocument(hasImage: true),
+            selected: .constant(Set<String>())
         )
+        .environmentObject(KotonohaStore())
     }
 }

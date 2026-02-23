@@ -12,8 +12,8 @@ import UniformTypeIdentifiers
 
 struct DiaryEditView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var diaryController: DiaryController
-    var diary: Diary?
+    @EnvironmentObject var diaryStore: DiaryStore
+    var diary: DiaryDocument?
     @State var editingText: String = ""
     @State var images: [EditableImageData] = []
     struct EditableImageData: Identifiable, Equatable {
@@ -30,16 +30,16 @@ struct DiaryEditView: View {
     @State var showingImage: EditableImageData?
     @State var isImageDeleted: Bool = false
 
-    init(diary: Diary) {
+    init(diary: DiaryDocument) {
         self.diary = diary
-        self.update(diary: diary)
+        self._editingText = State(initialValue: diary.text)
     }
-    
-    init (text: String, images: [UIImage]) {
+
+    init(text: String, images: [UIImage]) {
         self._editingText = State(initialValue: text)
         self._images = State(initialValue: images.map { EditableImageData(image: $0) })
     }
-    
+
     var body: some View {
         VStack {
             TextEditor(text: $editingText)
@@ -82,7 +82,7 @@ struct DiaryEditView: View {
             }
         }
         .onAppear {
-            update(diary: diary)
+            loadDiaryData()
         }
         .frame(maxWidth: .infinity)
         .background(Image("background"))
@@ -94,18 +94,11 @@ struct DiaryEditView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
-                    do {
-                        if let diary = diary {
-                            diaryController.update(diary, text: editingText, images: images.map({ $0.image }))
-                        } else {
-                            diaryController.create(text: editingText, images: images.map({ $0.image }))
-                        }
-                        try diaryController.save()
-                    } catch {
-                        let nsError = error as NSError
-                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    if let diary = diary {
+                        diaryStore.update(diary, text: editingText, images: images.map({ $0.image }))
+                    } else {
+                        diaryStore.create(text: editingText, images: images.map({ $0.image }))
                     }
-                    update(diary: diary)
                     dismiss()
                 }
             }
@@ -139,15 +132,14 @@ struct DiaryEditView: View {
             }
         }
     }
-    
-    private func update(diary: Diary?) {
+
+    private func loadDiaryData() {
         if let diary = diary {
-            self.images = ((diary.images?.array as? [ImageData]) ?? [])
-                .map({ EditableImageData(image: $0.image) })
-            self.editingText = diary.text ?? ""
+            self.images = diaryStore.loadImages(for: diary).map { EditableImageData(image: $0) }
+            self.editingText = diary.text
         }
     }
-    
+
     struct DragImageReorderDelegate: DropDelegate {
         let item: EditableImageData
         @Binding var listData: [EditableImageData]
@@ -174,9 +166,8 @@ struct DiaryEditView: View {
 }
 
 struct DiaryEditView_Previews: PreviewProvider {
-    
     static var previews: some View {
-        DiaryEditView(diary: SampleData().diary!)
-            .environmentObject(DiaryController(context: PersistenceController.preview.container.viewContext))
+        DiaryEditView(text: "テスト", images: [])
+            .environmentObject(DiaryStore())
     }
 }

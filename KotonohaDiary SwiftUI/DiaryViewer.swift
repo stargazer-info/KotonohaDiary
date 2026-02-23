@@ -9,19 +9,19 @@
 import SwiftUI
 
 struct DiaryViewer: View {
-    @EnvironmentObject var diaryController: DiaryController
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Diary.createdAt, ascending: false)])
-    private var diaries: FetchedResults<Diary>
+    @EnvironmentObject var diaryStore: DiaryStore
     @State var selected: String?
     @State var showAddDiary: Bool = false
-    @State var editingDiary: Diary? = nil
+    @State var editingDiary: DiaryDocument? = nil
     @State var showDeleteView: Bool = false
+
     var body: some View {
         NavigationStack {
             VStack {
                 TabView(selection: $selected) {
-                    ForEach(diaries, id: \.id) { diary in
+                    ForEach(diaryStore.diaries) { diary in
                         DiaryView(diary: diary)
+                            .tag(diary.id)
                     }
                 }
                 .tabViewStyle(.page)
@@ -62,14 +62,8 @@ struct DiaryViewer: View {
         }
         .alert("Delete", isPresented: $showDeleteView) {
             Button(role: .destructive) {
-                do {
-                    if let current = getSelectedDiary(selected) {
-                        diaryController.delete(current)
-                        try diaryController.save()
-                    }
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                if let current = getSelectedDiary(selected) {
+                    diaryStore.delete(current)
                 }
             } label: {
                 Text("Delete")
@@ -78,32 +72,26 @@ struct DiaryViewer: View {
             Text("Delete this diary?")
         }
         .onAppear {
-            selected = diaries.first?.id
+            selected = diaryStore.diaries.first?.id
         }
     }
-    
+
     private func showEditView(_ selected: String?) {
         if let current = getSelectedDiary(selected) {
             self.editingDiary = current
         }
     }
-    
-    private func getSelectedDiary(_ selectedId: String?) -> Diary? {
-        if let selected = selectedId,
-            let current = diaries.first(where: { diary in
-            diary.id == selected
-        }) {
-            return current
-        } else {
-            return nil
-        }
+
+    private func getSelectedDiary(_ selectedId: String?) -> DiaryDocument? {
+        guard let selectedId = selectedId else { return nil }
+        return diaryStore.diaries.first { $0.id == selectedId }
     }
 }
 
 struct DiaryViewer_Previews: PreviewProvider {
     static var previews: some View {
         DiaryViewer()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(DiaryStore())
             .environment(\.locale, Locale(identifier: "ja_JP"))
     }
 }
