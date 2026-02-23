@@ -53,6 +53,9 @@ struct DiaryView: View {
         .onAppear {
             loadedImages = diaryStore.loadImages(for: diary)
         }
+        .onChange(of: diary) { newValue in
+            loadedImages = diaryStore.loadImages(for: newValue)
+        }
         .sheet(item: $showingImage) { imageData in
             ImageView(image: imageData.image, isDeleted: .constant(false))
         }

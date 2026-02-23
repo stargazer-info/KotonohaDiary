@@ -14,6 +14,9 @@ struct DiaryDocument: Identifiable, Codable, Equatable {
 
     static func == (lhs: DiaryDocument, rhs: DiaryDocument) -> Bool {
         lhs.id == rhs.id
+            && lhs.text == rhs.text
+            && lhs.createdAt == rhs.createdAt
+            && lhs.imageFilenames == rhs.imageFilenames
     }
 
     init(id: String = UUID().uuidString, text: String = "", createdAt: Date = Date(), imageFilenames: [String] = []) {
