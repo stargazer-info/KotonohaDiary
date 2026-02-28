@@ -6,18 +6,24 @@
 import UIKit
 
 struct ImageUtility {
-    static let shortSideSize: CGFloat = 640
-    static let jpegQuality: CGFloat = 0.5
+    /// 保存時の JPEG 品質（オリジナルに近い品質で保存）
+    static let jpegQuality: CGFloat = 0.9
+
+    /// サムネイル表示用の短辺サイズ
+    static let thumbnailShortSide: CGFloat = 640
+
+    // MARK: - 保存用（リサイズなし）
 
     static func jpegData(from image: UIImage) -> Data {
-        let resized = resize(image: image)
-        return resized.jpegData(compressionQuality: jpegQuality) ?? Data()
+        return image.jpegData(compressionQuality: jpegQuality) ?? Data()
     }
 
-    static func resize(image: UIImage) -> UIImage {
+    // MARK: - サムネイル用（表示時に使う）
+
+    static func thumbnail(from image: UIImage) -> UIImage {
         let size = image.size
         let shortSide = min(size.width, size.height)
-        let scale = shortSideSize / shortSide
+        let scale = thumbnailShortSide / shortSide
         guard scale < 1 else { return image }
         let newSize = CGSize(width: size.width * scale, height: size.height * scale)
         let renderer = UIGraphicsImageRenderer(size: newSize)
