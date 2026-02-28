@@ -15,7 +15,8 @@ class CoreDataMigrator {
         return !UserDefaults.standard.bool(forKey: migrationKey)
     }
 
-    static func migrateIfNeeded(diaryStore: DiaryStore, kotonohaStore: KotonohaStore) {
+    @MainActor
+    static func migrateIfNeeded(diaryStore: DiaryStore, kotonohaStore: KotonohaStore) async {
         guard isMigrationNeeded else { return }
         guard coreDataStoreExists() else {
             markMigrationCompleted()
@@ -23,10 +24,13 @@ class CoreDataMigrator {
         }
 
         let container = NSPersistentContainer(name: "KotonohaDiary")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                print("CoreDataMigrator: Failed to load Core Data store: \(error)")
-                return
+
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            container.loadPersistentStores { _, error in
+                if let error = error {
+                    print("CoreDataMigrator: Failed to load Core Data store: \(error)")
+                }
+                continuation.resume()
             }
         }
 

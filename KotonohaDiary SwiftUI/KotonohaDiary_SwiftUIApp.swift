@@ -12,15 +12,25 @@ import SwiftUI
 struct KotonohaDiary_SwiftUIApp: App {
     @StateObject private var diaryStore = DiaryStore()
     @StateObject private var kotonohaStore = KotonohaStore()
+    @State private var isMigrating = CoreDataMigrator.isMigrationNeeded
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(diaryStore)
-                .environmentObject(kotonohaStore)
-                .onAppear {
-                    CoreDataMigrator.migrateIfNeeded(diaryStore: diaryStore, kotonohaStore: kotonohaStore)
+            Group {
+                if isMigrating {
+                    ProgressView("データを移行中...")
+                } else {
+                    ContentView()
+                        .environmentObject(diaryStore)
+                        .environmentObject(kotonohaStore)
                 }
+            }
+            .task {
+                if isMigrating {
+                    await CoreDataMigrator.migrateIfNeeded(diaryStore: diaryStore, kotonohaStore: kotonohaStore)
+                    isMigrating = false
+                }
+            }
         }
     }
 }

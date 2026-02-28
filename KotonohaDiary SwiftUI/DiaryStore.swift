@@ -5,7 +5,6 @@
 
 import Foundation
 import UIKit
-import Combine
 
 class DiaryStore: ObservableObject {
 
@@ -129,6 +128,12 @@ class DiaryStore: ObservableObject {
     // MARK: - Migration support
 
     func createFromMigration(id: String, text: String, createdAt: Date, images: [UIImage]) {
+        // 重複チェック
+        guard !diaries.contains(where: { $0.id == id }) else {
+            print("DiaryStore: Skipping duplicate diary \(id)")
+            return
+        }
+
         let doc = DiaryDocument(id: id, text: text, createdAt: createdAt, imageFilenames: images.indices.map { "\($0).jpg" })
         let dirURL = packageURL(for: doc)
         DocumentStoreBase.ensureDirectory(at: dirURL)

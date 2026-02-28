@@ -5,7 +5,6 @@
 
 import Foundation
 import UIKit
-import Combine
 
 class KotonohaStore: ObservableObject {
 
@@ -134,6 +133,12 @@ class KotonohaStore: ObservableObject {
     // MARK: - Migration support
 
     func createFromMigration(id: String, text: String?, createdAt: Date, image: UIImage?) {
+        // 重複チェック
+        guard !kotonohas.contains(where: { $0.id == id }) else {
+            print("KotonohaStore: Skipping duplicate kotonoha \(id)")
+            return
+        }
+
         let hasImage = image != nil
         let doc = KotonohaDocument(id: id, text: text, createdAt: createdAt, hasImage: hasImage)
         saveDocument(doc)
