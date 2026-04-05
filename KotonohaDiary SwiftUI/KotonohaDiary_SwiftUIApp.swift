@@ -19,7 +19,7 @@ struct KotonohaDiary_SwiftUIApp: App {
         WindowGroup {
             Group {
                 if isMigrating {
-                    ProgressView("データを移行中...")
+                    ProgressView("Migrating data...")
                 } else {
                     ContentView()
                         .environmentObject(diaryStore)
@@ -29,15 +29,15 @@ struct KotonohaDiary_SwiftUIApp: App {
             .task {
                 await runMigration()
             }
-            .alert("データ移行に失敗しました", isPresented: $showMigrationError) {
-                Button("再試行") {
+            .alert("Data migration failed", isPresented: $showMigrationError) {
+                Button("Retry") {
                     Task { await runMigration() }
                 }
-                Button("スキップ") {
+                Button("Skip") {
                     isMigrating = false
                 }
             } message: {
-                Text("過去のデータを読み込めませんでした。次回起動時に再試行します。")
+                Text("Failed to load previous data. Will retry on next launch.")
             }
         }
     }
