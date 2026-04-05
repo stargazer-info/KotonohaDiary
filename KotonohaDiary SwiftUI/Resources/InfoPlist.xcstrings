@@ -25,8 +25,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "KotonohaDiary SwiftUI"
+            "state" : "translated",
+            "value" : "Kotonoha Diary"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ことのは日記"
           }
         }
       }

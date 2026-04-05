@@ -91,12 +91,7 @@ class KotonohaStore: ObservableObject {
         var kotonohas: [KotonohaDocument]
     }
 
-    var sections: [KotonohaSection] {
-        let grouped = Dictionary(grouping: kotonohas) { $0.section }
-        return grouped
-            .map { KotonohaSection(section: $0.key, kotonohas: $0.value) }
-            .sorted { $0.kotonohas.first?.createdAt ?? .distantPast > $1.kotonohas.first?.createdAt ?? .distantPast }
-    }
+    @Published private(set) var sections: [KotonohaSection] = []
 
     // MARK: - Private
 
@@ -128,6 +123,10 @@ class KotonohaStore: ObservableObject {
 
     private func sortKotonohas() {
         kotonohas.sort { $0.createdAt > $1.createdAt }
+        let grouped = Dictionary(grouping: kotonohas) { $0.section }
+        sections = grouped
+            .map { KotonohaSection(section: $0.key, kotonohas: $0.value) }
+            .sorted { ($0.kotonohas.first?.createdAt ?? .distantPast) > ($1.kotonohas.first?.createdAt ?? .distantPast) }
     }
 
     // MARK: - Migration support

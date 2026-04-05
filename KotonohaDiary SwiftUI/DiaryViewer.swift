@@ -64,6 +64,7 @@ struct DiaryViewer: View {
             Button(role: .destructive) {
                 if let current = getSelectedDiary(selected) {
                     diaryStore.delete(current)
+                    selected = diaryStore.diaries.first?.id
                 }
             } label: {
                 Text("Delete")
