@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0802CCA52EF6A28900DB7831 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */; };
+		0802CCA72EF6A28900DB7831 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 0802CCA62EF6A28900DB7831 /* InfoPlist.xcstrings */; };
 		0816A2BE1F1AFE5D000FA96F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */; };
 		0816A2C31F1AFE5D000FA96F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0816A2C11F1AFE5D000FA96F /* Main.storyboard */; };
 		0816A2C61F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0816A2C41F1AFE5D000FA96F /* KotonohaDiary.xcdatamodeld */; };
@@ -80,6 +81,7 @@
 
 /* Begin PBXFileReference section */
 		0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		0802CCA62EF6A28900DB7831 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		0816A2BA1F1AFE5D000FA96F /* KotonohaDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotonohaDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0816A2BD1F1AFE5D000FA96F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0816A2C21F1AFE5D000FA96F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 		0802CCA32EF6A27100DB7831 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0802CCA62EF6A28900DB7831 /* InfoPlist.xcstrings */,
 				0802CCA42EF6A28900DB7831 /* Localizable.xcstrings */,
 			);
 			path = Resources;
@@ -432,6 +435,7 @@
 			files = (
 				08BA21CC29D96C1E00DDDC63 /* Preview Assets.xcassets in Resources */,
 				0802CCA52EF6A28900DB7831 /* Localizable.xcstrings in Resources */,
+				0802CCA72EF6A28900DB7831 /* InfoPlist.xcstrings in Resources */,
 				08BA21D029D96E7400DDDC63 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -759,6 +763,7 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kotonoha Diary";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The taken photos can be used in diaries.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -799,6 +804,7 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kotonoha Diary";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The taken photos can be used in diaries.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
