@@ -13,7 +13,7 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ことのは日記"
           }
         }
@@ -21,7 +21,6 @@
     },
     "CFBundleName" : {
       "comment" : "Bundle name",
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -45,6 +44,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "The taken photos can be used in diaries."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "撮影した写真を日記に使用できます。"
           }
         }
       }
