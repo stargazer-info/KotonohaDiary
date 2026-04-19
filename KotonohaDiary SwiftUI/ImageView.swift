@@ -43,7 +43,7 @@ struct ImageView: View {
 struct ImageView_Previews: PreviewProvider {
     @State static var deletedImage: ImageData? = nil
     static var previews: some View {
-        if let image = SampleData().kotonohaImage.image?.image {
+        if let image = UIImage(systemName: "photo") {
             ImageView(image: image, isDeleted: .constant(false))
         }
     }
