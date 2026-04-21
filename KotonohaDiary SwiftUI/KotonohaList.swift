@@ -9,30 +9,28 @@
 import SwiftUI
 
 struct KotonohaList: View {
-    @EnvironmentObject var kotonohaController: KotonohaController
-    @EnvironmentObject var diaryController: DiaryController
+    @EnvironmentObject var kotonohaStore: KotonohaStore
+    @EnvironmentObject var diaryStore: DiaryStore
 
-    @SectionedFetchRequest<String?,Kotonoha>(sectionIdentifier: \Kotonoha.section, sortDescriptors: [NSSortDescriptor(keyPath: \Kotonoha.createdAt, ascending: false)])
-    private var kotonohaSections: SectionedFetchResults<String?,Kotonoha>
-    @State var selected: Set<Kotonoha> = []
+    @State var selected: Set<String> = []
     @State var newDiaryData: DiaryData?
     struct DiaryData: Identifiable {
         let id: UUID = UUID()
         var text: String
         var images: [UIImage]
     }
-    @State private var editing: Kotonoha?
-    
+    @State private var editingKotonoha: KotonohaDocument?
+
     var body: some View {
         NavigationStack {
             VStack {
-                KotonohaEditView(kotonoha: $editing)
+                KotonohaEditView(kotonoha: $editingKotonoha)
                     .padding(.horizontal)
-                List() {
-                    ForEach(kotonohaSections) { section in
-                        Section(header: Text(section.id ?? "")) {
-                            ForEach(section, id: \.self) { kotonoha in
-                                if let _ = kotonoha.image {
+                List {
+                    ForEach(kotonohaStore.sections) { section in
+                        Section(header: Text(section.section)) {
+                            ForEach(section.kotonohas) { kotonoha in
+                                if kotonoha.hasImage {
                                     KotonohaImageRow(
                                         kotonoha: kotonoha,
                                         selected: $selected
@@ -41,14 +39,15 @@ struct KotonohaList: View {
                                     KotonohaRow(
                                         kotonoha: kotonoha,
                                         selected: $selected,
-                                        editing: $editing)
+                                        editing: $editingKotonoha
+                                    )
                                 }
                             }
-                            .onDelete(perform: { indexSet in
+                            .onDelete { indexSet in
                                 indexSet
-                                    .map({ section[$0] })
-                                    .forEach({ delete(kotonoha: $0) })
-                            })
+                                    .map { section.kotonohas[$0] }
+                                    .forEach { kotonohaStore.delete(kotonoha: $0) }
+                            }
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -61,8 +60,7 @@ struct KotonohaList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        print("selected: \(selected)")
-                        self.newDiaryData = makeDiaryData(kotonohaList: selected)
+                        self.newDiaryData = makeDiaryData(selectedIds: selected)
                     }) {
                         Image(systemName: "square.and.pencil")
                     }
@@ -75,13 +73,15 @@ struct KotonohaList: View {
             }
         }
     }
-    
-    private func makeDiaryData(kotonohaList: Set<Kotonoha>) -> DiaryData {
+
+    private func makeDiaryData(selectedIds: Set<String>) -> DiaryData {
         var texts: [String] = []
         var images: [UIImage] = []
-        for kotonoha in kotonohaList {
-            if let image = kotonoha.image {
-                images.append(image.image)
+        for kotonoha in kotonohaStore.kotonohas where selectedIds.contains(kotonoha.id) {
+            if kotonoha.hasImage {
+                if let image = kotonohaStore.loadImage(for: kotonoha) {
+                    images.append(image)
+                }
             } else {
                 if let text = kotonoha.text, !text.isEmpty {
                     texts.append(text)
@@ -90,22 +90,13 @@ struct KotonohaList: View {
         }
         return DiaryData(text: texts.joined(separator: "\n"), images: images)
     }
-
-    private func delete(kotonoha: Kotonoha) {
-        do {
-            kotonohaController.delete(kotonoha: kotonoha)
-            try kotonohaController.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
 }
 
 struct KotonohaList_Previews: PreviewProvider {
     static var previews: some View {
         KotonohaList()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(KotonohaStore())
+            .environmentObject(DiaryStore())
             .environment(\.locale, Locale(identifier: "ja_JP"))
     }
 }

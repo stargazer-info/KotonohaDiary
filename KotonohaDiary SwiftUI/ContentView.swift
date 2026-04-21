@@ -26,7 +26,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(DiaryStore())
+            .environmentObject(KotonohaStore())
             .environment(\.locale, Locale(identifier: "ja_JP"))
     }
 }

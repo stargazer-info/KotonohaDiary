@@ -9,56 +9,62 @@
 import SwiftUI
 
 struct DiaryView: View {
-    @ObservedObject var diary: Diary
-    @State var showingImage: ImageData?
-    
+    @EnvironmentObject var diaryStore: DiaryStore
+    var diary: DiaryDocument
+    @State var showingImage: IdentifiableImage?
+    @State private var loadedImages: [UIImage] = []
+
+    struct IdentifiableImage: Identifiable {
+        let id = UUID()
+        let image: UIImage
+    }
+
     var body: some View {
         VStack {
-            Text(diary.createdAt ?? Date(), style: .date)
+            Text(diary.createdAt, style: .date)
                 .font(.headline)
                 .padding()
             ScrollView {
-                Text(diary.text ?? "")
+                Text(diary.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+                    .padding()
             }
             Spacer()
-            if let images = diary.images {
+            if !loadedImages.isEmpty {
                 ScrollView([.horizontal]) {
                     HStack {
-                        ForEach(images.array as! [ImageData]) { imageData in
-                            Image(uiImage: imageData.image)
+                        ForEach(Array(loadedImages.enumerated()), id: \.offset) { index, image in
+                            Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 100)
                                 .onTapGesture {
-                                    showingImage = imageData
+                                    showingImage = IdentifiableImage(image: image)
                                 }
                         }
                         Spacer()
                     }
                     .frame(maxWidth: .infinity)
-                .padding()
+                    .padding()
                 }
             }
         }
         .frame(maxWidth: .infinity)
-        .sheet(item: $showingImage, onDismiss: {
-            showingImage = nil
-        }) { imageData in
+        .onAppear {
+            loadedImages = diaryStore.loadImages(for: diary)
+        }
+        .onChange(of: diary) { _, newValue in
+            loadedImages = diaryStore.loadImages(for: newValue)
+        }
+        .sheet(item: $showingImage) { imageData in
             ImageView(image: imageData.image, isDeleted: .constant(false))
         }
     }
 }
 
 struct DiaryView_Previews: PreviewProvider {
-    @State static var showEditView = false
-    
     static var previews: some View {
-        if let diary = SampleData().diary {
-            DiaryView(
-                diary: diary
-            )
-        }
+        DiaryView(diary: DiaryDocument(text: "テスト日記", createdAt: Date()))
+            .environmentObject(DiaryStore())
     }
 }

@@ -10,16 +10,16 @@ import SwiftUI
 import PhotosUI
 
 struct KotonohaEditView: View {
-    @EnvironmentObject var kotonohaController: KotonohaController
+    @EnvironmentObject var kotonohaStore: KotonohaStore
     @FocusState var isInputActive: Bool
-    @Binding var kotonoha: Kotonoha?
+    @Binding var kotonoha: KotonohaDocument?
     @State var text: String = ""
     @State var image: UIImage?
     @State private var isChooseImageConfirming = false
     @State private var showCameraPicker = false
     @State private var showPhotoLibraryPicker = false
     @State private var selectedPhotos: PhotosPickerItem?
-    
+
     var body: some View {
         HStack {
             Button {
@@ -76,31 +76,25 @@ struct KotonohaEditView: View {
             createOrUpdateKotonoha()
             clear()
         }
-        .onChange(of: kotonoha) {newValue in
+        .onChange(of: kotonoha) { newValue in
             text = newValue?.text ?? ""
             isInputActive = !text.isEmpty
         }
     }
-    
+
     private func createOrUpdateKotonoha() {
-        do {
-            if !text.isEmpty {
-                if let kotonoha = kotonoha, kotonoha.text != text {
-                    kotonohaController.update(text: text, kotonoha: kotonoha)
-                } else {
-                    kotonohaController.create(text: text)
-                }
+        if !text.isEmpty {
+            if let kotonoha = kotonoha, kotonoha.text != text {
+                kotonohaStore.update(text: text, kotonoha: kotonoha)
+            } else {
+                kotonohaStore.create(text: text)
             }
-            if let image = self.image {
-                kotonohaController.create(image: image)
-            }
-            try kotonohaController.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        if let image = self.image {
+            kotonohaStore.create(image: image)
         }
     }
-    
+
     private func clear() {
         kotonoha = nil
         text = ""
@@ -109,10 +103,10 @@ struct KotonohaEditView: View {
 }
 
 struct KotonohaEditView_Previews: PreviewProvider {
-    @State static var kotonoha: Kotonoha?
-    
+    @State static var kotonoha: KotonohaDocument?
+
     static var previews: some View {
         KotonohaEditView(kotonoha: $kotonoha)
-            .environmentObject(KotonohaController(context: PersistenceController.preview.container.viewContext))
+            .environmentObject(KotonohaStore())
     }
 }
