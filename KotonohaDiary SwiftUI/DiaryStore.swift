@@ -25,7 +25,8 @@ class DiaryStore: ObservableObject {
 
     // MARK: - CRUD
 
-    func create(text: String, images: [UIImage]) {
+    @discardableResult
+    func create(text: String, images: [UIImage]) -> DiaryDocument {
         let doc = DiaryDocument(text: text, createdAt: Date(), imageFilenames: images.indices.map { "\($0).jpg" })
         let dirURL = packageURL(for: doc)
         DocumentStoreBase.ensureDirectory(at: dirURL)
@@ -43,6 +44,7 @@ class DiaryStore: ObservableObject {
 
         diaries.append(doc)
         sortDiaries()
+        return doc
     }
 
     func update(_ diary: DiaryDocument, text: String, images: [UIImage]) {
