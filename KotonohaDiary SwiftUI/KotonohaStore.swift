@@ -57,6 +57,7 @@ class KotonohaStore: ObservableObject {
         try? FileManager.default.removeItem(at: fileURL)
         removeImage(for: kotonoha)
         kotonohas.removeAll { $0.id == kotonoha.id }
+        sortKotonohas()
     }
 
     func loadImage(for kotonoha: KotonohaDocument) -> UIImage? {
