@@ -51,7 +51,9 @@ struct DiaryViewer: View {
             }
             .fullScreenCover(isPresented: $showAddDiary) {
                 NavigationStack {
-                    DiaryEditView(text: "", images: [])
+                    DiaryEditView(text: "", images: []) { created in
+                        selected = created.id
+                    }
                 }
             }
         }
