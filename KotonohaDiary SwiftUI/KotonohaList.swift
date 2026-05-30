@@ -12,6 +12,9 @@ struct KotonohaList: View {
     @EnvironmentObject var kotonohaStore: KotonohaStore
     @EnvironmentObject var diaryStore: DiaryStore
 
+    /// ことのはから日記を新規作成したときに呼ばれる（日記タブへ切り替えて表示するため）。
+    var onDiaryCreated: ((DiaryDocument) -> Void)? = nil
+
     @State var selected: Set<String> = []
     @State var newDiaryData: DiaryData?
     struct DiaryData: Identifiable {
@@ -68,7 +71,10 @@ struct KotonohaList: View {
             }
             .fullScreenCover(item: $newDiaryData) { data in
                 NavigationStack {
-                    DiaryEditView(text: data.text, images: data.images)
+                    DiaryEditView(text: data.text, images: data.images) { created in
+                        selected = []
+                        onDiaryCreated?(created)
+                    }
                 }
             }
         }

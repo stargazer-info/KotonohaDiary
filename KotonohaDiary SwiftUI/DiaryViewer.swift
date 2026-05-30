@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DiaryViewer: View {
     @EnvironmentObject var diaryStore: DiaryStore
-    @State var selected: String?
+    @Binding var selected: String?
     @State var showAddDiary: Bool = false
     @State var editingDiary: DiaryDocument? = nil
     @State var showDeleteView: Bool = false
@@ -93,7 +93,7 @@ struct DiaryViewer: View {
 
 struct DiaryViewer_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryViewer()
+        DiaryViewer(selected: .constant(nil))
             .environmentObject(DiaryStore())
             .environment(\.locale, Locale(identifier: "ja_JP"))
     }
