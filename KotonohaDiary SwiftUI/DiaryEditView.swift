@@ -42,7 +42,7 @@ struct DiaryEditView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $editingText)
+            UIKitTextEditor(text: $editingText)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .border(.gray, width: 1)
                 .padding()
