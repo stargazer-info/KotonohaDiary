@@ -9,16 +9,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    enum Tab {
+        case words
+        case diary
+    }
+
+    @State private var selectedTab: Tab = .words
+    @State private var selectedDiaryID: String?
+
     var body: some View {
-        TabView {
-            KotonohaList()
+        TabView(selection: $selectedTab) {
+            KotonohaList(onDiaryCreated: { created in
+                selectedDiaryID = created.id
+                selectedTab = .diary
+            })
                 .tabItem {
                     Label("Words", image: "kotonohaTab")
                 }
-            DiaryViewer()
+                .tag(Tab.words)
+            DiaryViewer(selected: $selectedDiaryID)
                 .tabItem {
                     Label("Diary", image: "diaryTab")
                 }
+                .tag(Tab.diary)
         }
     }
 }

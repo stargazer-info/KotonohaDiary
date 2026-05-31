@@ -19,7 +19,8 @@ class KotonohaStore: ObservableObject {
     }
 
     init() {
-        loadAll()
+        // 起動時の iCloud 解決はメインスレッドをブロックするため、loadAll() は
+        // App 側で DocumentStoreBase.prepare() を待ってから呼び出す。
     }
 
     // MARK: - CRUD
@@ -56,6 +57,7 @@ class KotonohaStore: ObservableObject {
         try? FileManager.default.removeItem(at: fileURL)
         removeImage(for: kotonoha)
         kotonohas.removeAll { $0.id == kotonoha.id }
+        sortKotonohas()
     }
 
     func loadImage(for kotonoha: KotonohaDocument) -> UIImage? {
@@ -66,20 +68,24 @@ class KotonohaStore: ObservableObject {
 
     // MARK: - Load
 
-    func loadAll() {
-        let fm = FileManager.default
-        guard let contents = try? fm.contentsOfDirectory(at: kotonohasDirectory, includingPropertiesForKeys: nil) else {
-            kotonohas = []
-            return
-        }
-        kotonohas = contents
-            .filter { $0.pathExtension == "kotonoha" }
-            .compactMap { fileURL in
-                guard let data = try? Data(contentsOf: fileURL) else { return nil }
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                return try? decoder.decode(KotonohaDocument.self, from: data)
+    @MainActor
+    func loadAll() async {
+        let dir = kotonohasDirectory
+        let decoded: [KotonohaDocument] = await Task.detached(priority: .userInitiated) {
+            let fm = FileManager.default
+            guard let contents = try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil) else {
+                return []
             }
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            return contents
+                .filter { $0.pathExtension == "kotonoha" }
+                .compactMap { fileURL -> KotonohaDocument? in
+                    guard let data = try? Data(contentsOf: fileURL) else { return nil }
+                    return try? decoder.decode(KotonohaDocument.self, from: data)
+                }
+        }.value
+        kotonohas = decoded
         sortKotonohas()
     }
 

@@ -11,7 +11,7 @@ import PhotosUI
 
 struct KotonohaEditView: View {
     @EnvironmentObject var kotonohaStore: KotonohaStore
-    @FocusState var isInputActive: Bool
+    @State var isInputActive: Bool = false
     @Binding var kotonoha: KotonohaDocument?
     @State var text: String = ""
     @State var image: UIImage?
@@ -28,31 +28,26 @@ struct KotonohaEditView: View {
                     .labelStyle(.iconOnly)
             }
             .buttonStyle(.borderless)
-            TextField("Words", text: $text)
-                .border(.gray)
-                .focused($isInputActive)
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Button {
-                            isInputActive = false
-                            isChooseImageConfirming = true
-                        } label: {
-                            Label(String(""), systemImage: "camera")
-                                .labelStyle(.iconOnly)
-                        }
-                        .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
-                            ImageSelectConfirmationDialog(showCameraPicker: $showCameraPicker, showPhotoLibraryPicker: $showPhotoLibraryPicker)
-                        }
-                        Spacer()
-                        Button("Cancel") {
-                            clear()
-                            isInputActive = false
-                        }
-                    }
-                }
-                .onSubmit {
+            UIKitTextField(
+                text: $text,
+                isFocused: $isInputActive,
+                placeholder: String(localized: "Words"),
+                onSubmit: {
                     createOrUpdateKotonoha()
                     clear()
+                },
+                onCamera: {
+                    isInputActive = false
+                    isChooseImageConfirming = true
+                },
+                onCancel: {
+                    clear()
+                    isInputActive = false
+                }
+            )
+                .border(.gray)
+                .confirmationDialog("Choose Image", isPresented: $isChooseImageConfirming) {
+                    ImageSelectConfirmationDialog(showCameraPicker: $showCameraPicker, showPhotoLibraryPicker: $showPhotoLibraryPicker)
                 }
             Button("Save") {
                 createOrUpdateKotonoha()

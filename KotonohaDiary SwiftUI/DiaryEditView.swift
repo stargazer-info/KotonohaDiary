@@ -29,20 +29,23 @@ struct DiaryEditView: View {
     @State var isTargeted: Bool = false
     @State var showingImage: EditableImageData?
     @State var isImageDeleted: Bool = false
+    /// 新規作成した日記を呼び出し側に通知する（追加直後にその日記を表示するため）。
+    var onCreate: ((DiaryDocument) -> Void)? = nil
 
     init(diary: DiaryDocument) {
         self.diary = diary
         self._editingText = State(initialValue: diary.text)
     }
 
-    init(text: String, images: [UIImage]) {
+    init(text: String, images: [UIImage], onCreate: ((DiaryDocument) -> Void)? = nil) {
         self._editingText = State(initialValue: text)
         self._images = State(initialValue: images.map { EditableImageData(image: $0) })
+        self.onCreate = onCreate
     }
 
     var body: some View {
         VStack {
-            TextEditor(text: $editingText)
+            UIKitTextEditor(text: $editingText)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .border(.gray, width: 1)
                 .padding()
@@ -97,7 +100,8 @@ struct DiaryEditView: View {
                     if let diary = diary {
                         diaryStore.update(diary, text: editingText, images: images.map({ $0.image }))
                     } else {
-                        diaryStore.create(text: editingText, images: images.map({ $0.image }))
+                        let created = diaryStore.create(text: editingText, images: images.map({ $0.image }))
+                        onCreate?(created)
                     }
                     dismiss()
                 }

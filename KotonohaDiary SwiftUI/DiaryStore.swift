@@ -19,12 +19,14 @@ class DiaryStore: ObservableObject {
     }
 
     init() {
-        loadAll()
+        // 起動時の iCloud 解決はメインスレッドをブロックするため、loadAll() は
+        // App 側で DocumentStoreBase.prepare() を待ってから呼び出す。
     }
 
     // MARK: - CRUD
 
-    func create(text: String, images: [UIImage]) {
+    @discardableResult
+    func create(text: String, images: [UIImage]) -> DiaryDocument {
         let doc = DiaryDocument(text: text, createdAt: Date(), imageFilenames: images.indices.map { "\($0).jpg" })
         let dirURL = packageURL(for: doc)
         DocumentStoreBase.ensureDirectory(at: dirURL)
@@ -42,6 +44,7 @@ class DiaryStore: ObservableObject {
 
         diaries.append(doc)
         sortDiaries()
+        return doc
     }
 
     func update(_ diary: DiaryDocument, text: String, images: [UIImage]) {
@@ -88,21 +91,25 @@ class DiaryStore: ObservableObject {
 
     // MARK: - Load
 
-    func loadAll() {
-        let fm = FileManager.default
-        guard let contents = try? fm.contentsOfDirectory(at: diariesDirectory, includingPropertiesForKeys: nil) else {
-            diaries = []
-            return
-        }
-        diaries = contents
-            .filter { $0.pathExtension == "kdiary" }
-            .compactMap { dirURL in
-                let jsonURL = dirURL.appendingPathComponent("content.json")
-                guard let data = try? Data(contentsOf: jsonURL) else { return nil }
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                return try? decoder.decode(DiaryDocument.self, from: data)
+    @MainActor
+    func loadAll() async {
+        let dir = diariesDirectory
+        let decoded: [DiaryDocument] = await Task.detached(priority: .userInitiated) {
+            let fm = FileManager.default
+            guard let contents = try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil) else {
+                return []
             }
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            return contents
+                .filter { $0.pathExtension == "kdiary" }
+                .compactMap { dirURL -> DiaryDocument? in
+                    let jsonURL = dirURL.appendingPathComponent("content.json")
+                    guard let data = try? Data(contentsOf: jsonURL) else { return nil }
+                    return try? decoder.decode(DiaryDocument.self, from: data)
+                }
+        }.value
+        diaries = decoded
         sortDiaries()
     }
 

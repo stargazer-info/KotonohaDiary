@@ -12,14 +12,14 @@ import SwiftUI
 struct KotonohaDiary_SwiftUIApp: App {
     @StateObject private var diaryStore = DiaryStore()
     @StateObject private var kotonohaStore = KotonohaStore()
-    @State private var isMigrating = CoreDataMigrator.isMigrationNeeded
+    @State private var isPreparing = true
     @State private var showMigrationError = false
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if isMigrating {
-                    ProgressView("Migrating data...")
+                if isPreparing {
+                    ProgressView("Loading...")
                 } else {
                     ContentView()
                         .environmentObject(diaryStore)
@@ -27,14 +27,14 @@ struct KotonohaDiary_SwiftUIApp: App {
                 }
             }
             .task {
-                await runMigration()
+                await prepareApp()
             }
             .alert("Data migration failed", isPresented: $showMigrationError) {
                 Button("Retry") {
                     Task { await runMigration() }
                 }
                 Button("Skip") {
-                    isMigrating = false
+                    isPreparing = false
                 }
             } message: {
                 Text("Failed to load previous data. Will retry on next launch.")
@@ -42,10 +42,22 @@ struct KotonohaDiary_SwiftUIApp: App {
         }
     }
 
+    private func prepareApp() async {
+        // iCloud URL 解決はメインスレッドをブロックするためバックグラウンドで行う。
+        await DocumentStoreBase.prepare()
+        await diaryStore.loadAll()
+        await kotonohaStore.loadAll()
+        await runMigration()
+    }
+
     private func runMigration() async {
+        guard CoreDataMigrator.isMigrationNeeded else {
+            isPreparing = false
+            return
+        }
         let succeeded = await CoreDataMigrator.migrateIfNeeded(diaryStore: diaryStore, kotonohaStore: kotonohaStore)
         if succeeded {
-            isMigrating = false
+            isPreparing = false
         } else {
             showMigrationError = true
         }
